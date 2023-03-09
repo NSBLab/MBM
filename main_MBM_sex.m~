@@ -116,7 +116,7 @@ beta_null = eigen_decomp(statMap_null,eig);
 % calculate p-value of the t-map and obtain the thresholded map
 for ii=1:N_vertice
     
-    [p_statmap(ii), rev_statmap(ii)] = p_val_tail_est(statMap_null(:,ii), statMap(ii), pThr); % rev_statmap with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
+    [p_statmap(ii), rev_statmap(ii)] = estimate_p_val_tail(statMap_null(:,ii), statMap(ii), pThr); % rev_statmap with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
     
 end
 thresMap = sign(statMap);
@@ -125,7 +125,7 @@ thresMap(p_statmap>thres) = 0;
 % calculate p-value of the beta spectrum and identify the significant betas
 for ii=1:N_EM
     
-    [pBeta(ii), revBeta(ii)] = p_val_tail_est(beta_null(:,ii), beta(ii), pThr); % revBeta with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
+    [pBeta(ii), revBeta(ii)] = estimate_p_val_tail(beta_null(:,ii), beta(ii), pThr); % revBeta with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
     
 end
 beta_sig = beta;

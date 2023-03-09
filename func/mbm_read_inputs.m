@@ -1,8 +1,8 @@
-function [input_maps, indicatorMatrix] = mbm_read_inputs()
+function [input_maps, indicatorMatrix, MBM] = mbm_read_inputs(MBM)
 % read inputs from paths
 %
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022
-global MBM
+%global MBM
 
 input_maps = read_gifti_map(MBM.maps.anatList);
 

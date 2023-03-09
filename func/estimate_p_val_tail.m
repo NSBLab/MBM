@@ -1,5 +1,5 @@
 function [pvals_tail, rev] = estimate_p_val_tail(null, ob, pThr)
-% [PVALS_TAIL, REV] = p_val_tail_est(NULL, OB, PTHR) calculates
+% [PVALS_TAIL, REV] = estimate_p_val_tail(NULL, OB, PTHR) calculates
 % p-value (2 sides) by comparing the observed value OB and the distribution of the null samples
 % NULL. REV with value "false" or "true" indicates the observed value is on
 % the right or left tail of the null distribution. If the p-values are

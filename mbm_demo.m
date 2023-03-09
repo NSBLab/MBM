@@ -15,7 +15,7 @@ close all
 
 %global MBM
 
-tempList = regexp(fileread(fullfile('data','map_list.txt')),'\n','split');
+tempList = regexp(fileread(fullfile('data', 'map_list.txt')), '\n', 'split');
 MBM.maps.anatList = fullfile('data','thick',tempList(1:length(tempList)-1)); % path to map list, removed the last empty line when reading the file
 MBM.maps.maskFile = fullfile('data','mask_S1200.L.midthickness_MSMAll.32k_fs_LR.txt'); % path to mask
 
@@ -37,4 +37,4 @@ MBM.plot.nInfluentialMode = 6; % number of most influential modes to be plot
 
 %%save fig
 
-MBM=mbm_main(MBM);
+MBM = mbm_main(MBM);

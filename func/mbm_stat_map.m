@@ -1,5 +1,5 @@
 function statMap = mbm_stat_map(y,indicatorMatrix,test)
-% STAT_MAP = statMap_cal(Y,indicatorMatrix,TEST) calculates a statistical map.
+% STATMAP = mbm_stat_map(Y,indicatorMatrix,TEST) calculates a statistical map.
 % 
 % Y: measurement matrix (mxn), where n and m are the number of independent
 % measurements and number of samples in each measurement, respectively.
@@ -27,18 +27,18 @@ switch test
         statMap = stats.tstat;
         
     case 'two sample'
-        [h,p,ci,stats] = ttest2(y(indicatorMatrix(:,1)==1,:),y(indicatorMatrix(:,2)==1,:));
+        [h,p,ci,stats] = ttest2(y(indicatorMatrix(:,1) == 1,:),y(indicatorMatrix(:,2) == 1,:));
         statMap = stats.tstat;
         
     case 'one way ANOVA'
         
         % seperating measurement of each group
-        yy = zeros(size(indicatorMatrix,1),size(y,2),size(indicatorMatrix,2)); % preallocation space
+        yy = zeros(size(indicatorMatrix,1), size(y,2), size(indicatorMatrix,2)); % preallocation space
         for iCol = 1:size(indicatorMatrix,2)
-            if iCol>1 & sum(indicatorMatrix(:,iCol-1)==1) ~= sum(indicatorMatrix(:,iCol)==1)
+            if iCol>1 & sum(indicatorMatrix(:,iCol-1) == 1) ~= sum(indicatorMatrix(:,iCol) == 1)
                 error('Error. Numbers of subjects in each group are different.');
             else
-                yy(:,:,iCol) = y(indicatorMatrix(:,iCol)==1,:);
+                yy(:,:,iCol) = y(indicatorMatrix(:,iCol) == 1,:);
             end
         end
         

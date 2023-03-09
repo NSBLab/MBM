@@ -1,39 +1,39 @@
-function [statMap_null] = mbm_perm_test_map(input_maps, indicatorMatrix)
+function [statMapNull, MBM] = mbm_perm_test_map(inputMap, indicatorMatrix, MBM)
 % permutation tests on the statitical map
 %
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022
-global MBM
+%global MBM
 
-[N_sub,N_vertice] = size(input_maps);  % number of subjects and number of vertices after removing the medial wall
+[nSub,nVertice] = size(inputMap);  % number of subjects and number of vertices after removing the medial wall
 
-statMap_null = zeros(MBM.stat.nPer, size(input_maps,2)); % preallocation space
+statMapNull = zeros(MBM.stat.nPer, size(inputMap,2)); % preallocation space
 
 for i=1:MBM.stat.nPer
     
     if MBM.stat.test == 'one sample'
         
         % null input maps
-        input_maps_null = input_maps.*sign(rand(N_sub,1)-0.5);
+        inputMapNull = inputMap.*sign(rand(nSub,1)-0.5);
         
     else
         
         %suffling the labels of the groups
-        nu_in = randperm(N_sub);
+        nu_in = randperm(nSub);
         
         % null input maps
-        input_maps_null = input_maps(nu_in,:);
+        inputMapNull = inputMap(nu_in,:);
         
     end
     
     % statistical map of the null inputs
-    statMap_null(i,:) = mbm_statMap(input_maps_null,indicatorMatrix,MBM.stat.test);
+    statMapNull(i,:) = mbm_stat_map(inputMapNull,indicatorMatrix,MBM.stat.test);
     
 end
 
 % calculate p-value of the t-map and obtain the thresholded map
-for ii=1:N_vertice
+for ii=1:nVertice
     
-    [MBM.stat.pMap(ii), MBM.stat.revMap(ii)] = p_val_tail_est(statMap_null(:,ii), MBM.stat.statMap(ii), MBM.stat.pThr); % MBM.stat.revMap with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
+    [MBM.stat.pMap(ii), MBM.stat.revMap(ii)] = estimate_p_val_tail(statMapNull(:,ii), MBM.stat.statMap(ii), MBM.stat.pThr); % MBM.stat.revMap with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
     
 end
 
