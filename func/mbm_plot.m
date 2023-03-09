@@ -30,13 +30,13 @@ length_y = (0.95 - init_y)/(factor_y*(num_row-1)+1);
 %% plot tmap
 
 % restore removed vertices
-stat_map_nomask = zeros(size(MBM.maps.mask))';
-stat_map_nomask(MBM.maps.mask==1) = MBM.stat.stat_map;
+statMap_nomask = zeros(size(MBM.maps.mask))';
+statMap_nomask(MBM.maps.mask==1) = MBM.stat.statMap;
 
 % define axis
 ax1 = axes('Position', [init_x init_y+factor_y*length_y length_x length_y]);
 
-patch(ax1, 'Vertices', vertices, 'Faces', faces, 'FaceVertexCData', stat_map_nomask, ...
+patch(ax1, 'Vertices', vertices, 'Faces', faces, 'FaceVertexCData', statMap_nomask, ...
     'EdgeColor', 'none', 'FaceColor', 'interp');
 
 if strcmpi(MBM.plot.hemis, 'left')
@@ -57,12 +57,12 @@ a1 = annotation(fig, 'textbox', [ax1.Position(1), ax1.Position(2)+ax1.Position(4
 %% plot thresholded map
 
 % restore removed vertices
-thres_map_nomask = zeros(size(MBM.maps.mask))';
-thres_map_nomask(MBM.maps.mask==1) = MBM.stat.thres_map;
+thresMap_nomask = zeros(size(MBM.maps.mask))';
+thresMap_nomask(MBM.maps.mask==1) = MBM.stat.thresMap;
 
 ax2 = axes('Position', [init_x+length_x*1.25  ax1.Position(2) length_x length_y]);
 
-patch(ax2, 'Vertices', vertices, 'Faces', faces, 'FaceVertexCData', thres_map_nomask, ...
+patch(ax2, 'Vertices', vertices, 'Faces', faces, 'FaceVertexCData', thresMap_nomask, ...
     'EdgeColor', 'none', 'FaceColor', 'interp');
 if strcmpi(MBM.plot.hemis, 'left')
     view([-90 0]);
@@ -83,7 +83,7 @@ ax3 = axes('Position', [ax2.Position(1)+ax2.Position(3)*1.3 ax1.Position(2) leng
 
 bar(ax3,MBM.eig.beta,'FaceColor',light_gray,'EdgeColor',light_gray);
 hold(ax3,'on');
-bar(ax3,MBM.eig.sig_beta,'FaceColor',light_green,'EdgeColor',light_green);
+bar(ax3,MBM.eig.significantBeta,'FaceColor',light_green,'EdgeColor',light_green);
 hold(ax3, 'off')
 
 xlabel(ax3, '\psi', 'FontName', font_name, 'FontSize', font_size);
@@ -97,12 +97,12 @@ a3 = annotation(fig, 'textbox', [ax3.Position(1), a2.Position(2), ax3.Position(3
 
 %% plot significant patterns
 % restore removed vertices
-recon_map_nomask = zeros(size(MBM.maps.mask))';
-recon_map_nomask(MBM.maps.mask==1) = MBM.eig.recon_map;
+reconMap_nomask = zeros(size(MBM.maps.mask))';
+reconMap_nomask(MBM.maps.mask==1) = MBM.eig.reconMap;
 
 ax4 = axes('Position', [ax1.Position(1) init_y ax1.Position(3) ax1.Position(4)],'FontName',font_name,'FontSize',font_size);
 
-patch(ax4, 'Vertices', vertices, 'Faces', faces, 'FaceVertexCData', recon_map_nomask, ...
+patch(ax4, 'Vertices', vertices, 'Faces', faces, 'FaceVertexCData', reconMap_nomask, ...
     'EdgeColor', 'none', 'FaceColor', 'interp');
 
 if strcmpi(MBM.plot.hemis, 'left')
@@ -121,19 +121,19 @@ a4 = annotation(fig, 'textbox', [ax4.Position(1), ax4.Position(2)+ax4.Position(4
 
 %% plot the most influent pattern
 % restore removed vertices
-eig_nomask = zeros(size(MBM.maps.mask,2),MBM.plot.N_influ);
-eig_nomask(MBM.maps.mask==1,:) = MBM.eig.eig(:,MBM.eig.beta_order(1:MBM.plot.N_influ)).*sign(MBM.eig.beta(MBM.eig.beta_order(1:MBM.plot.N_influ)));
+eig_nomask = zeros(size(MBM.maps.mask,2),MBM.plot.nInfluentialMode);
+eig_nomask(MBM.maps.mask==1,:) = MBM.eig.eig(:,MBM.eig.betaOrder(1:MBM.plot.nInfluentialMode)).*sign(MBM.eig.beta(MBM.eig.betaOrder(1:MBM.plot.nInfluentialMode)));
 
 % define axis para
 factor_x = 1.1;
 factor_y = 1.4;
 init_x = ax4.Position(1)+ax4.Position(3)*1.1;
 num_row = 2;    %No of rows
-num_col = ceil(MBM.plot.N_influ/2);    %No of columns
+num_col = ceil(MBM.plot.nInfluentialMode/2);    %No of columns
 length_x = (0.95 - init_x)/(factor_x*(num_col-1)+1);
 length_y = (0.4 - init_y)/(factor_y*(num_row-1)+1);
 
-for eig_in = 1:MBM.plot.N_influ % influent order of the modes
+for eig_in = 1:MBM.plot.nInfluentialMode % influent order of the modes
     
     i = ceil(eig_in/num_col); % row index
     ii = mod(eig_in+num_col-1,num_col)+1; % column index

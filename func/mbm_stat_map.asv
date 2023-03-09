@@ -1,4 +1,4 @@
-function statMap = mbm_stat_map(y,indicatorMatrix,test)
+function statMap = mbm_statMap(y,indicatorMatrix,test)
 % STAT_MAP = statMap_cal(Y,indicatorMatrix,TEST) calculates a statistical map.
 % 
 % Y: measurement matrix (mxn), where n and m are the number of independent
@@ -13,9 +13,9 @@ function statMap = mbm_stat_map(y,indicatorMatrix,test)
 %
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022
 
-[nSub,nVertice] = size(y);
+[N_sub,N_vertice] = size(y);
 
-if nSub < 10
+if N_sub < 10
     warning('Number of subjects is small (<10). \n')
 end
 
@@ -34,18 +34,18 @@ switch test
         
         % seperating measurement of each group
         yy = zeros(size(indicatorMatrix,1),size(y,2),size(indicatorMatrix,2)); % preallocation space
-        for iCol = 1:size(indicatorMatrix,2)
-            if iCol>1 & sum(indicatorMatrix(:,iCol-1)==1) ~= sum(indicatorMatrix(:,iCol)==1)
+        for i = 1:size(indicatorMatrix,2)
+            if i>1 & sum(indicatorMatrix(:,i-1)==1) ~= sum(indicatorMatrix(:,i)==1)
                 error('Error. Numbers of subjects in each group are different.');
             else
-                yy(:,:,iCol) = y(indicatorMatrix(:,iCol)==1,:);
+                yy(:,:,i) = y(indicatorMatrix(:,i)==1,:);
             end
         end
         
-        statMap = zeros(1,nVertice);
-        for iVertice = 1:nVertice
-            [p,tbl,stats] = anova1(squeeze(yy(:,iVertice,:)),[],'off');
-            statMap(iVertice) = tbl{2,5};
+        statMap = zeros(1,N_vertice);
+        for ii = 1:N_vertice
+            [p,tbl,stats] = anova1(squeeze(yy(:,ii,:)),[],'off');
+            statMap(ii) = tbl{2,5};
         end
         
     otherwise

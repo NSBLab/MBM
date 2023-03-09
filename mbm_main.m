@@ -10,7 +10,7 @@ function MBM=mbm_main(MBM)
 %                                       path to an input anatomical map in
 %                                       a GIFTI file.
 %
-%                 MBM.maps.mask_file    - Character vector 
+%                 MBM.maps.maskFile    - Character vector 
 %                                       - Path to a text file containing
 %                                       a mask where values 1 or 0
 %                                       indicating the vertices of the
@@ -25,18 +25,18 @@ function MBM=mbm_main(MBM)
 %                                       'two sample' two-sample t-test, 
 %                                       'one way ANOVA' one-way ANOVA.          
 %
-%                 MBM.stat.G            - Character vector 
+%                 MBM.stat.indicatorMatrix            - Character vector 
 %                                       - Path to a text file containing
 %                                       group indicator matrix [m
 %                                       subjects by k groups]
 %                                       - '1' or '0' indicates a subject in
 %                                       a group or not.
 %
-%                 MBM.stat.N_per        - Number of permutations in the
+%                 MBM.stat.nPer        - Number of permutations in the
 %                                       statistical test.
 %
-%                 MBM.stat.Pthr         - Threshold of p-values. If the
-%                                       p-values are below MBM.stat.Pthr,
+%                 MBM.stat.pThr         - Threshold of p-values. If the
+%                                       p-values are below MBM.stat.pThr,
 %                                       these are refined further using a
 %                                       tail approximation from the
 %                                       Generalise Pareto Distribution (GPD).
@@ -50,10 +50,10 @@ function MBM=mbm_main(MBM)
 %                                       correct multiple test with FDR or not.
 %
 %   MBM.eig     - Structure of MBM variables. Fields are:
-%                 MBM.eig.eig_file           - Path to a text file containing
+%                 MBM.eig.eigFile           - Path to a text file containing
 %                                       eigenmodes in columns.
 %   
-%                 MBM.eig.N_eig         - Number of eigenmodes to be used
+%                 MBM.eig.nEigenmode         - Number of eigenmodes to be used
 %
 %   MBM.plot    - Structure of parameters for plotting. Fields are:
 %                 MBM.plot.vis          - Option ('true' or 'false') to
@@ -65,51 +65,51 @@ function MBM=mbm_main(MBM)
 %                 MBM.plot.hemis        - 'left' or 'right' to visialise left or 
 %                                       right hemisphere.
 %
-%                 MBM.plot.N_influ      - Number of the most influential 
+%                 MBM.plot.nInfluentialMode      - Number of the most influential 
 %                                       modes to be plot
 %
 %
 % A MBM structure contains the following output fields:
 %   MBM.stat    - Structure of parameters to produce a statistical map from
 %               the input maps for MBM analysis. Output fields are:
-%                 MBM.stat.stat_map     - Vector of a statistical map
+%                 MBM.stat.statMap     - Vector of a statistical map
 %
-%                 MBM.stat.p_map        - Vector of p-values of the
+%                 MBM.stat.pMap        - Vector of p-values of the
 %                                       statistical map
 %
-%                 MBM.stat.rev_map      - Vector of "false" or "true"
+%                 MBM.stat.revMap      - Vector of "false" or "true"
 %                                       indicating the observed value of an 
 %                                       element in the statistical map on
 %                                       the right or left tail of the null
 %                                       distribution.
 %
-%                 MBM.stat.thres_map     - Vector of a thresholded map
+%                 MBM.stat.thresMap     - Vector of a thresholded map
 %
 %   MBM.eig     - Structure of MBM variables. Output fields are: 
 %                 MBM.eig.beta          - Vector of beta spectrum
 %
-%                 MBM.eig.p_beta        - Vector of p-values of the
+%                 MBM.eig.pBeta        - Vector of p-values of the
 %                                       beta spectrum.
 %
-%                 MBM.eig.rev_beta      - Vector of "false" or "true"
+%                 MBM.eig.revBeta      - Vector of "false" or "true"
 %                                       indicating the observed value of an 
 %                                       element in the beta spectrum on
 %                                       the right or left tail of the null
 %                                       distribution.                 
 %
-%                 MBM.eig.sig_beta      - Vector of significant betas
+%                 MBM.eig.significantBeta      - Vector of significant betas
 %
 %                 MBM.eig.eig           - Matrix with columns of normalised
 %                                       eigenmodes
 %
-%                 MBM.eig.recon_map     - Vector of significant patterns
+%                 MBM.eig.reconMap     - Vector of significant patterns
 %
-%                 MBM.eig.beta_order    - Vector of influential order
+%                 MBM.eig.betaOrder    - Vector of influential order
 %
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
 
 %% initialisation
-global MBM
+%global MBM
 
 addpath('func')
 addpath(fullfile('utils','gifti-matlab'))
@@ -117,42 +117,42 @@ addpath(fullfile('utils','PALM-master'))
 addpath(fullfile('utils','fdr_bh'))
 
 % read inputs from paths
-[input_maps, G] = mbm_read_inputs();
+[input_maps, indicatorMatrix] = mbm_read_inputs();
 
 % remove the unused vertices, e.g., the medial wall
 input_maps = input_maps(:,MBM.maps.mask==1);
-MBM.eig.eig = MBM.eig.eig(MBM.maps.mask==1,1:MBM.eig.N_eig);
+MBM.eig.eig = MBM.eig.eig(MBM.maps.mask==1,1:MBM.eig.nEigenmode);
 
 %% SBM
 % calculate statistical map
-MBM.stat.stat_map = mbm_stat_map(input_maps,G,MBM.stat.test);
+MBM.stat.statMap = mbm_statMap(input_maps,indicatorMatrix,MBM.stat.test);
 
 % permutation tests on the statitical map
-[stat_map_null] = mbm_perm_test_map(input_maps,G);
+[statMap_null] = mbm_perm_test_map(input_maps,indicatorMatrix);
 
 % thresholded map
-MBM.stat.thres_map = sign(MBM.stat.stat_map);
-MBM.stat.thres_map(MBM.stat.p_map>MBM.stat.thres) = 0;
+MBM.stat.thresMap = sign(MBM.stat.statMap);
+MBM.stat.thresMap(MBM.stat.pMap>MBM.stat.thres) = 0;
 
 %% MBM
 % normalize the eigenmodes
-MBM.eig.eig = mbm_eig_norm(MBM.eig.eig,MBM.eig.N_eig);
+MBM.eig.eig = mbm_eig_norm(MBM.eig.eig,MBM.eig.nEigenmode);
 
 % eigenmode decomposision
-MBM.eig.beta = mbm_eigen_decomp(MBM.stat.stat_map,MBM.eig.eig);
+MBM.eig.beta = mbm_eigen_decomp(MBM.stat.statMap,MBM.eig.eig);
 
 % permutation tests on the beta spectrum
-mbm_perm_test_beta(stat_map_null)
+mbm_perm_test_beta(statMap_null)
 
 % significant betas
-MBM.eig.sig_beta = MBM.eig.beta;
-MBM.eig.sig_beta(MBM.eig.p_beta > MBM.stat.thres) = 0;
+MBM.eig.significantBeta = MBM.eig.beta;
+MBM.eig.significantBeta(MBM.eig.pBeta > MBM.stat.thres) = 0;
 
 % sort significant beta
-[beta_sorted, MBM.eig.beta_order] = sort(abs(MBM.eig.sig_beta),'descend');
+[beta_sorted, MBM.eig.betaOrder] = sort(abs(MBM.eig.significantBeta),'descend');
 
 % sigificant patterns
-MBM.eig.recon_map = MBM.eig.sig_beta*MBM.eig.eig';  
+MBM.eig.reconMap = MBM.eig.significantBeta*MBM.eig.eig';  
 
 %% plotting
 if MBM.plot.vis == 1

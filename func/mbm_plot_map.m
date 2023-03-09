@@ -1,4 +1,4 @@
-function plot_map(ax1, vertices,faces,data_to_plot,hemis)
+function mbm_plot_map(ax1, vertices,faces,data_to_plot,hemis)
 % plot surface
 %
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.

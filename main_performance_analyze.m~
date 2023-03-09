@@ -56,13 +56,13 @@ load(['evec_',num2str(N_EM),'_norm_with_const_mode_masked_S1200.L.midthickness_M
 
 %% read grouth truth maps 
 p_gifti  =gifti(['/fs02/kg98/trangc/HCP339independent/',num2str(sub(in_p)),'/T1w/',num2str(sub(in_p)),'/surf/',filename]);
-G(1,:) = p_gifti.cdata;%patient group
+indicatorMatrix(1,:) = p_gifti.cdata;%patient group
 p_gifti = gifti(['/fs02/kg98/trangc/HCP339independent/',num2str(sub(in_c)),'/T1w/',num2str(sub(in_c)),'/surf/',filename]);
-G(2,:) = p_gifti.cdata;%control group
+indicatorMatrix(2,:) = p_gifti.cdata;%control group
 
-G = G(:,mask==1);%remove the middle wall
+indicatorMatrix = indicatorMatrix(:,mask==1);%remove the middle wall
 
-G_dif = G(1,:)-G(2,:);%ground truth difference
+G_dif = indicatorMatrix(1,:)-indicatorMatrix(2,:);%ground truth difference
 
 beta_G = ((eig.'*eig)\(eig.'*(G_dif)'))';%beta spectrum of the ground truth
 
@@ -99,7 +99,7 @@ N_f = size(all_sim,1);
 %% read t-maps and beta spectrum and their p-values.
 for i=1:N_f
     load(['/fs02/kg98/trangc/eig_sim/null_test_full_offset_1min_with_norm_const_mode_inGT_',num2str(in_GT),...
-        '_smooth_',num2str(smoothsize),'mm/',all_sim(i).name],'beta_zsc','thick_t','p_beta','p_tmap');
+        '_smooth_',num2str(smoothsize),'mm/',all_sim(i).name],'beta_zsc','thick_t','pBeta','p_tmap');
     
     %correlation
     beta_co(i) = corr(beta_zsc',beta_G');
@@ -108,7 +108,7 @@ for i=1:N_f
     thick_test(i,:) = thick_t;
     beta_ex(i,:) = beta_zsc(1,:);
     
-    p_eig(i,:) = p_beta;
+    p_eig(i,:) = pBeta;
     p_vbm(i,:) = p_tmap;
     i
 end
