@@ -1,0 +1,95 @@
+function [stat_map] = input_stat_map(varargin)
+% addpath('/projects/kg98/trangc/library/gifti-matlab')
+% This function returns a 1xn statistical map, namely stat_map, by either
+% reading from a file or calculating from surface-based morphometric maps
+% (e.g., cortical thickness).
+% There are two ways for users to interact with this function: by dialog
+% boxes and command lines.
+%
+% STAT_MAP = input_stat_map('dial') returns a statistical map by
+% interacting with dialog boxes. If the statistical map is not available,
+% the lists of surface-based morphometric maps can be provided to calculate
+% it.
+%
+% STAT_MAP = input_stat_map('command',STAT_FILE,STAT_DIR) returns a
+% statistical map by reading from a file whose name is STAT_FILE and
+% directory is STAT_DIR.
+%
+% STAT_MAP = input_stat_map('command',MAP_LIST_FILE,MAP_LIST_DIR,G)
+% returns a statistical map from surface-based morphometric maps by a
+% generalized linear model (GLM). The list of maps is given in the list
+% file whose name is MAP_LIST_FILE and directory is MAP_LIST_DIR.
+% G is the predictor matrix of the GLM.
+
+
+if ui == 'dial'
+    % read statistical map
+    input('Please choose the statistical map file. Expect a text or spreadsheet file. If not available, click cancel. \n');
+    [stat_file, stat_dir] = uigetfile;
+elseif ui == 'command'
+    if length(varargin) == 2
+        stat_file = varargin{1};
+        stat_dir = varargin{2};
+    elseif length(varargin) == 3
+        stat_file = 0;
+        map_list_file = varargin{1};
+        map_list_dir = varargin{2};
+        G = varargin{3};
+    else
+        error('Error. Incorrect inputs.');
+    end
+else
+    error('Error. Incorrect inputs.');
+end
+
+%% calculate stat map if not available
+if stat_file == 0
+    
+    if ui == 'dial'
+        
+        % read file names of input maps, e.g., cortical thickness maps
+        input('Please choose a text file listing input maps. Expect input maps as GIFTI files in the same directory with the list file and the file names ending with the subject index. \n'); % to be change to support other formats
+        [map_list_file, map_list_dir] = uigetfile;
+        
+        % input GLM matrix
+        G = input('Please input a GLM matrix. \n G='); % to be change to support GUI
+        
+    end
+    
+    % read input maps
+    [fid, msg] = fopen(fullfile(map_list_dir,map_list_file),'r');
+    assert(fid>=3, msg);
+    map_read = fgetl(fid);
+    ig = 1;
+    
+    while ischar(map_read)
+        g_gifti = gifti(fullfile(map_dir_A,map_read));
+        thick(ig,:) = g_gifti.cdata;
+        map_read = fgetl(fid);
+        ig = ig+1;
+    end
+    fclose(fid);
+    
+    N_sub = ig-1; % number of subjects
+    N_vertice = size(thick,2);  % number of vertices
+    
+    if N_sub < 10
+        warning('Number of subjects is small (<10). \n')
+    end
+    
+    % glm statistical map
+    for i = 1:N_vertice
+        [b,dev,stat] = glmfit(G,thick(:,i),'normal');
+        stat_map(i) = stat.t(2);
+    end
+    
+else
+    stat_map = readmatrix(fullfile(stat_dir,stat_file));
+    
+    if size(stat_map,2) == 1
+        stat_map = stat_map';
+    elseif size(stat_map,1) ~= 1 & size(stat_map,2) ~= 1
+        error('Error. Statitical map size is not 1xn as expected.');
+    end
+end
+end
