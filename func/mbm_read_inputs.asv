@@ -7,19 +7,19 @@ function [inputMap, indicatorMatrix, MBM] = mbm_read_inputs(MBM)
 inputMap = read_gifti_map(MBM.maps.anatList);
 
 indicatorMatrix = readmatrix(MBM.stat.indicatorMatrix);   % group indicator matrix [m subjects x k groups]: each column is a group and 1 indicates a subject in a group
-if size(indicatorMatrix, 1) ~= size(inputMap, 1)
+if size(indicatorMatrix,1) ~= size(inputMap,1)
     error('Error. Numbers of subjects in the indicator matrix and input maps are different.');
 end
 
 MBM.maps.mask = readmatrix(MBM.maps.maskFile);
-if size(MBM.maps.mask, 1) ~= size(inputMap, 2) & size(MBM.maps.mask, 2) ~= size(inputMap, 2)
+if size(MBM.maps.mask,1) ~= size(inputMap, 2) & size(MBM.maps.mask, 2) ~= size(inputMap, 2)
     error('Error. Mask size is different from map size.');
-elseif size(MBM.maps.mask, 1) == size(inputMap, 2)
+elseif size(MBM.maps.mask,1) == size(inputMap, 2)
     MBM.maps.mask = MBM.maps.mask';
 end
 
 MBM.eig.eig = readmatrix(MBM.eig.eigFile);
-if size(MBM.eig.eig, 1) ~= max(size(MBM.maps.mask))
+if size(MBM.eig.eig,1) ~= max(size(MBM.maps.mask))
     error('Error. Eigenmodes should be in columns with length compatible with that of the mask.')
 end
 

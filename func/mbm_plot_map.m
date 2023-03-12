@@ -1,9 +1,9 @@
-function mbm_plot_map(ax1, vertices,faces,data_to_plot,hemis)
+function mbm_plot_map(ax1, vertices, faces, dataToPlot, hemis)
 % plot surface
 %
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
 
-a = patch(ax1, 'Vertices', vertices, 'Faces', faces, 'FaceVertexCData', data_to_plot, ...
+a = patch(ax1, 'Vertices', vertices, 'Faces', faces, 'FaceVertexCData', dataToPlot, ...
     'EdgeColor', 'none', 'FaceColor', 'interp');
 
 if strcmpi(hemis, 'left')

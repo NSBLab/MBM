@@ -1,4 +1,4 @@
-function MBM=mbm_main(MBM)
+function MBM = mbm_main(MBM)
 % mbm_main is the main function of mbm which performs MBM analysis on the
 % input structure MBM. The outputs are then stored in the structure MBM.
 %
@@ -117,39 +117,39 @@ addpath(fullfile('utils','PALM-master'))
 addpath(fullfile('utils','fdr_bh'))
 
 % read inputs from paths
-[input_maps, indicatorMatrix, MBM] = mbm_read_inputs(MBM);
+[inputMap, indicatorMatrix, MBM] = mbm_read_inputs(MBM);
 
 % remove the unused vertices, e.g., the medial wall
-input_maps = input_maps(:,MBM.maps.mask == 1);
-MBM.eig.eig = MBM.eig.eig(MBM.maps.mask == 1,1:MBM.eig.nEigenmode);
+inputMap = inputMap(:, MBM.maps.mask == 1);
+MBM.eig.eig = MBM.eig.eig(MBM.maps.mask == 1, 1:MBM.eig.nEigenmode);
 
 %% SBM
 % calculate statistical map
-MBM.stat.statMap = mbm_stat_map(input_maps,indicatorMatrix,MBM.stat.test);
+MBM.stat.statMap = mbm_stat_map(inputMap, indicatorMatrix, MBM.stat.test);
 
 % permutation tests on the statitical map
-[statMap_null, MBM] = mbm_perm_test_map(input_maps,indicatorMatrix, MBM);
+[statMapNull, MBM] = mbm_perm_test_map(inputMap, indicatorMatrix, MBM);
 
 % thresholded map
 MBM.stat.thresMap = sign(MBM.stat.statMap);
-MBM.stat.thresMap(MBM.stat.pMap > MBM.stat.thres) = 0;
+MBM.stat.thresMap(MBM.stat.pMap >= MBM.stat.thres) = 0;
 
 %% MBM
 % normalize the eigenmodes
-MBM.eig.eig = mbm_eig_norm(MBM.eig.eig, MBM.eig.nEigenmode);
+MBM.eig.eig = mbm_normalize_eig(MBM.eig.eig, MBM.eig.nEigenmode);
 
 % eigenmode decomposision
-MBM.eig.beta = mbm_eigen_decomp(MBM.stat.statMap, MBM.eig.eig);
+MBM.eig.beta = mbm_eigen_decompose(MBM.stat.statMap, MBM.eig.eig);
 
 % permutation tests on the beta spectrum
-MBM = mbm_perm_test_beta(statMap_null, MBM);
+MBM = mbm_perm_test_beta(statMapNull, MBM);
 
 % significant betas
 MBM.eig.significantBeta = MBM.eig.beta;
-MBM.eig.significantBeta(MBM.eig.pBeta > MBM.stat.thres) = 0;
+MBM.eig.significantBeta(MBM.eig.pBeta >= MBM.stat.thres) = 0;
 
 % sort significant beta
-[beta_sorted, MBM.eig.betaOrder] = sort(abs(MBM.eig.significantBeta), 'descend');
+[betaSorted, MBM.eig.betaOrder] = sort(abs(MBM.eig.significantBeta), 'descend');
 
 % sigificant patterns
 MBM.eig.reconMap = MBM.eig.significantBeta * MBM.eig.eig';  

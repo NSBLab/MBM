@@ -4,7 +4,7 @@ function [MBM] = mbm_perm_test_beta(statMapNull, MBM)
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022
 %global MBM
 % eigenmode decomposision of the null statistical map
-betaNull = mbm_eigen_decomp(statMapNull,MBM.eig.eig);
+betaNull = mbm_eigen_decomp(statMapNull, MBM.eig.eig);
 
 % calculate p-value of the beta spectrum and identify the significant betas
 for iEig=1:MBM.eig.nEigenmode
@@ -15,5 +15,5 @@ end
 
 % correction with fdr if wishing
 if MBM.stat.fdr == 1
-    [h, crit_p, adj_ci_cvrg, MBM.eig.pBeta] = fdr_bh(MBM.eig.pBeta,MBM.stat.thres,'pdep');
+    [h, crit_p, adj_ci_cvrg, MBM.eig.pBeta] = fdr_bh(MBM.eig.pBeta, MBM.stat.thres, 'pdep');
 end

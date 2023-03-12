@@ -42,7 +42,7 @@ else
     if ob<median(null)
         rev = true; %left tail
     else
-        rev = false; %right tail
+        rev =false; %right tail
     end
     pValueTail = 2 * palm_pareto(ob, null, rev, pThr, corr_mat1out);
 end

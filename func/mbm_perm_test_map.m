@@ -13,7 +13,7 @@ for i=1:MBM.stat.nPer
     if MBM.stat.test == 'one sample'
         
         % null input maps
-        inputMapNull = inputMap.*sign(rand(nSub,1)-0.5);
+        inputMapNull = inputMap.* sign(rand(nSub,1) - 0.5);
         
     else
         
@@ -26,7 +26,7 @@ for i=1:MBM.stat.nPer
     end
     
     % statistical map of the null inputs
-    statMapNull(i,:) = mbm_stat_map(inputMapNull,indicatorMatrix,MBM.stat.test);
+    statMapNull(i,:) = mbm_stat_map(inputMapNull, indicatorMatrix, MBM.stat.test);
     
 end
 
@@ -39,7 +39,7 @@ end
 
 % correction with fdr if wishing
 if MBM.stat.fdr == 1
-    [h, crit_p, adj_ci_cvrg, MBM.stat.pMap] = fdr_bh(MBM.stat.pMap,MBM.stat.thres,'pdep');
+    [h, crit_p, adj_ci_cvrg, MBM.stat.pMap] = fdr_bh(MBM.stat.pMap,MBM.stat.thres, 'pdep');
 end
 
 end

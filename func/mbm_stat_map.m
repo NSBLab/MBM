@@ -23,11 +23,11 @@ end
 switch test
     
     case 'one sample'
-        [h,p,ci,stats] = ttest(y);
+        [h, p, ci, stats] = ttest(y);
         statMap = stats.tstat;
         
     case 'two sample'
-        [h,p,ci,stats] = ttest2(y(indicatorMatrix(:,1) == 1,:),y(indicatorMatrix(:,2) == 1,:));
+        [h, p, ci, stats] = ttest2(y(indicatorMatrix(:,1) == 1,:), y(indicatorMatrix(:,2) == 1,:));
         statMap = stats.tstat;
         
     case 'one way ANOVA'
@@ -44,7 +44,7 @@ switch test
         
         statMap = zeros(1,nVertice);
         for iVertice = 1:nVertice
-            [p,tbl,stats] = anova1(squeeze(yy(:,iVertice,:)),[],'off');
+            [p, tbl, stats] = anova1(squeeze(yy(:,iVertice,:)), [], 'off');
             statMap(iVertice) = tbl{2,5};
         end
         
