@@ -1,6 +1,12 @@
 function mbm_check_input(MBM, fig)
-% to check if required inputs are provided for the app. If not, display error message
+% Check if required inputs are provided for the app. If not, display error
+% message.
 %
+%% Inputs:
+% MBM       - structure
+%
+% fig       - figure where error message is displayed.
+
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
 
 if isfield(MBM, 'maps')==0 | isfield(MBM.maps, 'anatList') == 0

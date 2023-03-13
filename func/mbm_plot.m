@@ -1,16 +1,54 @@
 function mbm_plot(MBM)
 % plot MBM results
 %
-% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022
+%% Inputs:
+% MBM   - structure having the fields:
+% 
+%       MBM.maps.mask         - Vector of the binary mask.
+%
+%  
+%       MBM.eig.resultFolder  - Path to the result folder to save
+%                                       results.
+%
+%       MBM.plot.saveFig      - Option ('true' or 'false') to
+%                                       save the visualisation of the results.
+%
+%       MBM.plot.vtkFile      - Path to a vtk file containing a
+%                                       surface to plot.
+%
+%       MBM.plot.hemis        - 'left' or 'right' to visialise left or 
+%                                       right hemisphere.
+%
+%       MBM.plot.nInfluentialMode      - Number of the most influential 
+%                                       modes to be plot.
+%
+%       MBM.stat              - Structure of parameters to produce a statistical map from
+%                             the input maps for MBM analysis. Output fields are:
+%
+%       MBM.stat.statMap      - Vector of a statistical map.
+%
+%       MBM.stat.thresMap     - Vector of a thresholded map.
+%
+%       MBM.eig.beta          - Vector of beta spectrum.
+%
+%       MBM.eig.significantBeta      - Vector of significant betas.
+%
+%       MBM.eig.eig           - Matrix of columns of eigenmodes.
+%
+%       MBM.eig.reconMap      - Vector of significant pattern.
+%
+%       MBM.eig.betaOrder     - Vector of influential order.
 
-% For plotting                                             
+% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
+
+% Define constants                                             
 lightGray = [0.5 0.5 0.5]; % define color
 lightGreen = [0.35 0.65 0.35]; % define color
 fontName = 'Arial'; % font for labels
 fontSize = 15;
 
 % read surface
-[vertices,faces] = read_vtk(MBM.plot.vtk);
+[vertices,faces] = read_vtk(MBM.plot.vtkFile);
 vertices = vertices';
 faces = faces';
 
@@ -22,8 +60,8 @@ factorX = 1.5;
 factorY = 1.5;
 initX = 0.01;
 initY = 0.02;
-nRow = 2;    %No of rows
-nCol = 3;    %No of columns
+nRow = 2;    %Number of rows
+nCol = 3;    %Number of columns
 lengthX = (0.85 - initX)/(factorX*(nCol-1) + 1);
 lengthY = (0.95 - initY)/(factorY*(nRow-1) + 1);
 
@@ -31,7 +69,7 @@ lengthY = (0.95 - initY)/(factorY*(nRow-1) + 1);
 
 % restore removed vertices
 statMapNoMask = zeros(size(MBM.maps.mask))';
-statMapNoMask(MBM.maps.mask==1) = MBM.stat.statMap;
+statMapNoMask(MBM.maps.mask == 1) = MBM.stat.statMap;
 
 % define axis
 ax1 = axes('Position', [initX initY+factorY*lengthY lengthX lengthY]);
@@ -95,7 +133,7 @@ legend('boxoff')
 a3 = annotation(fig, 'textbox', [ax3.Position(1), a2.Position(2), ax3.Position(3), 0.02], 'string', '\beta spectrum', 'edgecolor', 'none', ...
     'FontName',fontName,'FontSize',fontSize, 'horizontalalignment', 'center');
 
-%% plot significant patterns
+%% plot significant pattern
 % restore removed vertices
 reconMapNoMask = zeros(size(MBM.maps.mask))';
 reconMapNoMask(MBM.maps.mask==1) = MBM.eig.reconMap;
@@ -116,7 +154,7 @@ colormap(ax4,bluewhitered(ax4));
 axis off;
 axis image;
 
-a4 = annotation(fig, 'textbox', [ax4.Position(1), ax4.Position(2)+ax4.Position(4)*1.02, ax4.Position(3), 0.02], 'string', 'significant patterns', 'edgecolor', 'none', ...
+a4 = annotation(fig, 'textbox', [ax4.Position(1), ax4.Position(2)+ax4.Position(4)*1.02, ax4.Position(3), 0.02], 'string', 'significant pattern', 'edgecolor', 'none', ...
     'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
 
 %% plot the most influent pattern
@@ -171,5 +209,10 @@ end
 
 a6 = annotation(fig, 'textbox', [ax4.Position(1)+ax4.Position(3), initY+2.1*lengthY*factorY, lengthX*nCol*factorX, 0.02], 'string', 'most influential modes', 'edgecolor', 'none', ...
     'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
+
+% save the result figure
+if MBM.plot.saveFig == 1
+    savefig(fig, fullfile(MBM.eig.resultFolder,'MBM_analysis.fig')) 
+end
 
 end

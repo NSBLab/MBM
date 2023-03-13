@@ -1,15 +1,18 @@
 function r_phi = bin_corr_mat(data)
-% R_PHI = bin_corr_mat(DATA) calculate the binnary correlation matrix.
+% Calculate the binnary correlation matrix.
+%
 % This code includes the case when there is no 0 (or no 1) in a column,
-% which is not defined in the binary correlation from indicatorMatrix. U. Yule, On the Methods
+% which is not defined for the binary correlation in U. Yule, On the Methods
 % of Measuring Association Between Two Attributes, Journal of the Royal
 % Statistical Society 75 (6) (1912) 579-652.).
 %
-% DATA: the matrix whose columns are correlated.
+%% Input:
+% data      - the matrix whose columns are correlated.
 %
-% R_PHI: binary correlation matrix
-%
-% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022
+%% Output:
+% r_phi     - binary correlation matrix.
+
+% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
 
 [nVertice nSite] = size(data); % number of columns/sites
 

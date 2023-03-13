@@ -1,13 +1,15 @@
 function beta = mbm_eigen_decompose(statMap, eig)
-% BETA = eigen_decompose(STAT_MAP,EIG) calculates the BETA in the beta
-% spectrum from the statistical map STAT_MAP and the eigenmodes EIG.
+% Calculates the beta spectrum from the statistical map and the eigenmodes.
 %
-% STAT_MAP: vector of the statistical map (1xn).
-% EIG: matrix (nxm) with m columns of eigenmodes, where each eigenmode has
-% n elements.
+%% Inputs:
+% statMap   - vector of the statistical map (1xn).
 %
-% BETA: vector of beta spectrum.
+% eig       - matrix (nxm) with m columns of eigenmodes, where each
+%           eigenmode has n elements.
 %
+%% Output:
+% beta      - vector of beta spectrum.
+
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022
 
 if size(eig, 1) ~= size(statMap, 2)
