@@ -139,7 +139,7 @@ MBM.stat.thres_map(MBM.stat.p_map>MBM.stat.thres) = 0;
 MBM.eig.eig = mbm_eig_norm(MBM.eig.eig,MBM.eig.N_eig);
 
 % eigenmode decomposision
-MBM.eig.beta = mbm_eigen_decomp(MBM.stat.stat_map,MBM.eig.eig);
+MBM.eig.beta = mbm_eigen_decomp(MBM.stat.stat_map',MBM.eig.eig);
 
 % permutation tests on the beta spectrum
 mbm_perm_test_beta(stat_map_null)

@@ -4,7 +4,7 @@ function mbm_perm_test_beta(stat_map_null)
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022
 global MBM
 % eigenmode decomposision of the null statistical map
-beta_null = mbm_eigen_decomp(stat_map_null,MBM.eig.eig);
+beta_null = mbm_eigen_decomp(stat_map_null',MBM.eig.eig);
 
 % calculate p-value of the beta spectrum and identify the significant betas
 for ii=1:MBM.eig.N_eig
