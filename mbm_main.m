@@ -132,21 +132,21 @@ MBM.stat.stat_map = mbm_stat_map(input_maps,G,MBM.stat.test);
 
 % thresholded map
 MBM.stat.thres_map = sign(MBM.stat.stat_map);
-MBM.stat.thres_map(MBM.stat.p_map>MBM.stat.thres) = 0;
+MBM.stat.thres_map(MBM.stat.p_map >= MBM.stat.thres) = 0;
 
 %% MBM
 % normalize the eigenmodes
 MBM.eig.eig = mbm_eig_norm(MBM.eig.eig,MBM.eig.N_eig);
 
 % eigenmode decomposision
-MBM.eig.beta = mbm_eigen_decomp(MBM.stat.stat_map',MBM.eig.eig);
+MBM.eig.beta = mbm_eigen_decomp(MBM.stat.stat_map', MBM.eig.eig);
 
 % permutation tests on the beta spectrum
 mbm_perm_test_beta(stat_map_null)
 
 % significant betas
 MBM.eig.sig_beta = MBM.eig.beta;
-MBM.eig.sig_beta(MBM.eig.p_beta > MBM.stat.thres) = 0;
+MBM.eig.sig_beta(MBM.eig.p_beta >= MBM.stat.thres) = 0;
 
 % sort significant beta
 [beta_sorted, MBM.eig.beta_order] = sort(abs(MBM.eig.sig_beta),'descend');
