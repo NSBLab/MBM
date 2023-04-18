@@ -1,4 +1,4 @@
-function [vertex,face] = read_vtk(filename,verbose)
+function [vertex,face] = read_vtk(filename, verbose)
 
 % read_vtk - read data from VTK file.
 %
@@ -14,7 +14,7 @@ if nargin<2
 end
 
 fid = fopen(filename,'r');
-if( fid==-1 )
+if( fid == -1 )
     error('Can''t open the file.');
     return;
 end
@@ -33,7 +33,7 @@ nvert = sscanf(str,'%*s %d %*s', 1);
 
 % read vertices
 [A,cnt] = fscanf(fid,'%f %f %f', 3*nvert);
-if cnt~=3*nvert
+if cnt ~= 3*nvert
     warning('Problem in reading vertices.');
 end
 A = reshape(A, 3, cnt/3);
@@ -55,7 +55,7 @@ if(info == 'P')
     nface = sscanf(str,'%*s %d %*s', 1);
 
     [A,cnt] = fscanf(fid,'%d %d %d %d\n', 4*nface);
-    if cnt~=4*nface
+    if cnt ~= 4*nface
         warning('Problem in reading faces.');
     end
 

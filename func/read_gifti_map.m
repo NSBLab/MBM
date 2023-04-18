@@ -1,13 +1,21 @@
-function [input_maps] = read_gifti_map(map_list)
-% read the gifti maps from the map_list
+function [inputMap] = read_gifti_map(mapList)
+% Read the gifti maps from the file paths.
 %
+%% Input:    
+% mapList    - Cell array of character vectors.
+%            - Each array element contains the path to an input
+%                      anatomical map in a GIFTI file.
+%
+%% Output:   
+% inputMap   - Matrix of rows of anatomical maps.
+
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
 
 
-for ig=1:length(map_list)
+for iMap = 1:length(mapList)
     
-    g_gifti = gifti(char(map_list(1,ig)));
-    input_maps(ig,:) = g_gifti.cdata;
+    giftiMap = gifti(char(mapList(1,iMap)));
+    inputMap(iMap,:) = giftiMap.cdata;
     
 end
 

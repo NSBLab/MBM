@@ -1,45 +1,89 @@
-function [stat_map_null] = mbm_perm_test_map(input_maps, G)
-% permutation tests on the statitical map
+function [statMapNull, MBM] = mbm_perm_test_map(inputMap, MBM)
+% Permutation tests on the statitical map
 %
+%% Inputs:
+% inputMap - Matrix of rows of anatomical maps.
+%
+% MBM   - structure having the input fields:
+%       MBM.stat.test               - Statistical test to be used:
+%                                   'one sample' one-sample t-test,
+%                                   'two sample' two-sample t-test, 
+%                                   'one way ANOVA' one-way ANOVA.          
+%
+%       MBM.stat.indicatorMatrix    - Indicator matrix [m subjects by k groups].
+%                                   - '1' or '0' indicates a subject in
+%                                   a group or not.
+%
+%       MBM.stat.nPer               - Number of permutations in the
+%                                   statistical test.
+%
+%       MBM.stat.pThr               - Threshold of p-values. If the
+%                                   p-values are below MBM.stat.pThr,
+%                                   these are refined further using a
+%                                   tail approximation from the
+%                                   Generalise Pareto Distribution (GPD).
+%
+%       MBM.stat.thres              - Threshold of p-values. When the 
+%                                   p-value is below MBM.stat.thres, 
+%                                   the statitical test is considered 
+%                                   significant.     
+%
+%       MBM.stat.fdr                - Option ('true' or 'false') to
+%                                   correct multiple test with FDR or not.
+% 
+%% Outputs:
+% statMapNull   - Matrix of rows of null statistical maps
+% 
+% MBM   - structure having the output fields:
+%       MBM.stat.statMap            - Vector of a statistical map.
+%
+%       MBM.stat.pMap               - Vector of p-values of the
+%                                   statistical map.
+%
+%       MBM.stat.revMap             - Vector of "false" or "true"
+%                                   indicating the observed value of an 
+%                                   element in the statistical map on
+%                                   the right or left tail of the null
+%                                   distribution.
+
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022
-global MBM
 
-[N_sub,N_vertice] = size(input_maps);  % number of subjects and number of vertices after removing the medial wall
+[nSub, nVertice] = size(inputMap);  % number of subjects and number of vertices 
 
-stat_map_null = zeros(MBM.stat.N_per, size(input_maps,2)); % preallocation space
-
-for i=1:MBM.stat.N_per
+statMapNull = zeros(MBM.stat.nPer, size(inputMap,2)); % preallocation space
+for iPer = 1:MBM.stat.nPer
     
     if MBM.stat.test == 'one sample'
         
         % null input maps
-        input_maps_null = input_maps.*sign(rand(N_sub,1)-0.5);
+        inputMapNull = inputMap.* sign(rand(nSub,1) - 0.5);
         
     else
         
         %suffling the labels of the groups
-        nu_in = randperm(N_sub);
+        iNull = randperm(nSub);
         
         % null input maps
-        input_maps_null = input_maps(nu_in,:);
+        inputMapNull = inputMap(iNull,:);
         
     end
     
     % statistical map of the null inputs
-    stat_map_null(i,:) = mbm_stat_map(input_maps_null,G,MBM.stat.test);
+    statMapNull(iPer,:) = mbm_stat_map(inputMapNull, MBM.stat.indicatorMatrix, MBM.stat.test);
     
 end
 
 % calculate p-value of the t-map and obtain the thresholded map
-for ii=1:N_vertice
+for iVertice = 1:nVertice
     
-    [MBM.stat.p_map(ii), MBM.stat.rev_map(ii)] = p_val_tail_est(stat_map_null(:,ii), MBM.stat.stat_map(ii), MBM.stat.Pthr); % MBM.stat.rev_map with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
+    [MBM.stat.pMap(iVertice), MBM.stat.revMap(iVertice)] = estimate_p_val_tail(statMapNull(:,iVertice),...
+                                               MBM.stat.statMap(iVertice), MBM.stat.pThr); % MBM.stat.revMap with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
     
 end
 
 % correction with fdr if wishing
 if MBM.stat.fdr == 1
-    [h, crit_p, adj_ci_cvrg, MBM.stat.p_map] = fdr_bh(MBM.stat.p_map,MBM.stat.thres,'pdep');
+    [h, crit_p, adj_ci_cvrg, MBM.stat.pMap] = fdr_bh(MBM.stat.pMap, MBM.stat.thres, 'pdep');
 end
 
 end
