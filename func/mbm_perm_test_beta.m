@@ -39,17 +39,34 @@ function [MBM] = mbm_perm_test_beta(statMapNull, MBM)
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
 
 % eigenmode decomposision of the null statistical map
-<<<<<<< HEAD
-beta_null = mbm_eigen_decomp(stat_map_null',MBM.eig.eig);
-=======
 betaNull = mbm_eigen_decompose(statMapNull, MBM.eig.eig);
->>>>>>> 441b8a3c081df73a8d2c6f38a1def7fe5e2dcc7d
+
+% update progress bar if using app
+    if isfield(MBM, 'processRunButtonHandle')==1
+        currentProg = min(round((size(MBM.processRunButtonHandle.Icon,2)-2)*(1/10+3/10+2/10+1/10)),...
+            size(MBM.processRunButtonHandle.Icon,2)-2);
+        RGB = MBM.processRunButtonHandle.Icon;
+        RGB(2:end-1, 2:currentProg+1, 1) = 0.25391; % (royalblue)
+        RGB(2:end-1, 2:currentProg+1, 2) = 0.41016;
+        RGB(2:end-1, 2:currentProg+1, 3) = 0.87891;
+        MBM.processRunButtonHandle.Icon = RGB;
+    end
 
 % calculate p-value of the beta spectrum and identify the significant betas
 for iEig = 1:MBM.eig.nEigenmode
     
     [MBM.eig.pBeta(iEig), MBM.eig.revBeta(iEig)] = estimate_p_val_tail(betaNull(:,iEig), MBM.eig.beta(iEig), MBM.stat.pThr); % MBM.eig.revBeta with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
     
+    % update progress bar if using app
+    if isfield(MBM, 'processRunButtonHandle')==1
+        currentProg = min(round((size(MBM.processRunButtonHandle.Icon,2)-2)*(1/10+3/10+2/10+1/10+2/10*iEig/MBM.eig.nEigenmode)),...
+            size(MBM.processRunButtonHandle.Icon,2)-2);
+        RGB = MBM.processRunButtonHandle.Icon;
+        RGB(2:end-1, 2:currentProg+1, 1) = 0.25391; % (royalblue)
+        RGB(2:end-1, 2:currentProg+1, 2) = 0.41016;
+        RGB(2:end-1, 2:currentProg+1, 3) = 0.87891;
+        MBM.processRunButtonHandle.Icon = RGB;
+    end
 end
 
 % correction with fdr if wishing

@@ -24,9 +24,9 @@ if isfield(MBM,'maps') == 0 | isfield(MBM.maps, 'maskFile') == 0
     
 end
 
-if isfield(MBM.stat, 'indicatorMatrix') == 0
+if isfield(MBM.stat, 'indicatorFile') == 0
     
-    uialert(fig, 'No indicatorMatrix', 'err');
+    uialert(fig, 'No indicator matrix', 'err');
     error('No indicatorMatrix');
     
 end

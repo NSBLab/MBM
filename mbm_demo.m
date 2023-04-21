@@ -33,6 +33,8 @@ MBM.plot.vtkFile = fullfile('data', 'fsLR_32k_midthickness-lh.vtk'); % path to v
 MBM.plot.hemis = 'left'; % hemisphere to be analysed
 MBM.plot.nInfluentialMode = 6; % number of most influential modes to be plotted
 
+% MBM.inApp = false; % indicate not using app
+
 %%save fig
 
 MBM = mbm_main(MBM);

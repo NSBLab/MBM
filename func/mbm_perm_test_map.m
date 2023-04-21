@@ -7,8 +7,8 @@ function [statMapNull, MBM] = mbm_perm_test_map(inputMap, MBM)
 % MBM   - structure having the input fields:
 %       MBM.stat.test               - Statistical test to be used:
 %                                   'one sample' one-sample t-test,
-%                                   'two sample' two-sample t-test, 
-%                                   'one way ANOVA' one-way ANOVA.          
+%                                   'two sample' two-sample t-test,
+%                                   'one way ANOVA' one-way ANOVA.
 %
 %       MBM.stat.indicatorMatrix    - Indicator matrix [m subjects by k groups].
 %                                   - '1' or '0' indicates a subject in
@@ -23,17 +23,17 @@ function [statMapNull, MBM] = mbm_perm_test_map(inputMap, MBM)
 %                                   tail approximation from the
 %                                   Generalise Pareto Distribution (GPD).
 %
-%       MBM.stat.thres              - Threshold of p-values. When the 
-%                                   p-value is below MBM.stat.thres, 
-%                                   the statitical test is considered 
-%                                   significant.     
+%       MBM.stat.thres              - Threshold of p-values. When the
+%                                   p-value is below MBM.stat.thres,
+%                                   the statitical test is considered
+%                                   significant.
 %
 %       MBM.stat.fdr                - Option ('true' or 'false') to
 %                                   correct multiple test with FDR or not.
-% 
+%
 %% Outputs:
 % statMapNull   - Matrix of rows of null statistical maps
-% 
+%
 % MBM   - structure having the output fields:
 %       MBM.stat.statMap            - Vector of a statistical map.
 %
@@ -41,44 +41,65 @@ function [statMapNull, MBM] = mbm_perm_test_map(inputMap, MBM)
 %                                   statistical map.
 %
 %       MBM.stat.revMap             - Vector of "false" or "true"
-%                                   indicating the observed value of an 
+%                                   indicating the observed value of an
 %                                   element in the statistical map on
 %                                   the right or left tail of the null
 %                                   distribution.
 
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022
 
-[nSub, nVertice] = size(inputMap);  % number of subjects and number of vertices 
+[nSub, nVertice] = size(inputMap);  % number of subjects and number of vertices
 
 statMapNull = zeros(MBM.stat.nPer, size(inputMap,2)); % preallocation space
 for iPer = 1:MBM.stat.nPer
-    
+
     if MBM.stat.test == 'one sample'
-        
+
         % null input maps
         inputMapNull = inputMap.* sign(rand(nSub,1) - 0.5);
-        
+
     else
-        
+
         %suffling the labels of the groups
         iNull = randperm(nSub);
-        
+
         % null input maps
         inputMapNull = inputMap(iNull,:);
-        
+
     end
-    
+
     % statistical map of the null inputs
     statMapNull(iPer,:) = mbm_stat_map(inputMapNull, MBM.stat.indicatorMatrix, MBM.stat.test);
-    
+
+    % update progress bar if using app
+    if isfield(MBM, 'processRunButtonHandle')==1
+        currentProg = min(round((size(MBM.processRunButtonHandle.Icon,2)-2)*...
+            (1/10+3/10*iPer/MBM.stat.nPer)),...% as the mbm_main does not have a single loop, we roughly devided the progress by 10, 1/10 for input checking, 3/10 is for this loop
+            size(MBM.processRunButtonHandle.Icon,2)-2);
+        RGB = MBM.processRunButtonHandle.Icon;
+        RGB(2:end-1, 2:currentProg+1, 1) = 0.25391; % (royalblue)
+        RGB(2:end-1, 2:currentProg+1, 2) = 0.41016;
+        RGB(2:end-1, 2:currentProg+1, 3) = 0.87891;
+        MBM.processRunButtonHandle.Icon = RGB;
+    end
 end
 
 % calculate p-value of the t-map and obtain the thresholded map
 for iVertice = 1:nVertice
-    
+
     [MBM.stat.pMap(iVertice), MBM.stat.revMap(iVertice)] = estimate_p_val_tail(statMapNull(:,iVertice),...
-                                               MBM.stat.statMap(iVertice), MBM.stat.pThr); % MBM.stat.revMap with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
-    
+        MBM.stat.statMap(iVertice), MBM.stat.pThr); % MBM.stat.revMap with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
+
+    % update progress bar if using app
+    if isfield(MBM, 'processRunButtonHandle')==1
+        currentProg = min(round((size(MBM.processRunButtonHandle.Icon,2)-2)*(1/10+3/10+2/10*iVertice/nVertice)),...
+            size(MBM.processRunButtonHandle.Icon,2)-2);
+        RGB = MBM.processRunButtonHandle.Icon;
+        RGB(2:end-1, 2:currentProg+1, 1) = 0.25391; % (royalblue)
+        RGB(2:end-1, 2:currentProg+1, 2) = 0.41016;
+        RGB(2:end-1, 2:currentProg+1, 3) = 0.87891;
+        MBM.processRunButtonHandle.Icon = RGB;
+    end
 end
 
 % correction with fdr if wishing
