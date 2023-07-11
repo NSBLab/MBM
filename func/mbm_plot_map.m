@@ -35,6 +35,6 @@ axis(axisPlot, 'image');
 % cc = colorbar('Position',[ax1.Position(1)+ax1.Position(3)*1.05 ax1.Position(2)+ax1.Position(4)*0.2 0.01 ax1.Position(4)*0.6]);
 
 % a1 = annotation(fig, 'textbox', [ax1.Position(1), ax1.Position(2)+ax1.Position(4)*1.02, ax1.Position(3), 0.02], 'string', 't-map', 'edgecolor', 'none', ...
-%     'FontName',font_name,'FontSize',font_size,  'horizontalalignment', 'center');
+%     'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
 
 end

@@ -171,13 +171,13 @@ nCol = ceil(MBM.plot.nInfluentialMode/2);    %No of columns
 lengthX = (0.95 - initX)/(factorX*(nCol-1)+1);
 lengthY = (0.4 - initY)/(factorY*(nRow-1)+1);
 
-for eig_in = 1:MBM.plot.nInfluentialMode % influent order of the modes
+for iEig = 1:MBM.plot.nInfluentialMode % influent order of the modes
     
-    i = ceil(eig_in/nCol); % row index
-    ii = mod(eig_in+nCol-1,nCol)+1; % column index
+    i = ceil(iEig/nCol); % row index
+    ii = mod(iEig+nCol-1,nCol)+1; % column index
     ax5 = axes('Position', [initX+factorX*lengthX*(ii-1) initY+factorY*lengthY*(nRow-i) lengthX lengthY],'FontName',fontName,'FontSize',fontSize);
 
-    patch(ax5, 'Vertices', vertices, 'Faces', faces, 'FaceVertexCData', eigNoMask(:,eig_in), ...
+    patch(ax5, 'Vertices', vertices, 'Faces', faces, 'FaceVertexCData', eigNoMask(:,iEig), ...
         'EdgeColor', 'none', 'FaceColor', 'interp');
     
     if strcmpi(MBM.plot.hemis, 'left')
@@ -191,18 +191,18 @@ for eig_in = 1:MBM.plot.nInfluentialMode % influent order of the modes
     axis off;
     axis image;
     % cc = colorbar('Position',[ax4.Position(1)+ax4.Position(3)*1.03 ax4.Position(2) 0.01 ax4.Position(4)*0.8]);
-    switch eig_in
+    switch iEig
         case 1
-            a5 = annotation(fig, 'textbox', [ax5.Position(1), ax5.Position(2)+ax5.Position(4)*1.2, ax5.Position(3), 0.02], 'string', [num2str(eig_in), 'st'], 'edgecolor', 'none', ...
+            a5 = annotation(fig, 'textbox', [ax5.Position(1), ax5.Position(2)+ax5.Position(4)*1.2, ax5.Position(3), 0.02], 'string', [num2str(iEig), 'st'], 'edgecolor', 'none', ...
                 'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
         case 2
-            a5 = annotation(fig, 'textbox', [ax5.Position(1), ax5.Position(2)+ax5.Position(4)*1.2, ax5.Position(3), 0.02], 'string', [num2str(eig_in), 'nd'], 'edgecolor', 'none', ...
+            a5 = annotation(fig, 'textbox', [ax5.Position(1), ax5.Position(2)+ax5.Position(4)*1.2, ax5.Position(3), 0.02], 'string', [num2str(iEig), 'nd'], 'edgecolor', 'none', ...
                 'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
         case 3
-            a5 = annotation(fig, 'textbox', [ax5.Position(1), ax5.Position(2)+ax5.Position(4)*1.2, ax5.Position(3), 0.02], 'string', [num2str(eig_in), 'rd'], 'edgecolor', 'none', ...
+            a5 = annotation(fig, 'textbox', [ax5.Position(1), ax5.Position(2)+ax5.Position(4)*1.2, ax5.Position(3), 0.02], 'string', [num2str(iEig), 'rd'], 'edgecolor', 'none', ...
                 'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
         otherwise
-            a5 = annotation(fig, 'textbox', [ax5.Position(1), ax5.Position(2)+ax5.Position(4)*1.2, ax5.Position(3), 0.02], 'string', [num2str(eig_in), 'th'], 'edgecolor', 'none', ...
+            a5 = annotation(fig, 'textbox', [ax5.Position(1), ax5.Position(2)+ax5.Position(4)*1.2, ax5.Position(3), 0.02], 'string', [num2str(iEig), 'th'], 'edgecolor', 'none', ...
                 'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
     end
 end

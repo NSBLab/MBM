@@ -25,10 +25,12 @@ if isfield(MBM,'maps') == 0 | isfield(MBM.maps, 'maskFile') == 0 | strcmp(MBM.ma
 
 end
 
+
 if isfield(MBM.stat, 'indicatorFile') == 0 | strcmp(MBM.stat.indicatorFile,fullfile(0,0))
 
-    uialert(fig, 'No indicatorMatrix', 'err');
+    uialert(fig, 'No indicator matrix', 'err');
     uiwait(fig)
+
     error('No indicatorMatrix');
 
 end
