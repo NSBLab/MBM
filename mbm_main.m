@@ -1,4 +1,4 @@
-function MBM = mbm_main(MBM, varargin)
+function MBM = mbm_main(MBM)
 % mbm_main is the main function of MBM toolbox which performs MBM analysis on the
 %% Input: 
 % MBM       - Structure
@@ -134,6 +134,9 @@ addpath(fullfile('utils','fdr_bh'))
 % read inputs from paths
 [inputMap, MBM] = mbm_read_inputs(MBM);
 
+if app.StopRequested == 1
+    return
+end
 % remove the unused vertices, e.g., the medial wall
 inputMap = inputMap(:, MBM.maps.mask == 1);
 MBM.eig.eig = MBM.eig.eig(MBM.maps.mask == 1, 1:MBM.eig.nEigenmode);
