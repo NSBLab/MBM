@@ -1,4 +1,4 @@
-function MBM = mbm_main(MBM)
+function MBM = mbm_main(MBM, varargin)
 % mbm_main is the main function of MBM toolbox which performs MBM analysis on the
 % input structure MBM. The outputs are then stored in the structure MBM.
 %
@@ -143,36 +143,22 @@ MBM.stat.statMap = mbm_stat_map(inputMap, MBM.stat.indicatorMatrix, MBM.stat.tes
 [statMapNull, MBM] = mbm_perm_test_map(inputMap, MBM);
 
 % thresholded map
-<<<<<<< HEAD
-MBM.stat.thres_map = sign(MBM.stat.stat_map);
-MBM.stat.thres_map(MBM.stat.p_map >= MBM.stat.thres) = 0;
-=======
 MBM.stat.thresMap = sign(MBM.stat.statMap);
 MBM.stat.thresMap(MBM.stat.pMap >= MBM.stat.thres) = 0;
->>>>>>> 441b8a3c081df73a8d2c6f38a1def7fe5e2dcc7d
 
 %% MBM
 % normalize the eigenmodes
 MBM.eig.eig = mbm_normalize_eig(MBM.eig.eig, MBM.eig.nEigenmode);
 
 % eigenmode decomposision
-<<<<<<< HEAD
-MBM.eig.beta = mbm_eigen_decomp(MBM.stat.stat_map', MBM.eig.eig);
-=======
 MBM.eig.beta = mbm_eigen_decompose(MBM.stat.statMap, MBM.eig.eig);
->>>>>>> 441b8a3c081df73a8d2c6f38a1def7fe5e2dcc7d
 
 % permutation tests on the beta spectrum
 MBM = mbm_perm_test_beta(statMapNull, MBM);
 
 % significant betas
-<<<<<<< HEAD
-MBM.eig.sig_beta = MBM.eig.beta;
-MBM.eig.sig_beta(MBM.eig.p_beta >= MBM.stat.thres) = 0;
-=======
 MBM.eig.significantBeta = MBM.eig.beta;
 MBM.eig.significantBeta(MBM.eig.pBeta >= MBM.stat.thres) = 0;
->>>>>>> 441b8a3c081df73a8d2c6f38a1def7fe5e2dcc7d
 
 % sort significant beta
 [betaSorted, MBM.eig.betaOrder] = sort(abs(MBM.eig.significantBeta), 'descend');
