@@ -1,4 +1,4 @@
-function MBM = mbm_main(MBM, varargin)
+function MBM = mbm_main(MBM)
 % mbm_main is the main function of MBM toolbox which performs MBM analysis on the
 %% Input: 
 % MBM       - Structure

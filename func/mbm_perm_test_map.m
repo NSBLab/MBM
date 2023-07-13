@@ -81,6 +81,11 @@ for iPer = 1:MBM.stat.nPer
         RGB(2:end-1, 2:currentProg+1, 2) = 0.41016;
         RGB(2:end-1, 2:currentProg+1, 3) = 0.87891;
         MBM.processRunButtonHandle.Icon = RGB;
+        pause(0.01)
+        
+        if MBM.StopRequested == 1
+                return
+            end
     end
 end
 
@@ -99,6 +104,10 @@ for iVertice = 1:nVertice
         RGB(2:end-1, 2:currentProg+1, 2) = 0.41016;
         RGB(2:end-1, 2:currentProg+1, 3) = 0.87891;
         MBM.processRunButtonHandle.Icon = RGB;
+        pause(0.01)
+        if MBM.StopRequested == 1
+                return
+            end
     end
 end
 

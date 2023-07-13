@@ -50,6 +50,10 @@ betaNull = mbm_eigen_decompose(statMapNull, MBM.eig.eig);
         RGB(2:end-1, 2:currentProg+1, 2) = 0.41016;
         RGB(2:end-1, 2:currentProg+1, 3) = 0.87891;
         MBM.processRunButtonHandle.Icon = RGB;
+        pause(0.01)
+        if MBM.StopRequested == 1
+                return
+            end
     end
 
 
@@ -67,6 +71,10 @@ for iEig = 1:MBM.eig.nEigenmode
         RGB(2:end-1, 2:currentProg+1, 2) = 0.41016;
         RGB(2:end-1, 2:currentProg+1, 3) = 0.87891;
         MBM.processRunButtonHandle.Icon = RGB;
+        pause(0.01)
+        if MBM.StopRequested == 1
+                return
+            end
     end
 end
 
