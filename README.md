@@ -38,7 +38,7 @@ Read the comments and documentation within each code for usage guidance.
 
 ## Downloading data
 
-Due to their file sizes exceeding the limit allowed by GitHub, you will need to fill the `data/` directories with data that you can download from this [OSF repository](https://osf.io/huz4e/). The total file size is ...GB. 
+Due to their file sizes exceeding the limit allowed by GitHub, you will need to fill the `data/` directories with data that you can download from this [OSF repository](https://osf.io/huz4e/). The total file size is 500 MB. 
 
 ## Original data
 
