@@ -43,7 +43,9 @@ The output of `mbm_main.m` are included in the struture mbm: the statistical map
 
 •	Starting the app by double click `mbm_app.mlapp'. The GUI appears as shown below. On the top left, the input panel has three tabs: Maps, Stat, and Eigenmodes. The run panel is on the bottom left. The result panel is on the right.
 
-•	!(readme_fig/start.png) test
+![cover](readme_fig/start.png) 
+
+•	Use input buttons 'Input maps', 'Mask', 'Surface', 'indicator matrix G', 'Eigenmodes' to open file selection dialog box to choose GIFTI files of input anatomical maps, a binary mask file, a surface vtk file, a text file containing a group indicator matrix, a text file containing eigenmodes in columns.
 
 ## Original data
 

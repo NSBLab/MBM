@@ -25,7 +25,7 @@ function MBM = mbm_main(MBM)
 %                                                 'one way ANOVA' one-way ANOVA.          
 %
 %                           MBM.stat.indicatorFile    - Character vector. 
-%                                                     - Path to a text file containing
+%                                                     - Path to a text file containing a
 %                                                       group indicator matrix [m
 %                                                       subjects by k groups].
 %
