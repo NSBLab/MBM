@@ -8,17 +8,17 @@ See "[Mode-based morphometry: A multiscale approach to mapping human neuroanatom
 In this package, we provide the following a main functions, demo script to run it, and complement folders:
 
 1. `mbm_main.m`: main function to obtain the spatial frequency spectrum, called beta spectrum, the significant pattern and the most influential modes of the statistical map representing the group average or group difference. 
-2. `mbm_demo.m`: demo script to run mbm_main.m.
+2. `mbm_demo.m`: demo script to run `mbm_main.m`.
 3. `app1.mlapp`: app script for GUI of the main function.
 3. `utils/`: dependent packages comprising of gifti-matlab (to read GIFTI file), PALM (to estimate a distribution tail), and fdr_bh (to use fdr correction).
 4. `data/`: demo data to run the codes.
 5. `func/`: functions used in the  main code for analysis and visualization.
 
-## Calculating the spatial spectrum, i.e., beta spectrum, by mbm_mbm.m
+## Calculating the spatial spectrum, i.e., beta spectrum, by `mbm_mbm.m`
 
-![cover](Fig1_SBM_MBM.jpg)
+![cover](readme_fig/Fig1_SBM_MBM.jpg)
 
-mbm_main.m executes the pipelines in Fig. 1. The input to mbm_main.m is the structure MBM including:
+`mbm_main.m` executes the pipelines in Fig. 1. The input to `mbm_main.m` is the structure MBM including:
 
 •	A path to a text file listing all the anatomical maps to be analysed and  a path to a mask to exclude elements of the maps from the analysis. Anatomical maps are expected as GIFTI files and projected on an average surface. In the example given in the demo code, the left fsaverage midthickness surface with 32492 vertices is used as an average template.
 
@@ -27,12 +27,12 @@ mbm_main.m executes the pipelines in Fig. 1. The input to mbm_main.m is the stru
 •	The eigenmodes (ψj  in Fig. 1) calculated from a surface mesh (a .vtk file) by surface_eigenmodes.py (see https://github.com/NSBLab/BrainEigenmodes/tree/main) and saved as a text file. Eigenmodes should be derived from the same average surface that the maps are projected on.
 
 •	Parameters specifying the visualisation of the results.
-The output of mbm_main.m are included in the struture mbm: the statistical map,  its p-values, thresholded statistical map, beta spectrum, its p-values, significant beta spectrum, the significant patterns, and the most influential modes.  Visualisation of the results are provided. 
+The output of `mbm_main.m` are included in the struture mbm: the statistical map,  its p-values, thresholded statistical map, beta spectrum, its p-values, significant beta spectrum, the significant patterns, and the most influential modes.  Visualisation of the results are provided. 
 
 
 ## Installation
 
-Download the repository. If you already have the packages in utils and would like to use yours, modify the paths in app1.mlapp and mbm_main.m to point to them.
+Download the repository. If you already have the packages in utils and would like to use yours, modify the paths in `app1.mlapp` and `mbm_main.m` to point to them.
 
 Read the comments and documentation within each code for usage guidance.
 
