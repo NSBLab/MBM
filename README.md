@@ -9,12 +9,22 @@ In this package, we provide the following a main functions, demo script to run i
 
 1. `mbm_main.m`: main function to obtain the spatial frequency spectrum, called beta spectrum, the significant pattern and the most influential modes of the statistical map representing the group average or group difference. 
 2. `mbm_demo.m`: demo script to run `mbm_main.m`.
-3. `app1.mlapp`: app script for GUI of the main function.
+3. `mbm_app.mlapp`: app script for GUI of the main function.
 3. `utils/`: dependent packages comprising of gifti-matlab (to read GIFTI file), PALM (to estimate a distribution tail), and fdr_bh (to use fdr correction).
 4. `data/`: demo data to run the codes.
 5. `func/`: functions used in the  main code for analysis and visualization.
 
-## Calculating the spatial spectrum, i.e., beta spectrum, by `mbm_mbm.m`
+## Installation
+
+Download the repository. If you already have the packages in utils and would like to use yours, modify the paths in `mbm_app.mlapp` and `mbm_main.m` to point to them.
+
+Read the comments and documentation within each code for usage guidance.
+
+## Downloading data
+
+Due to their file sizes exceeding the limit allowed by GitHub, you will need to fill the `data/` directories with data that you can download from this [OSF repository](https://osf.io/huz4e/). The total file size is 500 MB. 
+
+## Running MBM by command lines
 
 ![cover](readme_fig/Fig1_SBM_MBM.jpg)
 
@@ -29,16 +39,11 @@ In this package, we provide the following a main functions, demo script to run i
 •	Parameters specifying the visualisation of the results.
 The output of `mbm_main.m` are included in the struture mbm: the statistical map,  its p-values, thresholded statistical map, beta spectrum, its p-values, significant beta spectrum, the significant patterns, and the most influential modes.  Visualisation of the results are provided. 
 
+## Running MBM by GUI
 
-## Installation
+•	Starting the app by double click `mbm_app.mlapp'. The GUI appears as shown below. On the top left, the input panel has three tabs: Maps, Stat, and Eigenmodes. The run panel is on the bottom left. The result panel is on the right.
 
-Download the repository. If you already have the packages in utils and would like to use yours, modify the paths in `app1.mlapp` and `mbm_main.m` to point to them.
-
-Read the comments and documentation within each code for usage guidance.
-
-## Downloading data
-
-Due to their file sizes exceeding the limit allowed by GitHub, you will need to fill the `data/` directories with data that you can download from this [OSF repository](https://osf.io/huz4e/). The total file size is 500 MB. 
+•	!(readme_fig/start.png) test
 
 ## Original data
 
