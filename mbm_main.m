@@ -1,5 +1,6 @@
 function MBM = mbm_main(MBM)
-% mbm_main is the main function of MBM toolbox which performs MBM analysis on the
+% mbm_main is the main function of MBM toolbox which performs MBM analysis
+%
 %% Input: 
 % MBM       - Structure
 %             MBM.maps    - Structure containing maps. Input fields are:
