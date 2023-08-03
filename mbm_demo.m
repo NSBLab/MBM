@@ -3,7 +3,7 @@
 % the MBM paper. In particular, 25 maps were generated from each of the two
 % ground truths. The list of maps' filenames is in 'map_list.txt'.  The
 % indicator matrix that identifies the two groups of the maps is stored in
-% 'G_mat.txt'. All input files are stored in 'data' folder.
+% 'G_two_sample.txt'. All input files are stored in 'data' folder.
 % Using MBM, we obtain the \beta spectrum, significant pattern that
 % comprises the weighted significant modes, and most influential modes.
 
