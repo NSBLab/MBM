@@ -3,7 +3,19 @@ message: "If you use this software, please cite it as below."
 authors:
   - family-names: Cao
     given-names: Trang
-title: "My Research Software"
-version: 2.0.4
-doi: 10.5281/zenodo.1234
-date-released: 2021-08-11
+  - family-names: Pang
+    given-names: James C. 
+  - family-names: Segal
+    given-names: Ashlea
+  - family-names: Chen
+    given-names: Yu-Chi
+  - family-names: Aquino
+    given-names: Kevin M. 
+  - family-names: Breakspear
+    given-names: Michael
+  - family-names: Fornito
+    given-names: Alex 
+title: "Mode-based morphometry: A multiscale approach to mapping human neuroanatomy"
+version: 1.0.0
+doi: 10.1101/2023.02.26.529328
+date-released: 2023-08-03
