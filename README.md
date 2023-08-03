@@ -7,7 +7,7 @@ See "[Mode-based morphometry: A multiscale approach to mapping human neuroanatom
 
 In this package, we provide the following a main functions, demo script to run it, and complement folders:
 
-1. `mbm_main.m`: main function to obtain the spatial frequency spectrum, called beta spectrum, the significant pattern and the most influential modes of the statistical map representing the group average or group difference. 
+1. `mbm_main.m`: main function to obtain the spatial frequency spectrum, called beta spectrum, the significant pattern, and the most influential modes of the statistical map representing the group average or group difference. 
 2. `mbm_demo.m`: demo script to run `mbm_main.m`.
 3. `mbm_app.mlapp`: app script for GUI of the main function.
 3. `utils/`: dependent packages comprising of gifti-matlab (to read GIFTI file), PALM (to estimate a distribution tail), and fdr_bh (to use fdr correction).
@@ -28,7 +28,7 @@ Due to their file sizes exceeding the limit allowed by GitHub, you will need to 
 
 ![cover](readme_fig/Fig1_SBM_MBM.jpg)
 
-`mbm_main.m` executes the pipelines in Fig. 1. The input to `mbm_main.m` is the structure MBM including:
+`mbm_main.m` executes the pipelines in Fig. 1. The input to `mbm_main.m` is a Matlab structure named MBM which includes:
 
 •	A path to a text file listing all the anatomical maps to be analysed and a path to a mask to exclude elements of the maps from the analysis. Anatomical maps are expected as GIFTI files and projected on an average surface. In the example given in the demo code, the left fsaverage midthickness surface with 32492 vertices is used as an average template.
 
