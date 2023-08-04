@@ -9,11 +9,11 @@ function mbm_check_input(MBM, fig)
 
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
 
-if isfield(MBM, 'maps')==0 | isfield(MBM.maps, 'anatList') == 0 | strcmp(MBM.maps.anatList,fullfile(0,0))
+if isfield(MBM, 'maps')==0 | isfield(MBM.maps, 'anatListFile') == 0 | strcmp(MBM.maps.anatListFile,fullfile(0,0))
 
-    uialert(fig, 'No input maps', 'err');
+    uialert(fig, 'No input map list', 'err');
     uiwait(fig)
-    error('No input maps');
+    error('No input map list');
 
 end
 

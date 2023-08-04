@@ -30,32 +30,57 @@ Due to their file sizes exceeding the limit allowed by GitHub, you will need to 
 
 `mbm_main.m` executes the pipelines in Fig. 1. The input to `mbm_main.m` is a Matlab structure named MBM which includes:
 
-•	A path to a text file listing all the anatomical maps to be analysed and a path to a mask to exclude elements of the maps from the analysis. Anatomical maps are expected as GIFTI files and projected on an average surface. In the example given in the demo code, the left fsaverage midthickness surface with 32492 vertices is used as an average template.
+•	A path to a text file of a list of anatomical maps to be analysed and a path to a mask to exclude elements of the maps from the analysis. Anatomical maps are expected as GIFTI files and projected on an average surface. In the example given in the demo code, the left fsaverage midthickness surface with 32492 vertices is used as an average template.
 
-•	Parameters specifying the statistical test and an indicator matrix whose elements in each column indicate subjects belonging to a group. One-sample t-test, two-sample t-test, and one-way ANOVA are supported.
+•	Parameters specifying the statistical test and an indicator matrix whose binary elements in each column indicate subjects belonging to a group. One-sample t-test, two-sample t-test, and one-way ANOVA are supported.
 
 •	The eigenmodes (ψj  in Fig. 1) calculated from a surface mesh (a .vtk file) by surface_eigenmodes.py (see https://github.com/NSBLab/BrainEigenmodes/tree/main) and saved as a text file. Eigenmodes should be derived from the same average surface that the maps are projected on.
 
 •	Parameters specifying the visualisation of the results.
+
 The output of `mbm_main.m` are included in the struture mbm: the statistical map,  its p-values, thresholded statistical map, beta spectrum, its p-values, significant beta spectrum, the significant patterns, and the most influential modes.  Visualisation of the results are provided. 
+
+Run 'help mbm_main' in Command Window or open 'mbm_main.m' to see the documentation on all the input and output parameters and their types. See 'mbm_demo.m' for examples.
 
 ## Running MBM by GUI
 
-•	Starting the app by double click `mbm_app.mlapp'. The GUI appears as shown below. On the top left, the input panel has three tabs: Maps, Stat, and Eigenmodes. The run panel is on the bottom left. The result panel is on the right.
+To use standalone app, install by using `MBMInstaller.exe'. After installation, open MBM app in your system. 
+
+To use the GUI in Matlab, open 'mbm_app.mlapp' in Matlab and hit 'Run' in App Designer window. 
+
+The app appears as shown below. On the top left, the input panel has three tabs: Maps, Stat, and Eigenmodes. The run panel is on the bottom left. The result panel is on the right.
 
 ![cover](readme_fig/start.png) 
 
-•	Use input buttons 'Input maps', 'Mask', 'Surface', 'indicator matrix G', 'Eigenmodes' to open file selection dialog box to choose GIFTI files of input anatomical maps, a binary mask file, a surface vtk file, a text file containing a group indicator matrix, a text file containing eigenmodes in columns. 
+To prepare the model:
 
-•	Choose the statistic tests and the hemisphere to be analysed from the drop down list. 
+- In the **Maps** tab, use the input buttons to open a file selection dialog box and load: 
 
-•	Check FDR box if using FDR correction.
+•	'Map list': a text file of a list of input anatomical maps in GIFTI format.
+•	'Mask': a text file containing a binary mask where values '1' or '0' indicating the vertices of the applied maps to be used or removed. 
+•	'Surface': a vtk file containing a surface to plot the result. The surface should be the one that the eigenmodes are derived from and the anatomical maps are projected on.
+•	choose the 'Hemisphere' to be analysed from the drop down list.
 
-•	Put in the parameters of the analysis: number of permutation, threshold of p-values for tail approximation, threshold of p-values for being significant, number of eigenmodes for the analysis, and number of the most influential modes to plot.
+- In the **Stat** tab,  
+•	choose the 'Statistic test' from the drop down list.
+•	use the button 'indicator matrix G' to open a file selection dialog box and load a text file containing a group indicator matrix [m subjects by k groups]. In the matrix, '1' or '0' indicates a subject in a group or not.
+•	'Permutation': put the number of permutation in the statistical test.
+•	'Pthr: tail approx': put the threshold of p-values for tail approximation. If the p-values are below Pthr, these are refined further using a tail approximation from the Generalise Pareto Distribution (GPD).
+•	'P threshold': put the threshold of p-values for being significant.
+•	check FDR box if using FDR correction.	
 
-•	Once putting all the inputs, press the 'Run' button to run the analysis. Press 'Stop' to interupt the analysis. Once the analysis is finished, press 'Save' to save the structure 'mbm' containing the parameters and results in a .mat file. Press 'Plot' to show the results on the result panel.
+- In the **Eigenmodes** tab,
+•	use the button 'Eigenmodes' to open a file selection dialog box and load a text file containing eigenmodes in columns. 
+•	'Number of modes': put the number of eigenmodes used for the analysis.
+•	'Most influential modes': put the number of the most influential modes to plot.
 
-•	The result panel comprises the t-map, the thresholded t-map, the beta spectrum, the significant pattern, and most influential modes. 
+To run the analysis:
+
+- Press the 'Run' button. Once the analysis is finished, press 'Save' to save the structure 'MBM' containing the parameters and results in a .mat file. Press 'Plot' to show the results on the result panel. If required, press 'Stop' to interupt the analysis. For 5000 permutations, the analysis need approximately one hour to run.
+
+Results:
+
+- The result panel comprises the t-map, the thresholded t-map, the beta spectrum, the significant pattern, and most influential modes. 
 
 ## Example data are in the the data folder. 
 
@@ -79,7 +104,8 @@ Original empirical data are from the [Human Connectome Project](https://db.human
 
 Useful functions relating to eigenmodes may be found at https://github.com/NSBLab/BrainEigenmodes/tree/main, including:
 
-Calculating surface and/or volume geometric eigenmodes (See `demo_eigenmode_calculation.sh`),
+Example of how to use `surface_eigenmodes.py` to calculate surface and/or
+volume geometric eigenmodes (See `demo_eigenmode_calculation.sh`),
 
 Visualising an eigenmode or a map (See `demo_eigenmode_visualization.m`).
 

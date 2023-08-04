@@ -29,7 +29,7 @@ end
 switch test
     
     case 'one sample'
-        [h, p, ci, stats] = ttest(y);
+        [h, p, ci, stats] = ttest(y(indicatorMatrix == 1));
         statMap = stats.tstat;
         
     case 'two sample'

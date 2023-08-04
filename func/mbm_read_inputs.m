@@ -3,9 +3,12 @@ function [inputMap, MBM] = mbm_read_inputs(MBM)
 % 
 %% Input:    
 % MBM         - structure having the fields:
-%             MBM.maps.anatList         - Cell array of character vectors.
-%                                       - Each array element contains the path to
-%                                       an input anatomical map in a GIFTI file.
+%             MBM.maps.anatListFile     - Character vector.
+%                                       - Path to a text file comprising the list
+%                                       of paths to the anatomical maps
+%                                       in GIFTI format. The list file
+%                                       needs to be in the same folder
+%                                       with the map files.
 %
 %             MBM.maps.maskFile         - Character vector.
 %                                       - Path to a text file containing
@@ -25,6 +28,10 @@ function [inputMap, MBM] = mbm_read_inputs(MBM)
 % inputMap    - Matrix of rows of anatomical maps.
 %
 % MBM         - structure having the fields:
+%             MBM.maps.anatList         - Cell array of character vectors.
+%                                       - Each array element contains the path to
+%                                       an input anatomical map in a GIFTI file.
+%
 %             MBM.maps.mask             - Vector of the binary mask.
 %
 %             MBM.stat.indicatorMatrix  - Indicator matrix [m subjects
@@ -37,6 +44,18 @@ function [inputMap, MBM] = mbm_read_inputs(MBM)
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
 
 % read anatomical maps
+tempList = regexp(fileread(MBM.maps.anatListFile), '\n', 'split');   % text file comprise the list of paths to the anatomical maps
+[filepath,name,ext] = fileparts(MBM.maps.anatListFile);
+MBM.maps.anatList = fullfile(filepath, tempList(1:length(tempList)-1)); % list of paths to the maps, removed the last empty line when reading the file
+
+if isfield(MBM, 'maps')==0 | isfield(MBM.maps, 'anatList') == 0 | strcmp(MBM.maps.anatList,fullfile(0,0))
+
+    uialert(fig, 'No input maps', 'err');
+    uiwait(fig)
+    error('No input maps');
+
+end
+
 inputMap = read_gifti_map(MBM.maps.anatList);
 
 % read indicator matrix
