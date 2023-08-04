@@ -57,21 +57,32 @@ To prepare the model:
 - In the **Maps** tab, use the input buttons to open a file selection dialog box and load: 
 
 •	'Map list': a text file of a list of input anatomical maps in GIFTI format.
+
 •	'Mask': a text file containing a binary mask where values '1' or '0' indicating the vertices of the applied maps to be used or removed. 
+
 •	'Surface': a vtk file containing a surface to plot the result. The surface should be the one that the eigenmodes are derived from and the anatomical maps are projected on.
+
 •	choose the 'Hemisphere' to be analysed from the drop down list.
 
-- In the **Stat** tab,  
+- In the **Stat** tab,
+  
 •	choose the 'Statistic test' from the drop down list.
+
 •	use the button 'indicator matrix G' to open a file selection dialog box and load a text file containing a group indicator matrix [m subjects by k groups]. In the matrix, '1' or '0' indicates a subject in a group or not.
+
 •	'Permutation': put the number of permutation in the statistical test.
+
 •	'Pthr: tail approx': put the threshold of p-values for tail approximation. If the p-values are below Pthr, these are refined further using a tail approximation from the Generalise Pareto Distribution (GPD).
+
 •	'P threshold': put the threshold of p-values for being significant.
+
 •	check FDR box if using FDR correction.	
 
 - In the **Eigenmodes** tab,
-•	use the button 'Eigenmodes' to open a file selection dialog box and load a text file containing eigenmodes in columns. 
+•	use the button 'Eigenmodes' to open a file selection dialog box and load a text file containing eigenmodes in columns.
+
 •	'Number of modes': put the number of eigenmodes used for the analysis.
+
 •	'Most influential modes': put the number of the most influential modes to plot.
 
 To run the analysis:
