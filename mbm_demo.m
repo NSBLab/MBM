@@ -17,7 +17,7 @@ MBM.maps.maskFile = fullfile('data', 'mask_S1200.L.midthickness_MSMAll.32k_fs_LR
 MBM.stat.test = 'two sample'; % statistical test
 MBM.stat.indicatorFile = fullfile('data', 'G_mat.txt'); % path to indicator matrix
 
-MBM.stat.nPer = 10; % number of permutations
+MBM.stat.nPer = 10; % number0 of permutations
 MBM.stat.pThr = 0.1; % threshold for tail estimation
 MBM.stat.thres = 0.05; % statistical threshold to be considered significant
 MBM.stat.fdr = false; % FDR correction
