@@ -1,0 +1,155 @@
+<deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
+  <configuration file="C:\Users\tcao0011\MBM\Mode-basedmorphometry(MBM).prj" location="C:\Users\tcao0011\MBM" name="Mode-basedmorphometry(MBM)" target="target.ezdeploy.standalone" target-name="Application Compiler">
+    <param.appname>MBM</param.appname>
+    <param.icon />
+    <param.icons />
+    <param.version>1.0</param.version>
+    <param.authnamewatermark>Trang Cao</param.authnamewatermark>
+    <param.email>trang.cao@monash.edu</param.email>
+    <param.company>Neural Systems and Behaviour Lab</param.company>
+    <param.summary>Mode-based morphometry (MBM) is a toolbox for analysing anatomical variations at multiple spatial scales by using eigenmodes of brain anatom</param.summary>
+    <param.description />
+    <param.screenshot />
+    <param.guid />
+    <param.installpath.string>\Neural Systems and Behaviour Lab\MBM\</param.installpath.string>
+    <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
+    <param.logo />
+    <param.install.notes />
+    <param.target.install.notes />
+    <param.intermediate>${PROJECT_ROOT}\Mode-basedmorphometry(MBM)\for_testing</param.intermediate>
+    <param.files.only>${PROJECT_ROOT}\Mode-basedmorphometry(MBM)\for_redistribution_files_only</param.files.only>
+    <param.output>${PROJECT_ROOT}\Mode-basedmorphometry(MBM)\for_redistribution</param.output>
+    <param.logdir>${PROJECT_ROOT}\Mode-basedmorphometry(MBM)</param.logdir>
+    <param.enable.clean.build>false</param.enable.clean.build>
+    <param.user.defined.mcr.options />
+    <param.target.type>subtarget.standalone</param.target.type>
+    <param.support.packages />
+    <param.web.mcr>false</param.web.mcr>
+    <param.package.mcr>true</param.package.mcr>
+    <param.no.mcr>false</param.no.mcr>
+    <param.web.mcr.name>MyAppInstaller_web</param.web.mcr.name>
+    <param.package.mcr.name>MyAppInstaller_mcr</param.package.mcr.name>
+    <param.no.mcr.name>MyAppInstaller_app</param.no.mcr.name>
+    <param.windows.command.prompt>true</param.windows.command.prompt>
+    <param.create.log>true</param.create.log>
+    <param.log.file>log.txt</param.log.file>
+    <param.native.matlab>false</param.native.matlab>
+    <param.checkbox>false</param.checkbox>
+    <param.example />
+    <param.help.text>Syntax 
+	  -? 
+	 
+ Input Arguments 
+	 -?  print help on how to use the application 
+	 input arguments</param.help.text>
+    <unset>
+      <param.icon />
+      <param.icons />
+      <param.version />
+      <param.description />
+      <param.screenshot />
+      <param.guid />
+      <param.installpath.string />
+      <param.installpath.combo />
+      <param.logo />
+      <param.install.notes />
+      <param.target.install.notes />
+      <param.intermediate />
+      <param.files.only />
+      <param.output />
+      <param.logdir />
+      <param.enable.clean.build />
+      <param.user.defined.mcr.options />
+      <param.target.type />
+      <param.support.packages />
+      <param.no.mcr />
+      <param.web.mcr.name />
+      <param.package.mcr.name />
+      <param.no.mcr.name />
+      <param.windows.command.prompt />
+      <param.native.matlab />
+      <param.checkbox />
+      <param.example />
+    </unset>
+    <fileset.main>
+      <file>${PROJECT_ROOT}\mbm_app.mlapp</file>
+    </fileset.main>
+    <fileset.resources />
+    <fileset.package />
+    <fileset.depfun>
+      <file>${PROJECT_ROOT}\func\bluewhitered.m</file>
+      <file>${PROJECT_ROOT}\func\estimate_p_val_tail.m</file>
+      <file>${PROJECT_ROOT}\func\mbm_check_input.m</file>
+      <file>${PROJECT_ROOT}\func\mbm_eigen_decompose.m</file>
+      <file>${PROJECT_ROOT}\func\mbm_normalize_eig.m</file>
+      <file>${PROJECT_ROOT}\func\mbm_perm_test_beta.m</file>
+      <file>${PROJECT_ROOT}\func\mbm_plot_map.m</file>
+      <file>${PROJECT_ROOT}\func\mbm_read_inputs.m</file>
+      <file>${PROJECT_ROOT}\func\mbm_setup_progress_bar.m</file>
+      <file>${PROJECT_ROOT}\func\mbm_stat_map.m</file>
+      <file>${PROJECT_ROOT}\func\read_gifti_map.m</file>
+      <file>${PROJECT_ROOT}\func\read_vtk.m</file>
+      <file>${PROJECT_ROOT}\utils\fdr_bh\fdr_bh.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\Contents.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\display.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\export.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\fieldnames.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\gifti.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\isfield.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\plot.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\private\base64.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\private\base64.mexw64</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\private\base64decode.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\private\base64encode.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\private\freesurfer_read.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\private\getdict.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\private\gifti_read.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\private\isintent.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\private\mvtk_read.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\private\mvtk_write.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\private\mz3_read.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\private\mz3_write.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\private\obj_read.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\private\off_read.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\private\ply_read.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\private\stl_read.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\private\xml_parser.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\private\xml_parser.mexw64</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\private\zstream.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\private\zstream.mexw64</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\save.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\saveas.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\struct.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\subsasgn.m</file>
+      <file>${PROJECT_ROOT}\utils\gifti-matlab\@gifti\subsref.m</file>
+      <file>${PROJECT_ROOT}\utils\PALM-master\palm_competitive.m</file>
+      <file>${PROJECT_ROOT}\utils\PALM-master\palm_datapval.m</file>
+      <file>${PROJECT_ROOT}\utils\PALM-master\palm_pareto.m</file>
+    </fileset.depfun>
+    <build-deliverables>
+      <file location="${PROJECT_ROOT}\Mode-basedmorphometry(MBM)\for_testing" name="MBM.exe" optional="false">C:\Users\tcao0011\MBM\Mode-basedmorphometry(MBM)\for_testing\MBM.exe</file>
+      <file location="${PROJECT_ROOT}\Mode-basedmorphometry(MBM)\for_testing" name="splash.png" optional="false">C:\Users\tcao0011\MBM\Mode-basedmorphometry(MBM)\for_testing\splash.png</file>
+      <file location="${PROJECT_ROOT}\Mode-basedmorphometry(MBM)\for_testing" name="readme.txt" optional="true">C:\Users\tcao0011\MBM\Mode-basedmorphometry(MBM)\for_testing\readme.txt</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>C:\Program Files\MATLAB\R2023a</root>
+      <toolboxes />
+    </matlab>
+    <platform>
+      <unix>false</unix>
+      <mac>false</mac>
+      <windows>true</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>10.0</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>win64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>

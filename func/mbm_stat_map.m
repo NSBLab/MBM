@@ -55,6 +55,9 @@ switch test
             statMap(iVertice) = tbl{2,5};
         end
         
+    case 'ANOCOVA'
+
+        aoctool(x,y,group,alpha,xname,yname,gname,displayopt,model)
     otherwise
         disp('not supported test');
         
