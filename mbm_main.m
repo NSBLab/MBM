@@ -1,21 +1,21 @@
 function MBM = mbm_main(MBM)
-% mbm_main is the main function of MBM toolbox which performs MBM analysis on the
+% mbm_main is the main function of MBM toolbox which performs MBM analysis
+%
 %% Input: 
 % MBM       - Structure
 %             MBM.maps    - Structure containing maps. Input fields are:
-%                           MBM.maps.anatList     - Cell array of character
-%                                                   vectors.
-%                                                 - Each array element contains the
-%                                                   path to an input anatomical map in
-%                                                   a GIFTI file.
+%                           MBM.maps.anatListFile - Character vector.
+%                                                 - Path to a text file comprising the list
+%                                                 of paths to the anatomical maps
+%                                                 in GIFTI format. The list file
+%                                                 needs to be in the same folder
+%                                                 with the map files.
 %
 %                           MBM.maps.maskFile     - Character vector.
 %                                                 - Path to a text file containing
 %                                                   a binary mask where values '1' or
 %                                                   '0' indicating the vertices of the
 %                                                   applied maps to be used or removed.
-%
-%                           MBM.maps.mask         - Vector of the binary mask.
 %
 %             MBM.stat    - Structure of parameters to produce a statistical map from
 %                           the input maps for MBM analysis. Input fields are:
@@ -25,25 +25,28 @@ function MBM = mbm_main(MBM)
 %                                                 'one way ANOVA' one-way ANOVA.          
 %
 %                           MBM.stat.indicatorFile    - Character vector. 
-%                                                     - Path to a text file containing
+%                                                     - Path to a text file containing a
 %                                                       group indicator matrix [m
-%                                                       subjects by k groups].
-%
-%                           MBM.stat.indicatorMatrix  - Indicator matrix [m subjects
-%                                                       by k groups].
-%                                                     - '1' or '0' indicates a subject in
+%                                                       subjects by k
+%                                                       groups]. In the
+%                                                       matrix, '1' or '0' indicates a subject in
 %                                                       a group or not.
 %
-%                           MBM.stat.nPer         - Number of permutations in the
+%                           MBM.stat.nPer         - Number
+%                                                 - Number of permutations in the
 %                                                   statistical test.
 %
-%                           MBM.stat.pThr         - Threshold of p-values. If the
+%                           MBM.stat.pThr         - Number
+%                                                 - Threshold of p-values for 
+%                                                   tail approximation. If the
 %                                                   p-values are below MBM.stat.pThr,
 %                                                   these are refined further using a
 %                                                   tail approximation from the
 %                                                   Generalise Pareto Distribution (GPD).
 %
-%                           MBM.stat.thres        - Threshold of p-values. When the 
+%                           MBM.stat.thres        - Number
+%                                                 - Threshold of p-values for 
+%                                                   being significant. When the 
 %                                                   p-value is below MBM.stat.thres, 
 %                                                   the statitical test is considered 
 %                                                   significant.     
@@ -52,12 +55,15 @@ function MBM = mbm_main(MBM)
 %                                                   correct multiple test with FDR or not.
 %
 %             MBM.eig     - Structure of MBM variables. Input fields are:
-%                           MBM.eig.eigFile       - Path to a text file containing
+%                           MBM.eig.eigFile       - Character vector.
+%                                                 - Path to a text file containing
 %                                                   eigenmodes in columns.
 %   
-%                           MBM.eig.nEigenmode    - Number of eigenmodes to be used.
+%                           MBM.eig.nEigenmode    - Number
+%                                                 - Number of eigenmodes to be used.
 %
-%                           MBM.eig.resultFolder  - Path to the result folder to save
+%                           MBM.eig.resultFolder  - Character vector.
+%                                                 - Path to the result folder to save
 %                                                   results.
 %
 %                           MBM.eig.saveResult    - Option ('true' or 'false') to
@@ -71,24 +77,36 @@ function MBM = mbm_main(MBM)
 %                           MBM.plot.saveFig      - Option ('true' or 'false') to
 %                                                   save the visualisation of the results.
 %
-%                           MBM.plot.vtkFile      - Path to a vtk file containing a
+%                           MBM.plot.vtkFile      - Character vector.
+%                                                 - Path to a vtk file containing a
 %                                                   surface to plot.
 %
 %                           MBM.plot.hemis        - 'left' or 'right' to visialise left or 
 %                                                   right hemisphere.
 %
-%                           MBM.plot.nInfluentialMode    - Number of the most influential 
-%                                                          modes to be plot.
+%                           MBM.plot.nInfluentialMode    - Number
+%                                                        - Number of the most influential 
+%                                                          modes to plot.
 %
-%             MBM.inApp                     - Indicator of using the app ('true' or 'false')
-%
-%             MBM.processRunButtonHandle    - Button handle of the progress
-%                                             bar used in the app (only needed when MBM.inApp==true)
-% 
 %% Output:
 % MBM       - Structure contains the following output fields:
+%
+%             MBM.maps    - Structure containing maps. Output fields are:
+%                           MBM.maps.anatList     - Cell array of character
+%                                                   vectors.
+%                                                 - Each array element contains the
+%                                                   path to an input anatomical map in
+%                                                   a GIFTI file.
+%
+%                           MBM.maps.mask         - Vector of the binary mask.
+%
 %             MBM.stat    - Structure of parameters to produce a statistical map from
 %                           the input maps for MBM analysis. Output fields are:
+%                           MBM.stat.indicatorMatrix  - Indicator matrix [m subjects
+%                                                       by k groups].
+%                                                     - '1' or '0' indicates a subject in
+%                                                       a group or not.
+%
 %                           MBM.stat.statMap      - Vector of a statistical map.
 %
 %                           MBM.stat.pMap         - Vector of p-values of the
@@ -134,9 +152,6 @@ addpath(fullfile('utils','fdr_bh'))
 % read inputs from paths
 [inputMap, MBM] = mbm_read_inputs(MBM);
 
-if app.StopRequested == 1
-    return
-end
 % remove the unused vertices, e.g., the medial wall
 inputMap = inputMap(:, MBM.maps.mask == 1);
 MBM.eig.eig = MBM.eig.eig(MBM.maps.mask == 1, 1:MBM.eig.nEigenmode);

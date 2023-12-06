@@ -29,7 +29,7 @@ end
 switch test
     
     case 'one sample'
-        [h, p, ci, stats] = ttest(y);
+        [h, p, ci, stats] = ttest(y(indicatorMatrix == 1));
         statMap = stats.tstat;
         
     case 'two sample'
@@ -55,6 +55,9 @@ switch test
             statMap(iVertice) = tbl{2,5};
         end
         
+    case 'ANOCOVA'
+
+        aoctool(x,y,group,alpha,xname,yname,gname,displayopt,model)
     otherwise
         disp('not supported test');
         

@@ -11,13 +11,15 @@ function [MBM] = mbm_perm_test_beta(statMapNull, MBM)
 %
 %               MBM.eig.beta          - Vector of beta spectrum.
 %
-%               MBM.stat.pThr         - Threshold of p-values. If the
+%               MBM.stat.pThr         - Threshold of p-values for 
+%                                     tail approximation. If the
 %                                     p-values are below MBM.stat.pThr,
 %                                     these are refined further using a
 %                                     tail approximation from the
 %                                     Generalise Pareto Distribution (GPD).
 %
-%               MBM.stat.thres        - Threshold of p-values. When the 
+%               MBM.stat.thres        - Threshold of p-values for 
+%                                     being significant. When the 
 %                                     p-value is below MBM.stat.thres, 
 %                                     the statitical test is considered 
 %                                     significant.     

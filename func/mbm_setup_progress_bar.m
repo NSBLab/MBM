@@ -1,5 +1,6 @@
 function processRunButtonHandle = mbm_setup_progress_bar(processRunButtonHandle)
 % set up the progress bar for the app
+%
 %% Input:
 % processRunButtonHandle        - RunButton handle
 %
