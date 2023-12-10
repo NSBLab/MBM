@@ -62,7 +62,7 @@ function MBM = mbm_main(MBM)
 %                           MBM.eig.nEigenmode    - Number
 %                                                 - Number of eigenmodes to be used.
 %
-%                           MBM.eig.resultFolder  - Character vector.
+%                           MBM.eig.resultFile  - Character vector.
 %                                                 - Path to the result folder to save
 %                                                   results.
 %
@@ -194,7 +194,7 @@ end
 
 %% saving results
 if MBM.eig.saveResult == 1
-    save(fullfile(MBM.eig.resultFolder,'MBM_results.mat'), 'MBM');
+    save(MBM.eig.resultFile, 'MBM');
 end
 
 end

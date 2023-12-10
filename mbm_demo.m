@@ -24,7 +24,7 @@ MBM.stat.fdr = false; % FDR correction
 MBM.eig.eigFile = fullfile('data', 'evec_501_masked_S1200.L.midthickness_MSMAll.32k_fs_LR.txt'); % path to eigenmode file
 MBM.eig.nEigenmode = 150; % number of eigenmodes for analysis
 MBM.eig.saveResult = true; % save the results, i.e., MBM structure
-MBM.eig.resultFolder = 'results'; % folder where to save the results
+MBM.eig.resultFile = fullfile('results','demo.mat'); % folder where to save the results
 
 MBM.plot.visualize = true; % visualise the results
 MBM.plot.saveFig = true; % save the visualisation of the results

@@ -1,7 +1,7 @@
 function [inputMap, MBM] = mbm_read_inputs(MBM)
-% Read inputs for analysis from file paths given in MBM. 
-% 
-%% Input:    
+% Read inputs for analysis from file paths given in MBM.
+%
+%% Input:
 % MBM         - structure having the fields:
 %             MBM.maps.anatListFile     - Character vector.
 %                                       - Path to a text file comprising the list
@@ -16,7 +16,7 @@ function [inputMap, MBM] = mbm_read_inputs(MBM)
 %                                       '0' indicating the vertices of the
 %                                       applied maps to be used or removed.
 %
-%             MBM.stat.indicatorFile    - Character vector. 
+%             MBM.stat.indicatorFile    - Character vector.
 %                                       - Path to a text file containing
 %                                       group indicator matrix [m
 %                                       subjects by k groups].
@@ -24,7 +24,7 @@ function [inputMap, MBM] = mbm_read_inputs(MBM)
 %             MBM.eig.eigFile           - Path to a text file containing
 %                                       eigenmodes in columns.
 %
-%% Outputs:  
+%% Outputs:
 % inputMap    - Matrix of rows of anatomical maps.
 %
 % MBM         - structure having the fields:
@@ -73,7 +73,12 @@ elseif size(MBM.maps.mask, 1) == size(inputMap, 2)
 end
 
 % read eigenmodes
-MBM.eig.eig = readmatrix(MBM.eig.eigFile);
+if strcmp(MBM.eig.eigFile(end-3:end),'.mat')
+    st = load(MBM.eig.eigFile);
+    MBM.eig.eig = st.eig;
+else
+    MBM.eig.eig = readmatrix(MBM.eig.eigFile);
+end
 if size(MBM.eig.eig, 1) ~= max(size(MBM.maps.mask))
     error('Error. Eigenmodes should be in columns with length compatible with that of the mask.')
 end
