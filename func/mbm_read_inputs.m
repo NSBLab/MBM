@@ -46,17 +46,29 @@ function [inputMap, MBM] = mbm_read_inputs(MBM)
 % read anatomical maps
 tempList = regexp(fileread(MBM.maps.anatListFile), '\n', 'split');   % text file comprise the list of paths to the anatomical maps
 [filepath,name,ext] = fileparts(MBM.maps.anatListFile);
-MBM.maps.anatList = fullfile(filepath, tempList(1:length(tempList)-1)); % list of paths to the maps, removed the last empty line when reading the file
 
-if isfield(MBM, 'maps')==0 | isfield(MBM.maps, 'anatList') == 0 | strcmp(MBM.maps.anatList,fullfile(0,0))
+switch char(ext)
+    case '.txt'
+    MBM.maps.anatList = fullfile(filepath, tempList(1:length(tempList)-1)); % list of paths to the maps, removed the last empty line when reading the file
 
-    uialert(fig, 'No input maps', 'err');
-    uiwait(fig)
-    error('No input maps');
+    if isfield(MBM, 'maps')==0 | isfield(MBM.maps, 'anatList') == 0 | strcmp(MBM.maps.anatList,fullfile(0,0))
 
+        uialert(fig, 'No input maps', 'err');
+        uiwait(fig)
+        error('No input maps');
+
+    end
+
+    inputMap = read_map(MBM.maps.anatList);
+    case '.mat'
+    mapFile = load(MBM.maps.anatListFile);
+    fieldF = fieldnames(mapFile);
+    inputMap = getfield(mapFile,char(fieldF));
+    otherwise
+        uialert(fig, 'Not supported format', 'err');
+        uiwait(fig)
+        error('Not supported format');
 end
-
-inputMap = read_gifti_map(MBM.maps.anatList);
 
 % read indicator matrix
 MBM.stat.indicatorMatrix = readmatrix(MBM.stat.indicatorFile);   % group indicator matrix [m subjects x k groups]: each column is a group and 1 indicates a subject in a group

@@ -10,8 +10,8 @@
 clear all
 close all
 
-MBM.maps.anatListFile = fullfile('data', 'thickness', 'map_list.txt'); % text file comprise the list of paths to the anatomical maps
-MBM.maps.maskFile = fullfile('data', 'mask_S1200.L.midthickness_MSMAll.32k_fs_LR.txt'); % path to mask
+MBM.maps.anatListFile = fullfile('/home/trangc/kg98/trangc/VBM/data/HCP', 'map_list.txt'); % text file comprise the list of paths to the anatomical maps
+MBM.maps.maskFile = fullfile('/home/trangc/kg98/trangc/VBM/data/MBM', 'fsaverage_164k_cortex-lh_mask.txt'); % path to mask
 
 MBM.stat.test = 'two sample'; % statistical test
 MBM.stat.indicatorFile = fullfile('data', 'G_two_sample.txt'); % path to indicator matrix
@@ -21,7 +21,7 @@ MBM.stat.pThr = 0.1; % threshold for tail estimation
 MBM.stat.thres = 0.05; % statistical threshold to be considered significant
 MBM.stat.fdr = false; % FDR correction
 
-MBM.eig.eigFile = fullfile('data', 'evec_501_masked_S1200.L.midthickness_MSMAll.32k_fs_LR.txt'); % path to eigenmode file
+MBM.eig.eigFile = fullfile('data', 'fsaverage_164k_midthickness-lh_eval_200.txt'); % path to eigenmode file
 MBM.eig.nEigenmode = 150; % number of eigenmodes for analysis
 MBM.eig.saveResult = true; % save the results, i.e., MBM structure
 MBM.eig.resultFile = fullfile('results','demo.mat'); % folder where to save the results

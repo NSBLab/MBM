@@ -5,15 +5,12 @@ function MBM = mbm_main(MBM)
 % MBM       - Structure
 %             MBM.maps    - Structure containing maps. Input fields are:
 %                           MBM.maps.anatListFile - Character vector.
-%                                                 - Path to either:
-%                                                   + a text file comprising the list
+%                                                 - Path to either 
+% a text file comprising the list
 %                                                 of paths to the anatomical maps
-%                                                 in GIFTI or .mgh format. The paths in the list file
+%                                                 in GIFTI format. The paths in the list file
 %                                                 needs to start in the same folder
-%                                                 with the map files
-%                                                   + a .mat file
-%                                                   containing a matrix
-%                                                   whose each row is a map.
+%                                                 with the map files.
 %
 %                           MBM.maps.maskFile     - Character vector.
 %                                                 - Path to a text file containing

@@ -1,4 +1,4 @@
-function [inputMap] = read_gifti_map(mapList)
+function [inputMap] = read_map(mapList)
 % Read the gifti maps from the file paths.
 %
 %% Input:    
@@ -11,12 +11,29 @@ function [inputMap] = read_gifti_map(mapList)
 
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
 
+[filepath,name,ext] = fileparts(mapList(1));
+
+switch char(ext)
+case '.gii'
 
 for iMap = 1:length(mapList)
     
     giftiMap = gifti(char(mapList(1,iMap)));
     inputMap(iMap,:) = giftiMap.cdata;
     
+end
+
+    case '.mgh'
+for iMap = 1:length(mapList)
+    
+    inputMap(iMap,:) = load_mgh(char(mapList(1,iMap)));
+    
+    
+end
+    otherwise
+        uialert(fig, 'Not supported format', 'err');
+        uiwait(fig)
+        error('Not supported format');
 end
 
 end
