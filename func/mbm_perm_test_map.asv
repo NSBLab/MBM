@@ -58,21 +58,18 @@ for iPer = 1:MBM.stat.nPer
         % null input maps
         inputMapNull = inputMap.* sign(rand(nSub,1) - 0.5);
 
-        % statistical map of the null inputs
-        statMapNull(iPer,:) = mbm_stat_map(inputMapNull, MBM.stat);
-
     else
 
         %suffling the labels of the groups
         iNull = randperm(nSub);
-        statNull = MBM.stat;
-        statNull.indicatorMatrix = MBM.stat.indicatorMatrix(iNull,:);
 
-        % statistical map of the null inputs
-        statMapNull(iPer,:) = mbm_stat_map(inputMap, statNull);
+        % null input maps
+        inputMapNull = inputMap(iNull,:);
+stat.indicatorMatrix
     end
 
-
+    % statistical map of the null inputs
+    statMapNull(iPer,:) = mbm_stat_map(inputMapNull, MBM.stat);
 
     % update progress bar if using app
     if isfield(MBM, 'processRunButtonHandle')==1
@@ -85,7 +82,7 @@ for iPer = 1:MBM.stat.nPer
         RGB(2:end-1, 2:currentProg+1, 3) = 0.87891;
         MBM.processRunButtonHandle.Icon = RGB;
         pause(0.01)
-
+        
     end
 end
 

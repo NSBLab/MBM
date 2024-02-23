@@ -82,7 +82,7 @@ switch stat.test
             G = C*B;
 
             statMap = (G.*inv(C*inv(matrixX'*matrixX) *C').*G)./(J*rvar);
-      statMap(isnan(statMap)) = max(statMap(~isnan(statMap)))+1;
+      statMap(isnan(statMap)) = statMap(isnan(statMap));
     otherwise
         disp('not supported test');
 

@@ -89,7 +89,7 @@ axis off;
 axis image;
 cc = colorbar('Position',[ax1.Position(1)+ax1.Position(3)*1.05 ax1.Position(2)+ax1.Position(4)*0.2 0.01 ax1.Position(4)*0.6]);
 
-a1 = annotation(fig, 'textbox', [ax1.Position(1), ax1.Position(2)+ax1.Position(4)*1.02, ax1.Position(3), 0.02], 'string', 't-map', 'edgecolor', 'none', ...
+a1 = annotation(fig, 'textbox', [ax1.Position(1), ax1.Position(2)+ax1.Position(4)*1.02, ax1.Position(3), 0.02], 'string', 'statistical map', 'edgecolor', 'none', ...
     'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
 
 %% plot thresholded map
@@ -112,7 +112,7 @@ material dull
 colormap(ax2,bluewhitered(ax2))
 axis off;
 axis image;
-a2 = annotation(fig, 'textbox', [ax2.Position(1), ax2.Position(2)+ax2.Position(4)*1.02, ax2.Position(3), 0.02], 'string', ' thresholded t-map', 'edgecolor', 'none', ...
+a2 = annotation(fig, 'textbox', [ax2.Position(1), ax2.Position(2)+ax2.Position(4)*1.02, ax2.Position(3), 0.02], 'string', ' thresholded map', 'edgecolor', 'none', ...
     'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
 
 %% plot beta spectrum

@@ -25,12 +25,12 @@ function [pValueTail, rev] = estimate_p_val_tail(null, observe, pThr)
 
 corr_mat1out = false;
 
-if max(null) < observe
+if max(null) <= observe
     
     pValueTail = 0;
     rev = false; %right tail
     
-elseif min(null) > observe
+elseif min(null) >= observe
     
     pValueTail = 0;
     rev = true; %left tail

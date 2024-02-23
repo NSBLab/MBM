@@ -36,6 +36,8 @@ function MBM = mbm_main(MBM)
 %                                                       groups]. In the
 %                                                       matrix, '1' or '0' indicates a subject in
 %                                                       a group or not.
+%                                                     - ANCOVA: qdec file
+%                                                     (.dat)
 %
 %                           MBM.stat.nPer         - Number
 %                                                 - Number of permutations in the
@@ -67,7 +69,7 @@ function MBM = mbm_main(MBM)
 %                           MBM.eig.nEigenmode    - Number
 %                                                 - Number of eigenmodes to be used.
 %
-%                           MBM.eig.resultFile  - Character vector.
+%                           MBM.eig.resultFolder  - Character vector.
 %                                                 - Path to the result folder to save
 %                                                   results.
 %
@@ -149,10 +151,12 @@ function MBM = mbm_main(MBM)
 
 %% initialisation
 % addpath to the included packages or modify the path to the packages in your system
-addpath('func')
-addpath(fullfile('utils','gifti-matlab'))
-addpath(fullfile('utils','PALM-master'))
-addpath(fullfile('utils','fdr_bh'))
+currentPath = fileparts(mfilename('fullpath'));
+addpath(fullfile(currentPath,'func'))
+addpath(fullfile(currentPath,'utils'))
+addpath(fullfile(currentPath,'utils','gifti-matlab'))
+addpath(fullfile(currentPath, 'utils','PALM-master'))
+addpath(fullfile(currentPath, 'utils','fdr_bh'))
 
 % read inputs from paths
 [inputMap, MBM] = mbm_read_inputs(MBM);
@@ -163,7 +167,7 @@ MBM.eig.eig = MBM.eig.eig(MBM.maps.mask == 1, 1:MBM.eig.nEigenmode);
 
 %% SBM
 % calculate statistical map
-MBM.stat.statMap = mbm_stat_map(inputMap, MBM.stat.indicatorMatrix, MBM.stat.test);
+MBM.stat.statMap = mbm_stat_map(inputMap, MBM.stat);
 
 % permutation tests on the statitical map
 [statMapNull, MBM] = mbm_perm_test_map(inputMap, MBM);
@@ -199,7 +203,7 @@ end
 
 %% saving results
 if MBM.eig.saveResult == 1
-    save(MBM.eig.resultFile, 'MBM');
+    save(fullfile(MBM.eig.resultFolder, 'mbm.mat'), 'MBM');
 end
 
 end
