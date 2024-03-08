@@ -32,7 +32,7 @@ Due to their file sizes exceeding the limit allowed by GitHub, you will need to 
 
 •	A path to a text file of a list of anatomical maps to be analysed and a path to a mask to exclude elements of the maps from the analysis. Anatomical maps are expected as GIFTI files and projected on an average surface. In the example given in the demo code, the left fsaverage midthickness surface with 32492 vertices is used as an average template.
 
-•	Parameters specifying the statistical test and an indicator matrix whose binary elements in each column indicate subjects belonging to a group. One-sample t-test, two-sample t-test, and one-way ANOVA are supported.
+•	Parameters specifying the statistical test and an design matrix representing effects on subjects. One-sample t-test, two-sample t-test,  one-way ANOVA, and ANCOVA (two groups) are supported.
 
 •	The eigenmodes (ψj  in Fig. 1) calculated from a surface mesh (a .vtk file) by surface_eigenmodes.py (see https://github.com/NSBLab/BrainEigenmodes/tree/main) and saved as a text file. Eigenmodes should be derived from the same average surface that the maps are projected on.
 
@@ -68,7 +68,7 @@ To prepare the model:
   
 •	choose the 'Statistic test' from the drop down list.
 
-•	use the button 'indicator matrix G' to open a file selection dialog box and load a text file containing a group indicator matrix [m subjects by k groups]. In the matrix, '1' or '0' indicates a subject in a group or not.
+•	use the button 'design matrix G' to open a file selection dialog box and load a text file containing a design matrix [m subjects by k effects]. For the design matrix in the statistical test: 'one sample' (one column), 'two sample' (two columns), 'one way ANOVA' (k columns): in each column, '1' or '0' indicates a subject in a group or not; 'ANCOVA': first column: '1' or another number (e.g., '2') indicates the group effect (similar to input file for mri_glmfit in freesurfer) and second to k-th columns indicates covariates (discrete or continous numbers).
 
 •	'Permutation': put the number of permutation in the statistical test.
 
@@ -103,7 +103,7 @@ Results:
 
 •	The surface vtk file is 'fsLR_32k_midthickness-lh.vtk'
 
-•	The indicator matrix G is in 'G_one_sample.txt' or 'G_two_sample.txt'.
+•	The design matrix G is in 'G_one_sample.txt' or 'G_two_sample.txt'.
 
 •	The eigenmodes are in 'evec_501_masked_S1200.L.midthickness_MSMAll.32k_fs_LR.txt'.
 

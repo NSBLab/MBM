@@ -10,9 +10,13 @@ function [statMapNull, MBM] = mbm_perm_test_map(inputMap, MBM)
 %                                   'two sample' two-sample t-test,
 %                                   'one way ANOVA' one-way ANOVA.
 %
-%       MBM.stat.indicatorMatrix    - Indicator matrix [m subjects by k groups].
-%                                   - '1' or '0' indicates a subject in
-%                                   a group or not.
+%       MBM.stat.designMatrix       - Design matrix [m subjects by k effects]. 
+%                                                  - For the design matrix in the statistical test:
+%                                                           'one sample': one column, '1' or '0' indicates a subject in the group or not.
+%                                                           'two sample': two columns, '1' or '0' indicates a subject in a group or not.
+%                                                           'one way ANOVA': k columns, '1' or '0' indicates a subject in a group or not, number of subjects in each group must be equal.
+%                                                           'ANCOVA': first column: '1' or another number (e.g., '2'): group effect (similar to input file for mri_glmfit in freesurfer)
+%                                                                     second to k-th columns: covariates (discrete or continous numbers)
 %
 %       MBM.stat.nPer               - Number of permutations in the
 %                                   statistical test.
@@ -66,7 +70,7 @@ for iPer = 1:MBM.stat.nPer
         %suffling the labels of the groups
         iNull = randperm(nSub);
         statNull = MBM.stat;
-        statNull.indicatorMatrix = MBM.stat.indicatorMatrix(iNull,:);
+        statNull.designMatrix = MBM.stat.designMatrix(iNull,:);
 
         % statistical map of the null inputs
         statMapNull(iPer,:) = mbm_stat_map(inputMap, statNull);

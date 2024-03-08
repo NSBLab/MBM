@@ -16,10 +16,10 @@ function [inputMap, MBM] = mbm_read_inputs(MBM)
 %                                       '0' indicating the vertices of the
 %                                       applied maps to be used or removed.
 %
-%             MBM.stat.indicatorFile    - Character vector.
+%             MBM.stat.designFile    - Character vector.
 %                                       - Path to a text file containing
-%                                       group indicator matrix [m
-%                                       subjects by k groups].
+%                                       design matrix [m
+%                                       subjects by k effects].
 %
 %             MBM.eig.eigFile           - Path to a text file containing
 %                                       eigenmodes in columns.
@@ -34,10 +34,13 @@ function [inputMap, MBM] = mbm_read_inputs(MBM)
 %
 %             MBM.maps.mask             - Vector of the binary mask.
 %
-%             MBM.stat.indicatorMatrix  - Indicator matrix [m subjects
-%                                       by k groups].
-%                                       - '1' or '0' indicates a subject in
-%                                       a group or not.
+%             MBM.stat.designMatrix  - Design matrix [m subjects by k effects]. 
+%                                                  - For the design matrix in the statistical test:
+%                                                           'one sample': one column, '1' or '0' indicates a subject in the group or not.
+%                                                           'two sample': two columns, '1' or '0' indicates a subject in a group or not.
+%                                                           'one way ANOVA': k columns, '1' or '0' indicates a subject in a group or not, number of subjects in each group must be equal.
+%                                                           'ANCOVA': first column: '1' or another number (e.g., '2'): group effect (similar to input file for mri_glmfit in freesurfer)
+%                                                                     second to k-th columns: covariates (discrete or continous numbers)
 %
 %             MBM.eig.eig               - Matrix of columns of eigenmodes.
 
@@ -66,23 +69,29 @@ switch char(ext)
     inputMap = getfield(mapFile,char(fieldF));
 
     case '.mgh'
-        inputMap = squeeze(load_mgh());
+        inputMap = squeeze(load_mgh(MBM.maps.anatListFile));
+        if size(inputMap,1) > size(inputMap,2)
+inputMap = inputMap';
+        end
+        
     otherwise
         uialert(fig, 'Not supported format', 'err');
         uiwait(fig)
         error('Not supported format');
 end
 
-% read indicator matrix
-MBM.stat.indicatorMatrix = readmatrix(MBM.stat.indicatorFile);   % group indicator matrix [m subjects x k groups]: each column is a group and 1 indicates a subject in a group
-if size(MBM.stat.indicatorMatrix, 1) ~= size(inputMap, 1)
-    error('Error. Numbers of subjects in the indicator matrix and input maps are different.');
+% read design matrix
+MBM.stat.designMatrix = readmatrix(MBM.stat.designFile);   % design matrix [m subjects x k effects]
+if size(MBM.stat.designMatrix, 1) ~= size(inputMap, 1)
+    error('Error. Numbers of subjects in the design matrix and input maps are different.');
 end
 
 % read mask
 MBM.maps.mask = readmatrix(MBM.maps.maskFile);
 if size(MBM.maps.mask, 1) ~= size(inputMap, 2) & size(MBM.maps.mask, 2) ~= size(inputMap, 2)
     error('Error. Mask size is different from map size.');
+    errordlg('Error. Mask size is different from map size.');
+
 elseif size(MBM.maps.mask, 1) == size(inputMap, 2)
     MBM.maps.mask = MBM.maps.mask';
 end
@@ -96,6 +105,8 @@ else
 end
 if size(MBM.eig.eig, 1) ~= max(size(MBM.maps.mask))
     error('Error. Eigenmodes should be in columns with length compatible with that of the mask.')
+    errordlg('Error. Eigenmodes should be in columns with length compatible with that of the mask.')
+
 end
 
 end

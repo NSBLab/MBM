@@ -20,24 +20,25 @@ function MBM = mbm_main(MBM)
 %                                                   a binary mask where values '1' or
 %                                                   '0' indicating the vertices of the
 %                                                   applied maps to be used or removed.file:///home/trangc/kg98/trangc/MBM/mbm_app.mlapp
-
+%
 %
 %             MBM.stat    - Structure of parameters to produce a statistical map from
 %                           the input maps for MBM analysis. Input fields are:
 %                           MBM.stat.test         - Statistical test to be used:
 %                                                 'one sample' one-sample t-test,
 %                                                 'two sample' two-sample t-test, 
-%                                                 'one way ANOVA' one-way ANOVA.          
+%                                                 'one way ANOVA' one-way ANOVA,
+%                                                 'ANCOVA' ANCOVA with two groups.          
 %
-%                           MBM.stat.indicatorFile    - Character vector. 
-%                                                     - Path to a text file containing a
-%                                                       group indicator matrix [m
-%                                                       subjects by k
-%                                                       groups]. In the
-%                                                       matrix, '1' or '0' indicates a subject in
-%                                                       a group or not.
-%                                                     - ANCOVA: qdec file
-%                                                     (.dat)
+%                           MBM.stat.designFile    - Character vector. 
+%                                                  - Path to a text file containing a
+%                                                    design matrix [m subjects by k effects]. 
+%                                                  - For the design matrix in the statistical test:
+%                                                           'one sample': one column, '1' or '0' indicates a subject in the group or not.
+%                                                           'two sample': two columns, '1' or '0' indicates a subject in a group or not.
+%                                                           'one way ANOVA': k columns, '1' or '0' indicates a subject in a group or not, number of subjects in each group must be equal.
+%                                                           'ANCOVA': first column: '1' or another number (e.g., '2'): group effect (similar to input file for mri_glmfit in freesurfer)
+%                                                                     second to k-th columns: covariates (discrete or continous numbers)
 %
 %                           MBM.stat.nPer         - Number
 %                                                 - Number of permutations in the
@@ -109,10 +110,14 @@ function MBM = mbm_main(MBM)
 %
 %             MBM.stat    - Structure of parameters to produce a statistical map from
 %                           the input maps for MBM analysis. Output fields are:
-%                           MBM.stat.indicatorMatrix  - Indicator matrix [m subjects
-%                                                       by k groups].
-%                                                     - '1' or '0' indicates a subject in
-%                                                       a group or not.
+%                           MBM.stat.designMatrix  - Design matrix [m subjects by k effects]. 
+%                                                  - For the design matrix in the statistical test:
+%                                                           'one sample': one column, '1' or '0' indicates a subject in the group or not.
+%                                                           'two sample': two columns, '1' or '0' indicates a subject in a group or not.
+%                                                           'one way ANOVA': k columns, '1' or '0' indicates a subject in a group or not, number of subjects in each group must be equal.
+%                                                           'ANCOVA': first column: '1' or another number (e.g., '2'): group effect (similar to input file for mri_glmfit in freesurfer)
+%                                                                     second to k-th columns: covariates (discrete or continous numbers)
+%
 %
 %                           MBM.stat.statMap      - Vector of a statistical map.
 %
