@@ -32,7 +32,7 @@ function MBM = mbm_main(MBM)
 %                                                 'one sample' one-sample t-test,
 %                                                 'two sample' two-sample t-test, 
 %                                                 'one way ANOVA' one-way ANOVA,
-%                                                 'ANCOVA' ANCOVA with two groups.          
+%                                                 'ANCOVA' ANCOVA with two groups (f-test).          
 %
 %                           MBM.stat.designFile    - Character vector. 
 %                                                  - Path to a text file containing a
@@ -108,17 +108,11 @@ function MBM = mbm_main(MBM)
 %% Output:
 % MBM       - Structure contains the following output fields:
 %
-%             MBM.maps    - Structure containing maps. Output fields are:
-%                           MBM.maps.anatList     - Cell array of character
-%                                                   vectors.
-%                                                 - Each array element contains the
-%                                                   path to an input anatomical map in
-%                                                   a GIFTI file.
-%
-%                           MBM.maps.mask         - Vector of the binary mask.
+%             MBM.maps    - MBM.maps.mask         - Vector of the binary mask.
 %
 %             MBM.stat    - Structure of parameters to produce a statistical map from
 %                           the input maps for MBM analysis. Output fields are:
+%
 %                           MBM.stat.designMatrix  - Design matrix [m subjects by k effects]. 
 %                                                  - For the design matrix in the statistical test:
 %                                                           'one sample': one column, '1' or '0' indicates a subject in the group or not.
@@ -178,6 +172,8 @@ addpath(fullfile(currentPath, 'utils','fdr_bh'))
 % remove the unused vertices, e.g., the medial wall
 inputMap = inputMap(:, MBM.maps.mask == 1);
 MBM.eig.eig = MBM.eig.eig(MBM.maps.mask == 1, 1:MBM.eig.nEigenmode);
+MBM.eig.eig(:,1) = mean(MBM.eig.eig(:,1));
+
 
 %% SBM
 % calculate statistical map

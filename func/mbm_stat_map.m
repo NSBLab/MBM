@@ -42,14 +42,14 @@ switch stat.test
             error('Design matrix for one sample t-test must have one column');
 
         end
-        [h, p, ci, stats] = ttest(y(stat.designMatrix == 1));
+        [h, p, ci, stats] = ttest(y(stat.designMatrix == 1,:));
         statMap = stats.tstat;
 
     case 'two sample'
         if size(stat.designMatrix,2) ~= 2
 
-            uialert(fig, 'Design matrix for two sample t-test must have two columns', 'err');
-            uiwait(fig)
+            % uialert(fig, 'Design matrix for two sample t-test must have two columns', 'err');
+            % uiwait(fig)
             error('Design matrix for two sample t-test must have two columns');
 
         end
@@ -63,8 +63,8 @@ switch stat.test
         for iCol = 1:size(stat.designMatrix,2)
 
             if iCol>1 & sum(stat.designMatrix(:,iCol-1) == 1) ~= sum(stat.designMatrix(:,iCol) == 1)
-                uialert(fig, 'Numbers of subjects in each group are different.', 'err');
-                uiwait(fig)
+                % uialert(fig, 'Numbers of subjects in each group are different.', 'err');
+                % uiwait(fig)
                 error('Numbers of subjects in each group are different.');
             end
 
