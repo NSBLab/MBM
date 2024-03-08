@@ -39,8 +39,6 @@ switch stat.test
     case 'one sample'
         if size(stat.designMatrix,2) ~= 1
 
-            uialert(fig, 'Design matrix for one sample t-test must have one column', 'err');
-            uiwait(fig)
             error('Design matrix for one sample t-test must have one column');
 
         end

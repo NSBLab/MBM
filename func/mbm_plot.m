@@ -6,12 +6,12 @@ function mbm_plot(MBM)
 % 
 %       MBM.maps.mask         - Vector of the binary mask.
 %
-%  
-%       MBM.eig.resultFolder  - Path to the result folder to save
-%                                       results.
-%
 %       MBM.plot.saveFig      - Option ('true' or 'false') to
-%                                       save the visualisation of the results.
+%                               save the visualisation of the results.
+%
+%       MBM.plot.figFile      - Character vector.
+%                             - Filename including path to 
+%                               save the visualisation of the results.
 %
 %       MBM.plot.vtkFile      - Path to a vtk file containing a
 %                                       surface to plot.
@@ -84,7 +84,7 @@ elseif strcmpi(MBM.plot.hemis, 'right')
 end
 camlight('headlight')
 material dull
-colormap(ax1,bluewhitered(ax1));
+colormap(ax1,mbm_bluewhitered(ax1));
 axis off;
 axis image;
 cc = colorbar('Position',[ax1.Position(1)+ax1.Position(3)*1.05 ax1.Position(2)+ax1.Position(4)*0.2 0.01 ax1.Position(4)*0.6]);
@@ -109,7 +109,7 @@ elseif strcmpi(MBM.plot.hemis, 'right')
 end
 camlight('headlight')
 material dull
-colormap(ax2,bluewhitered(ax2))
+colormap(ax2,mbm_bluewhitered(ax2))
 axis off;
 axis image;
 a2 = annotation(fig, 'textbox', [ax2.Position(1), ax2.Position(2)+ax2.Position(4)*1.02, ax2.Position(3), 0.02], 'string', ' thresholded map', 'edgecolor', 'none', ...
@@ -150,7 +150,7 @@ elseif strcmpi(MBM.plot.hemis, 'right')
 end
 camlight('headlight')
 material dull
-colormap(ax4,bluewhitered(ax4));
+colormap(ax4,mbm_bluewhitered(ax4));
 axis off;
 axis image;
 
@@ -187,7 +187,7 @@ for iEig = 1:MBM.plot.nInfluentialMode % influent order of the modes
     end
     camlight('headlight')
     material dull
-    colormap(ax5,bluewhitered(ax5));
+    colormap(ax5,mbm_bluewhitered(ax5));
     axis off;
     axis image;
     % cc = colorbar('Position',[ax4.Position(1)+ax4.Position(3)*1.03 ax4.Position(2) 0.01 ax4.Position(4)*0.8]);
@@ -212,7 +212,7 @@ a6 = annotation(fig, 'textbox', [ax4.Position(1)+ax4.Position(3), initY+2.1*leng
 
 % save the result figure
 if MBM.plot.saveFig == 1
-    savefig(fig, fullfile(MBM.eig.resultFolder,'MBM_analysis.fig')) 
+    savefig(fig, MBM.plot.figFile) 
 end
 
 end

@@ -59,7 +59,7 @@ betaNull = mbm_eigen_decompose(statMapNull, MBM.eig.eig);
 % calculate p-value of the beta spectrum and identify the significant betas
 for iEig = 1:MBM.eig.nEigenmode
     
-    [MBM.eig.pBeta(iEig), MBM.eig.revBeta(iEig)] = estimate_p_val_tail(betaNull(:,iEig), MBM.eig.beta(iEig), MBM.stat.pThr); % MBM.eig.revBeta with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
+    [MBM.eig.pBeta(iEig), MBM.eig.revBeta(iEig)] = mbm_estimate_p_val_tail(betaNull(:,iEig), MBM.eig.beta(iEig), MBM.stat.pThr); % MBM.eig.revBeta with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
     
     % update progress bar if using app
     if isfield(MBM, 'processRunButtonHandle')==1

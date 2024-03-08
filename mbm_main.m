@@ -8,12 +8,16 @@ function MBM = mbm_main(MBM)
 %                                                 - Path to either:
 %                                                   + a text file comprising the list
 %                                                 of paths to the anatomical maps
-%                                                 in GIFTI or .mgh format. The paths in the list file
-%                                                 needs to start in the same folder
-%                                                 with the map files
+%                                                 in GIFTI or .mgh format. 
 %                                                   + a .mat file
 %                                                   containing a matrix
 %                                                   whose each row is a map.
+%                                                   + a .mgh file
+%                                                   containing a matrix
+%                                                   whose each row is a
+%                                                   map. (can be obtained
+%                                                   from freesurfer
+%                                                   mri_glmgit output)
 %
 %                           MBM.maps.maskFile     - Character vector.
 %                                                 - Path to a text file containing
@@ -70,19 +74,24 @@ function MBM = mbm_main(MBM)
 %                           MBM.eig.nEigenmode    - Number
 %                                                 - Number of eigenmodes to be used.
 %
-%                           MBM.eig.resultFolder  - Character vector.
-%                                                 - Path to the result folder to save
-%                                                   results.
 %
 %                           MBM.eig.saveResult    - Option ('true' or 'false') to
 %                                                   save the results, i.e., MBM
 %                                                   structure.
+%
+%                           MBM.eig.resultFile    - Character vector.
+%                                                 - Filename including path to save
+%                                                   results.
 %
 %             MBM.plot    - Structure of parameters for plotting. Input fields are:
 %                           MBM.plot.visualize    - Option ('true' or 'false') to
 %                                                   visualize the results.
 %
 %                           MBM.plot.saveFig      - Option ('true' or 'false') to
+%                                                   save the visualisation of the results.
+%
+%                           MBM.plot.figFile      - Character vector.
+%                                                 - Filename including path to 
 %                                                   save the visualisation of the results.
 %
 %                           MBM.plot.vtkFile      - Character vector.
@@ -208,7 +217,7 @@ end
 
 %% saving results
 if MBM.eig.saveResult == 1
-    save(fullfile(MBM.eig.resultFolder, 'mbm.mat'), 'MBM');
+    save(MBM.eig.resultFile, 'MBM');
 end
 
 end

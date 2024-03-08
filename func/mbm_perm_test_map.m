@@ -96,7 +96,7 @@ end
 % calculate p-value of the t-map and obtain the thresholded map
 for iVertice = 1:nVertice
 
-    [MBM.stat.pMap(iVertice), MBM.stat.revMap(iVertice)] = estimate_p_val_tail(statMapNull(:,iVertice),...
+    [MBM.stat.pMap(iVertice), MBM.stat.revMap(iVertice)] = mbm_estimate_p_val_tail(statMapNull(:,iVertice),...
         MBM.stat.statMap(iVertice), MBM.stat.pThr); % MBM.stat.revMap with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
 
     % update progress bar if using app

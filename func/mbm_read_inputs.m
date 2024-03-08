@@ -4,11 +4,19 @@ function [inputMap, MBM] = mbm_read_inputs(MBM)
 %% Input:
 % MBM         - structure having the fields:
 %             MBM.maps.anatListFile     - Character vector.
-%                                       - Path to a text file comprising the list
-%                                       of paths to the anatomical maps
-%                                       in GIFTI format. The list file
-%                                       needs to be in the same folder
-%                                       with the map files.
+%                                       - Path to either:
+%                                         + a text file comprising the list
+%                                         of paths to the anatomical maps
+%                                         in GIFTI or .mgh format. 
+%                                         + a .mat file
+%                                         containing a matrix
+%                                         whose each row is a map.
+%                                         + a .mgh file
+%                                         containing a matrix
+%                                         whose each row is a
+%                                         map. (can be obtained
+%                                         from freesurfer
+%                                         mri_glmgit output)
 %
 %             MBM.maps.maskFile         - Character vector.
 %                                       - Path to a text file containing
@@ -28,9 +36,6 @@ function [inputMap, MBM] = mbm_read_inputs(MBM)
 % inputMap    - Matrix of rows of anatomical maps.
 %
 % MBM         - structure having the fields:
-%             MBM.maps.anatList         - Cell array of character vectors.
-%                                       - Each array element contains the path to
-%                                       an input anatomical map in a GIFTI file.
 %
 %             MBM.maps.mask             - Vector of the binary mask.
 %
@@ -47,21 +52,20 @@ function [inputMap, MBM] = mbm_read_inputs(MBM)
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
 
 % read anatomical maps
-if isfield(MBM, 'maps')==0 | isfield(MBM.maps, 'anatListFile') == 0 | strcmp(MBM.maps.anatList,fullfile(0,0))
+if isfield(MBM, 'maps')==0 | isfield(MBM.maps, 'anatListFile') == 0 | strcmp(MBM.maps.anatListFile,fullfile(0,0))
 
     % uialert(fig, 'No input maps', 'err');
     % uiwait(fig)
     error('No input maps');
-    errordlg('No input maps');
 
 end
-tempList = regexp(fileread(MBM.maps.anatListFile), '\n', 'split');   % text file comprise the list of paths to the anatomical maps
+
 [filepath,name,ext] = fileparts(MBM.maps.anatListFile);
 
 switch char(ext)
     case '.txt'
-        MBM.maps.anatList = fullfile(filepath, tempList(1:length(tempList)-1)); % list of paths to the maps, removed the last empty line when reading the file
-        inputMap = read_map(MBM.maps.anatList);
+        anatList = table2cell(readtable(MBM.maps.anatListFile, 'delimiter', '\t', 'ReadVariableNames', false));   % text file comprise the list of paths to the anatomical maps
+        inputMap = mbm_read_map(anatList);
 
     case '.mat'
         mapFile = load(MBM.maps.anatListFile);
@@ -70,45 +74,43 @@ switch char(ext)
 
     case '.mgh'
         inputMap = squeeze(load_mgh(MBM.maps.anatListFile));
-        if size(inputMap,1) > size(inputMap,2)
-            inputMap = inputMap';
-        end
-
+        inputMap = inputMap';
     otherwise
-        uialert(fig, 'Not supported format', 'err');
-        uiwait(fig)
-        error('Not supported format');
+        % uialert(fig, 'Not supported format', 'err');
+        % uiwait(fig)
+        error('Not supported format of input maps');
 end
 
 % read design matrix
 MBM.stat.designMatrix = readmatrix(MBM.stat.designFile);   % design matrix [m subjects x k effects]
 if size(MBM.stat.designMatrix, 1) ~= size(inputMap, 1)
+    
     error('Error. Numbers of subjects in the design matrix and input maps are different.');
-    errordlg('Error. Numbers of subjects in the design matrix and input maps are different.');
-
+    
 end
 
 % read mask
 MBM.maps.mask = readmatrix(MBM.maps.maskFile);
 if size(MBM.maps.mask, 1) ~= size(inputMap, 2) & size(MBM.maps.mask, 2) ~= size(inputMap, 2)
     error('Error. Mask size is different from map size.');
-    errordlg('Error. Mask size is different from map size.');
-
+    
 elseif size(MBM.maps.mask, 1) == size(inputMap, 2)
     MBM.maps.mask = MBM.maps.mask';
 end
 
 % read eigenmodes
-if strcmp(MBM.eig.eigFile(end-3:end),'.mat')
+switch MBM.eig.eigFile(end-3:end)
+    case '.mat'
     st = load(MBM.eig.eigFile);
     MBM.eig.eig = st.eig;
-else
+    case '.txt'
     MBM.eig.eig = readmatrix(MBM.eig.eigFile);
+    otherwise
+        error('Not supported format of eigenmode file');
 end
 if size(MBM.eig.eig, 1) ~= max(size(MBM.maps.mask))
     error('Error. Eigenmodes should be in columns with length compatible with that of the mask.')
-    errordlg('Error. Eigenmodes should be in columns with length compatible with that of the mask.')
-
+    
 end
 
 end

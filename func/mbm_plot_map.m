@@ -29,7 +29,7 @@ end
 
 camlight(axisPlot,'headlight')
 material(a,'dull');
-colormap(axisPlot,bluewhitered(axisPlot));
+colormap(axisPlot,mbm_bluewhitered(axisPlot));
 axis(axisPlot,'off');
 axis(axisPlot, 'image');
 % cc = colorbar('Position',[ax1.Position(1)+ax1.Position(3)*1.05 ax1.Position(2)+ax1.Position(4)*0.2 0.01 ax1.Position(4)*0.6]);
