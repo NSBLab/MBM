@@ -11,9 +11,17 @@ function mbm_check_input(MBM, fig)
 
 if isfield(MBM, 'maps')==0 | isfield(MBM.maps, 'anatListFile') == 0 | strcmp(MBM.maps.anatListFile,fullfile(0,0))
 
-    uialert(fig, 'No input map list', 'err');
+    uialert(fig, 'No input maps', 'err');
     uiwait(fig)
-    error('No input map list');
+    error('No input maps');
+
+end
+
+if isfield(MBM.stat, 'designFile') == 0 | strcmp(MBM.stat.designFile,fullfile(0,0))
+
+    uialert(fig, 'No design matrix', 'err');
+    uiwait(fig)
+    error('No designMatrix');
 
 end
 
@@ -22,16 +30,6 @@ if isfield(MBM,'maps') == 0 | isfield(MBM.maps, 'maskFile') == 0 | strcmp(MBM.ma
     uialert(fig, 'No mask', 'err');
     uiwait(fig)
     error('No mask');
-
-end
-
-
-if isfield(MBM.stat, 'designFile') == 0 | strcmp(MBM.stat.designFile,fullfile(0,0))
-
-    uialert(fig, 'No design matrix', 'err');
-    uiwait(fig)
-
-    error('No designMatrix');
 
 end
 

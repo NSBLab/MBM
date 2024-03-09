@@ -19,6 +19,7 @@ function statMap = mbm_stat_map(y,stat)
 %                   'one sample' is for one-sample t-test,
 %                   'two sample' is for two-sample t-test,
 %                   'one way ANOVA' is for one-way ANOVA.
+%                   'ANCOVA' ANCOVA with two groups (f-test).          
 %
 %
 %% Outputs:
@@ -59,7 +60,7 @@ switch stat.test
     case 'one way ANOVA'
 
         % seperating measurement of each group
-        yy = zeros(size(stat.designMatrix,1), size(y,2), size(stat.designMatrix,2)); % preallocation space
+        yy = zeros(size(stat.designMatrix,1)/2, size(y,2), size(stat.designMatrix,2)); % preallocation space
         for iCol = 1:size(stat.designMatrix,2)
 
             if iCol>1 & sum(stat.designMatrix(:,iCol-1) == 1) ~= sum(stat.designMatrix(:,iCol) == 1)
@@ -97,8 +98,8 @@ switch stat.test
         statMap = (G.*inv(C*inv(matrixX'*matrixX) *C').*G)./(J*rvar);
         statMap(isnan(statMap)) = max(statMap(~isnan(statMap)))+1;
     otherwise
-        uialert(fig, 'not supported test', 'err');
-        uiwait(fig)
+        % uialert(fig, 'not supported test', 'err');
+        % uiwait(fig)
         error('not supported test');
 
 end

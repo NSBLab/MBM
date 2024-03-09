@@ -9,6 +9,7 @@ function [statMapNull, MBM] = mbm_perm_test_map(inputMap, MBM)
 %                                   'one sample' one-sample t-test,
 %                                   'two sample' two-sample t-test,
 %                                   'one way ANOVA' one-way ANOVA.
+%                                   'ANCOVA' ANCOVA with two groups (f-test).          
 %
 %       MBM.stat.designMatrix       - Design matrix [m subjects by k effects]. 
 %                                                  - For the design matrix in the statistical test:

@@ -172,8 +172,6 @@ addpath(fullfile(currentPath, 'utils','fdr_bh'))
 % remove the unused vertices, e.g., the medial wall
 inputMap = inputMap(:, MBM.maps.mask == 1);
 MBM.eig.eig = MBM.eig.eig(MBM.maps.mask == 1, 1:MBM.eig.nEigenmode);
-MBM.eig.eig(:,1) = mean(MBM.eig.eig(:,1));
-
 
 %% SBM
 % calculate statistical map
