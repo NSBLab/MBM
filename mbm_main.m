@@ -166,6 +166,7 @@ addpath(fullfile(currentPath,'utils','gifti-matlab'))
 addpath(fullfile(currentPath, 'utils','PALM-master'))
 addpath(fullfile(currentPath, 'utils','fdr_bh'))
 
+           
 % read inputs from paths
 [inputMap, MBM] = mbm_read_inputs(MBM);
 
@@ -174,6 +175,7 @@ inputMap = inputMap(:, MBM.maps.mask == 1);
 MBM.eig.eig = MBM.eig.eig(MBM.maps.mask == 1, 1:MBM.eig.nEigenmode);
 
 %% SBM
+
 % calculate statistical map
 MBM.stat.statMap = mbm_stat_map(inputMap, MBM.stat);
 

@@ -3,23 +3,23 @@ function mbm_plot(MBM)
 %
 %% Inputs:
 % MBM   - structure having the fields:
-% 
+%
 %       MBM.maps.mask         - Vector of the binary mask.
 %
 %       MBM.plot.saveFig      - Option ('true' or 'false') to
 %                               save the visualisation of the results.
 %
 %       MBM.plot.figFile      - Character vector.
-%                             - Filename including path to 
+%                             - Filename including path to
 %                               save the visualisation of the results.
 %
 %       MBM.plot.vtkFile      - Path to a vtk file containing a
 %                                       surface to plot.
 %
-%       MBM.plot.hemis        - 'left' or 'right' to visialise left or 
+%       MBM.plot.hemis        - 'left' or 'right' to visialise left or
 %                                       right hemisphere.
 %
-%       MBM.plot.nInfluentialMode      - Number of the most influential 
+%       MBM.plot.nInfluentialMode      - Number of the most influential
 %                                       modes to be plot.
 %
 %       MBM.stat              - Structure of parameters to produce a statistical map from
@@ -41,7 +41,7 @@ function mbm_plot(MBM)
 
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
 
-% Define constants                                             
+% Define constants
 lightGray = [0.5 0.5 0.5]; % define color
 lightGreen = [0.35 0.65 0.35]; % define color
 fontName = 'Arial'; % font for labels
@@ -65,7 +65,7 @@ nCol = 3;    %Number of columns
 lengthX = (0.85 - initX)/(factorX*(nCol-1) + 1);
 lengthY = (0.95 - initY)/(factorY*(nRow-1) + 1);
 
-%% plot tmap
+%% plot statistical map
 
 % restore removed vertices
 statMapNoMask = zeros(size(MBM.maps.mask))';
@@ -73,21 +73,9 @@ statMapNoMask(MBM.maps.mask == 1) = MBM.stat.statMap;
 
 % define axis
 ax1 = axes('Position', [initX initY+factorY*lengthY lengthX lengthY]);
-
-patch(ax1, 'Vertices', vertices, 'Faces', faces, 'FaceVertexCData', statMapNoMask, ...
-    'EdgeColor', 'none', 'FaceColor', 'interp');
-
-if strcmpi(MBM.plot.hemis, 'left')
-    view([-90 0]);
-elseif strcmpi(MBM.plot.hemis, 'right')
-    view([90 0]);
-end
-camlight('headlight')
-material dull
-colormap(ax1,mbm_bluewhitered(ax1));
-axis off;
-axis image;
-cc = colorbar('Position',[ax1.Position(1)+ax1.Position(3)*1.05 ax1.Position(2)+ax1.Position(4)*0.2 0.01 ax1.Position(4)*0.6]);
+isCbar = true;
+cbar = mbm_plot_map(ax1, vertices, faces, statMapNoMask, MBM.plot.hemis, isCbar);
+cbar.Position = [ax1.Position(1)+ax1.Position(3)*1.05 ax1.Position(2)+ax1.Position(4)*0.2 0.01 ax1.Position(4)*0.6];
 
 a1 = annotation(fig, 'textbox', [ax1.Position(1), ax1.Position(2)+ax1.Position(4)*1.02, ax1.Position(3), 0.02], 'string', 'statistical map', 'edgecolor', 'none', ...
     'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
@@ -99,19 +87,8 @@ thresMapNoMask = zeros(size(MBM.maps.mask))';
 thresMapNoMask(MBM.maps.mask==1) = MBM.stat.thresMap;
 
 ax2 = axes('Position', [initX+lengthX*1.25  ax1.Position(2) lengthX lengthY]);
-
-patch(ax2, 'Vertices', vertices, 'Faces', faces, 'FaceVertexCData', thresMapNoMask, ...
-    'EdgeColor', 'none', 'FaceColor', 'interp');
-if strcmpi(MBM.plot.hemis, 'left')
-    view([-90 0]);
-elseif strcmpi(MBM.plot.hemis, 'right')
-    view([90 0]);
-end
-camlight('headlight')
-material dull
-colormap(ax2,mbm_bluewhitered(ax2))
-axis off;
-axis image;
+isCbar = false;
+mbm_plot_map(ax2, vertices, faces, thresMapNoMask, MBM.plot.hemis, isCbar);
 a2 = annotation(fig, 'textbox', [ax2.Position(1), ax2.Position(2)+ax2.Position(4)*1.02, ax2.Position(3), 0.02], 'string', ' thresholded map', 'edgecolor', 'none', ...
     'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
 
@@ -139,21 +116,8 @@ reconMapNoMask = zeros(size(MBM.maps.mask))';
 reconMapNoMask(MBM.maps.mask==1) = MBM.eig.reconMap;
 
 ax4 = axes('Position', [ax1.Position(1) initY ax1.Position(3) ax1.Position(4)],'FontName',fontName,'FontSize',fontSize);
-
-patch(ax4, 'Vertices', vertices, 'Faces', faces, 'FaceVertexCData', reconMapNoMask, ...
-    'EdgeColor', 'none', 'FaceColor', 'interp');
-
-if strcmpi(MBM.plot.hemis, 'left')
-    view([-90 0]);
-elseif strcmpi(MBM.plot.hemis, 'right')
-    view([90 0]);
-end
-camlight('headlight')
-material dull
-colormap(ax4,mbm_bluewhitered(ax4));
-axis off;
-axis image;
-
+isCbar = false;
+mbm_plot_map(ax4, vertices, faces, reconMapNoMask, MBM.plot.hemis, isCbar);
 a4 = annotation(fig, 'textbox', [ax4.Position(1), ax4.Position(2)+ax4.Position(4)*1.02, ax4.Position(3), 0.02], 'string', 'significant pattern', 'edgecolor', 'none', ...
     'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
 
@@ -172,25 +136,13 @@ lengthX = (0.95 - initX)/(factorX*(nCol-1)+1);
 lengthY = (0.4 - initY)/(factorY*(nRow-1)+1);
 
 for iEig = 1:MBM.plot.nInfluentialMode % influent order of the modes
-    
+
     i = ceil(iEig/nCol); % row index
     ii = mod(iEig+nCol-1,nCol)+1; % column index
     ax5 = axes('Position', [initX+factorX*lengthX*(ii-1) initY+factorY*lengthY*(nRow-i) lengthX lengthY],'FontName',fontName,'FontSize',fontSize);
+    isCbar = false;
+    mbm_plot_map(ax5, vertices, faces, eigNoMask(:,iEig), MBM.plot.hemis, isCbar);
 
-    patch(ax5, 'Vertices', vertices, 'Faces', faces, 'FaceVertexCData', eigNoMask(:,iEig), ...
-        'EdgeColor', 'none', 'FaceColor', 'interp');
-    
-    if strcmpi(MBM.plot.hemis, 'left')
-        view([-90 0]);
-    elseif strcmpi(MBM.plot.hemis, 'right')
-        view([90 0]);
-    end
-    camlight('headlight')
-    material dull
-    colormap(ax5,mbm_bluewhitered(ax5));
-    axis off;
-    axis image;
-    % cc = colorbar('Position',[ax4.Position(1)+ax4.Position(3)*1.03 ax4.Position(2) 0.01 ax4.Position(4)*0.8]);
     switch iEig
         case 1
             a5 = annotation(fig, 'textbox', [ax5.Position(1), ax5.Position(2)+ax5.Position(4)*1.2, ax5.Position(3), 0.02], 'string', [num2str(iEig), 'st'], 'edgecolor', 'none', ...
@@ -212,7 +164,7 @@ a6 = annotation(fig, 'textbox', [ax4.Position(1)+ax4.Position(3), initY+2.1*leng
 
 % save the result figure
 if MBM.plot.saveFig == 1
-    savefig(fig, MBM.plot.figFile) 
+    savefig(fig, MBM.plot.figFile)
 end
 
 end

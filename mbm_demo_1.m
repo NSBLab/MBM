@@ -10,6 +10,8 @@
 clear all
 close all
 
+rng(2); % set the default seed for random generation to ensure the results are reproducible.
+
 wdir = pwd();
 dataDir = fullfile(wdir, 'data', 'demo_1');
 
@@ -21,7 +23,7 @@ writelines(fullfile(dataDir, 'thickness', maps), MBM.maps.anatListFile);
 
 MBM.maps.maskFile = fullfile(dataDir, 'mask_S1200.L.midthickness_MSMAll.32k_fs_LR.txt'); % path to mask
 
-MBM.stat.test = 'one way ANOVA'; % statistical test
+MBM.stat.test = 'two sample'; % statistical test
 
 MBM.stat.designFile = fullfile(dataDir, 'G_two_sample.txt'); % path to design matrix
 

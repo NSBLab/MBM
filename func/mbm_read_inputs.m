@@ -52,7 +52,9 @@ function [inputMap, MBM] = mbm_read_inputs(MBM, varargin)
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
 
 % input UIFigure when using the app
-fig = varargin{1};
+if ~isempty(varargin)
+    fig = varargin{1};
+end
 
 % read anatomical maps
 if isfield(MBM, 'maps')==0 | isfield(MBM.maps, 'anatListFile') == 0 | strcmp(MBM.maps.anatListFile,fullfile(0,0))
@@ -60,9 +62,11 @@ if isfield(MBM, 'maps')==0 | isfield(MBM.maps, 'anatListFile') == 0 | strcmp(MBM
     if isempty(varargin)
         error('No input maps');
     else
+        % change progress bar back to run button
+        app.MaplistButton.Text = 'Map list';
+
         uialert(fig, 'No input maps', 'err');
         uiwait(fig)
-        disp('ok')
     end
 end
 
@@ -86,6 +90,14 @@ switch char(ext)
 end
 
 % read design matrix
+if isfield(MBM.stat, 'designFile') == 0 | strcmp(MBM.stat.designFile,fullfile(0,0))
+    if isempty(varargin)
+        error('No designMatrix');
+    else
+        uialert(fig, 'No design matrix', 'err');
+        uiwait(fig)
+    end
+end
 MBM.stat.designMatrix = readmatrix(MBM.stat.designFile);   % design matrix [m subjects x k effects]
 if size(MBM.stat.designMatrix, 1) ~= size(inputMap, 1)
 
