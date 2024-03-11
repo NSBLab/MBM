@@ -20,7 +20,7 @@ function [pValueTail, rev] = mbm_estimate_p_val_tail(null, observe, pThr)
 %
 % pValueTail - vector (1xm) of p-values.
 
-% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
+% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2024.
 
 
 corr_mat1out = false;

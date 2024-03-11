@@ -9,7 +9,7 @@ function [inputMap] = mbm_read_map(mapList)
 %% Output:
 % inputMap   - Matrix of rows of anatomical maps.
 
-% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
+% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2024.
 
 [filepath,name,ext] = fileparts(mapList{1});
 

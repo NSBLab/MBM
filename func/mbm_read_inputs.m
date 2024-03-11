@@ -49,7 +49,7 @@ function [inputMap, MBM] = mbm_read_inputs(MBM, varargin)
 %
 %             MBM.eig.eig               - Matrix of columns of eigenmodes.
 
-% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
+% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2024.
 
 % input UIFigure when using the app
 if ~isempty(varargin)

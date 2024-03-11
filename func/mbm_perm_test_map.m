@@ -51,7 +51,7 @@ function [statMapNull, MBM] = mbm_perm_test_map(inputMap, MBM)
 %                                   the right or left tail of the null
 %                                   distribution.
 
-% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022
+% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2024.
 
 [nSub, nVertice] = size(inputMap);  % number of subjects and number of vertices
 

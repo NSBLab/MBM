@@ -93,6 +93,10 @@ function MBM = mbm_main(MBM)
 %                           MBM.plot.figFile      - Character vector.
 %                                                 - Filename including path to 
 %                                                   save the visualisation of the results.
+%                                                 - File formats supported
+%                                                 by 'saveas' in Matlab
+%                                                 such as .fig .png .jpg
+%                                                 .eps...
 %
 %                           MBM.plot.vtkFile      - Character vector.
 %                                                 - Path to a vtk file containing a
@@ -155,7 +159,7 @@ function MBM = mbm_main(MBM)
 %
 %                           MBM.eig.betaOrder     - Vector of influential order.
 
-% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
+% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2024.
 
 %% initialisation
 % addpath to the included packages or modify the path to the packages in your system

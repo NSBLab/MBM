@@ -38,7 +38,7 @@ function [MBM] = mbm_perm_test_beta(statMapNull, MBM)
 %                                       the right or left tail of the null
 %                                       distribution.                              
 
-% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
+% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2024.
 
 % eigenmode decomposision of the null statistical map
 betaNull = mbm_eigen_decompose(statMapNull, MBM.eig.eig);

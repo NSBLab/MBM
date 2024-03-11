@@ -16,7 +16,7 @@ function [varargout] = mbm_plot_map(axisPlot, vertices, faces, dataToPlot, hemis
 %% Output:
 % The plot is shown on the given axis.
 
-% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
+% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2024.
 
 a = patch(axisPlot, 'Vertices', vertices, 'Faces', faces, 'FaceVertexCData', dataToPlot, ...
     'EdgeColor', 'none', 'FaceColor', 'interp');

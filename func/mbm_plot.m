@@ -12,6 +12,9 @@ function mbm_plot(MBM)
 %       MBM.plot.figFile      - Character vector.
 %                             - Filename including path to
 %                               save the visualisation of the results.
+%                             - File formats supported
+%                             by 'saveas' in Matlab
+%                             such as .fig .png .jpg .eps...
 %
 %       MBM.plot.vtkFile      - Path to a vtk file containing a
 %                                       surface to plot.
@@ -39,7 +42,7 @@ function mbm_plot(MBM)
 %
 %       MBM.eig.betaOrder     - Vector of influential order.
 
-% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
+% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2024.
 
 % Define constants
 lightGray = [0.5 0.5 0.5]; % define color
@@ -164,7 +167,7 @@ a6 = annotation(fig, 'textbox', [ax4.Position(1)+ax4.Position(3), initY+2.1*leng
 
 % save the result figure
 if MBM.plot.saveFig == 1
-    savefig(fig, MBM.plot.figFile)
+    saveas(fig, MBM.plot.figFile)
 end
 
 end

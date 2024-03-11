@@ -9,7 +9,7 @@ function eigNormalized = mbm_normalize_eig(eig, nEig)
 %% Output:
 % eigNormalized - Matrix of columns of normalized eigenmodes.
 
-% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022
+% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2024.
 
 eigNormalized = zeros(size(eig)); % preallocation space
 for iEig = 1:nEig

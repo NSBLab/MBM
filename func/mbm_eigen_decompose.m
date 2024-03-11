@@ -10,7 +10,7 @@ function beta = mbm_eigen_decompose(statMap, eig)
 %% Output:
 % beta      - vector of beta spectrum.
 
-% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022
+% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2024.
 
 if size(eig, 1) ~= size(statMap, 2)
     error('Error. The sizes of the eigenmode matrix and statistical map do not match.')

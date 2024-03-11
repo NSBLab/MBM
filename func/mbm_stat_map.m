@@ -25,7 +25,7 @@ function statMap = mbm_stat_map(y,stat)
 %% Outputs:
 % statMap:          - vector (1xn) of a statistical map.
 
-% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
+% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2024.
 
 
 [nSub,nVertice] = size(y);

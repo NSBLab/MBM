@@ -7,7 +7,7 @@ function processRunButtonHandle = mbm_setup_progress_bar(processRunButtonHandle)
 %% Output:
 % processRunButtonHandle.Icon   - Progress bar created in the handle
 
-% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2022.
+% Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2024.
 
 % % Store original button text
 % originalButtonText = processRunButtonHandle.Text;
