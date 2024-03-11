@@ -34,7 +34,11 @@ axis(axisPlot,'off');
 axis(axisPlot, 'image');
 
 if isCbar == 1
-varargout{1} = colorbar(axisPlot);
+cbar = colorbar(axisPlot);
+varargout{1} = cbar;
+% cbar.Position =[axisPlot.Position(1)+axisPlot.Position(3) axisPlot.Position(2)+axisPlot.Position(4)*0.15 axisPlot.Position(3)*0.03 axisPlot.Position(4)*0.6];
+            
 end
+
 
 end

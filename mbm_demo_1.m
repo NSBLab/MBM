@@ -43,7 +43,7 @@ MBM.stat.designFile = fullfile(dataDir, 'G_two_sample.txt'); % path to design ma
 MBM.stat.nPer = 10; % number0 of permutations
 MBM.stat.pThr = 0.1; % threshold for tail estimation
 MBM.stat.thres = 0.05; % statistical threshold to be considered significant
-MBM.stat.fdr = false; % FDR correction
+MBM.stat.fdr = true; % FDR correction
 
 MBM.eig.eigFile = fullfile(dataDir, 'evec_501_masked_S1200.L.midthickness_MSMAll.32k_fs_LR.txt'); % path to eigenmode file
 MBM.eig.nEigenmode = 150; % number of eigenmodes for analysis
