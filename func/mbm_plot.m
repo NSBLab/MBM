@@ -1,4 +1,4 @@
-function mbm_plot(MBM)
+function fig = mbm_plot(MBM)
 % plot MBM results
 %
 %% Inputs:

@@ -26,14 +26,14 @@ dataDir = fullfile(wdir, 'data', 'demo_2');
 % % make map list file by adding dataDir
 % maps = table2cell(readtable(fullfile(dataDir,'map.txt'), 'delimiter', '\t', 'ReadVariableNames', false));
 
-MBM.maps.anatListFile = fullfile(dataDir, 'map_full_path_onewayANOVA.txt'); % text file comprise the list of paths to the anatomical maps
+MBM.maps.anatListFile = fullfile(dataDir, 'map_full_path_ANCOVA.txt'); % text file comprise the list of paths to the anatomical maps
 % writelines(fullfile(dataDir, 'thickness', maps), MBM.maps.anatListFile);
 
 MBM.maps.maskFile = fullfile(dataDir, 'fsaverage_164k_cortex-lh_mask.txt'); % path to mask
 
-MBM.stat.test = 'one way ANOVA'; % statistical test
+MBM.stat.test = 'ANCOVA'; % statistical test
 
-MBM.stat.designFile = fullfile(dataDir, 'G_one_way_ANOVA.txt'); % path to design matrix
+MBM.stat.designFile = fullfile(dataDir, 'G_ANCOVA.txt'); % path to design matrix
 
 MBM.stat.nPer = 10; % number0 of permutations
 MBM.stat.pThr = 0.1; % threshold for tail estimation

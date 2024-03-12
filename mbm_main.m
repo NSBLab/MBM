@@ -212,7 +212,7 @@ MBM.eig.reconMap = MBM.eig.significantBeta * MBM.eig.eig';
 
 %% plotting
 if MBM.plot.visualize == 1
-    mbm_plot(MBM)
+    mbm_plot(MBM);
 end
 
 %% saving results
