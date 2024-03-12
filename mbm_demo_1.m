@@ -35,8 +35,8 @@ writelines(fullfile(dataDir, 'thickness', maps), MBM.maps.anatListFile);
 MBM.maps.maskFile = fullfile(dataDir, 'mask_S1200.L.midthickness_MSMAll.32k_fs_LR.txt'); % path to mask
 
 % change for two sample t-test or one way ANOVA
-MBM.stat.test = 'two sample'; % statistical test
-% MBM.stat.test = 'one way ANOVA'; % statistical test
+% MBM.stat.test = 'two sample'; % statistical test
+MBM.stat.test = 'one way ANOVA'; % statistical test
 
 MBM.stat.designFile = fullfile(dataDir, 'G_two_sample.txt'); % path to design matrix
 

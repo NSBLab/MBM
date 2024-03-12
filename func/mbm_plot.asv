@@ -92,7 +92,7 @@ thresMapNoMask(MBM.maps.mask==1) = MBM.stat.thresMap;
 ax2 = axes('Position', [initX+lengthX*1.25  ax1.Position(2) lengthX lengthY]);
 isCbar = false;
 mbm_plot_map(ax2, vertices, faces, thresMapNoMask, MBM.plot.hemis, isCbar);
-a2 = annotation(fig, 'textbox', [ax2.Position(1), ax2.Position(2)+ax2.Position(4)*1.02, ax2.Position(3), 0.02], 'string', {'thresholded map, p\leq', num2str(MBM.stat.thres)}, 'edgecolor', 'none', ...
+a2 = annotation(fig, 'textbox', [ax2.Position(1), ax2.Position(2)+ax2.Position(4)*1.02, ax2.Position(3), 0.02], 'string', {'thresholded map, p\leq', MBM.stat.p}, 'edgecolor', 'none', ...
     'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
 
 %% plot beta spectrum

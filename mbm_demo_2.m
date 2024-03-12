@@ -16,6 +16,8 @@
 clear all
 close all
 
+rng(2); % set the default seed for random generation to ensure the results are reproducible.
+
 wdir = pwd();
 dataDir = fullfile(wdir, 'data', 'demo_2');
 
@@ -25,9 +27,11 @@ MBM.maps.anatListFile = fullfile(dataDir, 'y.mat'); % comprising all map where e
 
 MBM.maps.maskFile = fullfile(dataDir, 'fsaverage_164k_cortex-lh_mask.txt'); % path to mask
 
+% change statistical test as desired
 MBM.stat.test = 'ANCOVA'; % statistical test
-
-MBM.stat.designFile = fullfile(dataDir, 'ANCOVA_matrix_4.txt'); % path to design matrix
+MBM.stat.designFile = fullfile(dataDir, 'G_ANCOVA.txt'); % path to design matrix
+% MBM.stat.test = 'ANCOVA'; % statistical test
+% MBM.stat.designFile = fullfile(dataDir, 'ANCOVA_matrix_4.txt'); % path to design matrix
 
 MBM.stat.nPer = 10; % number0 of permutations
 MBM.stat.pThr = 0.1; % threshold for tail estimation

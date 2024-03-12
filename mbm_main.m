@@ -188,7 +188,7 @@ MBM.stat.statMap = mbm_stat_map(inputMap, MBM.stat);
 
 % thresholded map
 MBM.stat.thresMap = sign(MBM.stat.statMap);
-MBM.stat.thresMap(MBM.stat.pMap >= MBM.stat.thres) = 0;
+MBM.stat.thresMap(MBM.stat.pMap > MBM.stat.thres) = 0;
 
 %% MBM
 % normalize the eigenmodes
@@ -202,7 +202,7 @@ MBM = mbm_perm_test_beta(statMapNull, MBM);
 
 % significant betas
 MBM.eig.significantBeta = MBM.eig.beta;
-MBM.eig.significantBeta(MBM.eig.pBeta >= MBM.stat.thres) = 0;
+MBM.eig.significantBeta(MBM.eig.pBeta > MBM.stat.thres) = 0;
 
 % sort significant beta
 [betaSorted, MBM.eig.betaOrder] = sort(abs(MBM.eig.significantBeta), 'descend');

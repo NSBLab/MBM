@@ -19,7 +19,7 @@ function statMap = mbm_stat_map(y,stat)
 %                   'one sample' is for one-sample t-test,
 %                   'two sample' is for two-sample t-test,
 %                   'one way ANOVA' is for one-way ANOVA.
-%                   'ANCOVA' ANCOVA with two groups (f-test).
+%                   'ANCOVA' ANCOVA with two groups (f-test).          
 %
 %
 %% Outputs:
@@ -56,7 +56,7 @@ switch stat.test
         end
         [h, p, ci, stats] = ttest2(y(stat.designMatrix(:,1) == 1,:), y(stat.designMatrix(:,2) == 1,:));
         statMap = stats.tstat;
-        statMap(isnan(statMap)) = 0; % mean is 0 and variance is 0, which mean the everyone in the two groups are identical.
+statMap(isnan(statMap)) = 0;
     case 'one way ANOVA'
 
         % seperating measurement of each group
@@ -79,7 +79,6 @@ switch stat.test
             [p, tbl, stats] = anova1(squeeze(yy(:,iVertice,:)), [], 'off');
             statMap(iVertice) = tbl{2,5};
         end
-        statMap(isnan(statMap)) = 0; % mean is 0 and variance is 0, which mean the everyone in the two groups are identical.
 
     case 'ANCOVA'
 

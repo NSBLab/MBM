@@ -24,9 +24,14 @@ function [pValueTail, rev] = mbm_estimate_p_val_tail(null, observe, pThr)
 
 
 corr_mat1out = false;
-if isnan(observe) & sum(isnan(null)) == length(null) % observe is NaN and all null is NaN, which mean the everyone in the two groups are identical.
+if isnan(observe)
+    if count(isnan(null)) == length(null) % all null is NaN, which mean the two groups are identical
         pValueTail = 1;
         rev = true; %no tail
+    else
+        pValueTail = 0;
+    rev = false; %right tail
+
 elseif max(null) <= observe
     
     pValueTail = 0;
