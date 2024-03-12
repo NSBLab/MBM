@@ -18,6 +18,8 @@
 clear all
 close all
 
+rng(2); % set the default seed for random generation to ensure the results are reproducible.
+
 wdir = pwd();
 dataDir = fullfile(wdir, 'data', 'demo_2');
 

@@ -79,9 +79,7 @@ ax1 = axes('Position', [initX initY+factorY*lengthY lengthX lengthY]);
 isCbar = true;
 cbar = mbm_plot_map(ax1, vertices, faces, statMapNoMask, MBM.plot.hemis, isCbar);
 cbar.Position = [ax1.Position(1)+ax1.Position(3)*1.05 ax1.Position(2)+ax1.Position(4)*0.2 0.01 ax1.Position(4)*0.6];
-
-a1 = annotation(fig, 'textbox', [ax1.Position(1), ax1.Position(2)+ax1.Position(4)*1.02, ax1.Position(3), 0.02], 'string', 'statistical map', 'edgecolor', 'none', ...
-    'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
+ax1.Title.String = 'statistical map';
 
 %% plot thresholded map
 
@@ -92,8 +90,7 @@ thresMapNoMask(MBM.maps.mask==1) = MBM.stat.thresMap;
 ax2 = axes('Position', [initX+lengthX*1.25  ax1.Position(2) lengthX lengthY]);
 isCbar = false;
 mbm_plot_map(ax2, vertices, faces, thresMapNoMask, MBM.plot.hemis, isCbar);
-a2 = annotation(fig, 'textbox', [ax2.Position(1), ax2.Position(2)+ax2.Position(4)*1.02, ax2.Position(3), 0.02], 'string', {'thresholded map, p\leq', num2str(MBM.stat.thres)}, 'edgecolor', 'none', ...
-    'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
+ax2.Title.String = ['thresholded map, p\leq',num2str(MBM.stat.thres)];
 
 %% plot beta spectrum
 
@@ -107,22 +104,21 @@ hold(ax3, 'off')
 xlabel(ax3, '\psi', 'FontName', fontName, 'FontSize', fontSize);
 ylabel(ax3, '\beta', 'FontName', fontName, 'FontSize', fontSize);
 
-legend('non-significant','significant','NumColumns',2)
+le = legend('non-significant',['significant, p\leq', num2str(MBM.stat.thres)],'NumColumns',2);
+le.Location = 'best';
 legend('boxoff')
 
-a3 = annotation(fig, 'textbox', [ax3.Position(1), a2.Position(2), ax3.Position(3), 0.02], 'string', '\beta spectrum', 'edgecolor', 'none', ...
-    'FontName',fontName,'FontSize',fontSize, 'horizontalalignment', 'center');
+ax3.Title.String = '\beta spectrum';
 
 %% plot significant pattern
 % restore removed vertices
 reconMapNoMask = zeros(size(MBM.maps.mask))';
 reconMapNoMask(MBM.maps.mask==1) = MBM.eig.reconMap;
 
-ax4 = axes('Position', [ax1.Position(1) initY ax1.Position(3) ax1.Position(4)],'FontName',fontName,'FontSize',fontSize);
+ax4 = axes('Position', [ax1.Position(1) initY ax1.Position(3) ax1.Position(4)]);
 isCbar = false;
 mbm_plot_map(ax4, vertices, faces, reconMapNoMask, MBM.plot.hemis, isCbar);
-a4 = annotation(fig, 'textbox', [ax4.Position(1), ax4.Position(2)+ax4.Position(4)*1.02, ax4.Position(3), 0.02], 'string', 'significant pattern', 'edgecolor', 'none', ...
-    'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
+ax4.Title.String = 'significant pattern';
 
 %% plot the most influent pattern
 % restore removed vertices
@@ -142,28 +138,42 @@ for iEig = 1:MBM.plot.nInfluentialMode % influent order of the modes
 
     i = ceil(iEig/nCol); % row index
     ii = mod(iEig+nCol-1,nCol)+1; % column index
-    ax5 = axes('Position', [initX+factorX*lengthX*(ii-1) initY+factorY*lengthY*(nRow-i) lengthX lengthY],'FontName',fontName,'FontSize',fontSize);
+    ax5 = axes('Position', [initX+factorX*lengthX*(ii-1) initY+factorY*lengthY*(nRow-i) lengthX lengthY]);
     isCbar = false;
     mbm_plot_map(ax5, vertices, faces, eigNoMask(:,iEig), MBM.plot.hemis, isCbar);
 
     switch iEig
         case 1
-            a5 = annotation(fig, 'textbox', [ax5.Position(1), ax5.Position(2)+ax5.Position(4)*1.2, ax5.Position(3), 0.02], 'string', [num2str(iEig), 'st'], 'edgecolor', 'none', ...
-                'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
+            if (i==1 & ii == floor((nCol+1)/2))
+                ax5.Title.String = {'most influential modes', [num2str(iEig), 'st']};
+            else
+                ax5.Title.String = [num2str(iEig), 'st'];
+            end
+
         case 2
-            a5 = annotation(fig, 'textbox', [ax5.Position(1), ax5.Position(2)+ax5.Position(4)*1.2, ax5.Position(3), 0.02], 'string', [num2str(iEig), 'nd'], 'edgecolor', 'none', ...
-                'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
+            if (i==1 & ii == floor((nCol+1)/2))
+                ax5.Title.String = {'most influential modes', [num2str(iEig), 'nd']};
+            else
+                ax5.Title.String = [num2str(iEig), 'nd'];
+            end
         case 3
-            a5 = annotation(fig, 'textbox', [ax5.Position(1), ax5.Position(2)+ax5.Position(4)*1.2, ax5.Position(3), 0.02], 'string', [num2str(iEig), 'rd'], 'edgecolor', 'none', ...
-                'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
+            if i==1 & ii == floor((nCol+1)/2)
+                ax5.Title.String = {'most influential modes', [num2str(iEig), 'rd']};
+            else
+                ax5.Title.String = [num2str(iEig), 'rd'];
+            end
         otherwise
-            a5 = annotation(fig, 'textbox', [ax5.Position(1), ax5.Position(2)+ax5.Position(4)*1.2, ax5.Position(3), 0.02], 'string', [num2str(iEig), 'th'], 'edgecolor', 'none', ...
-                'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
+            if i==1 & ii == floor((nCol+1)/2)
+                ax5.Title.String = ['most influential modes \n', num2str(iEig), 'th'];
+            else
+                ax5.Title.String = [num2str(iEig), 'th'];
+            end
     end
+
 end
 
-a6 = annotation(fig, 'textbox', [ax4.Position(1)+ax4.Position(3), initY+2.1*lengthY*factorY, lengthX*nCol*factorX, 0.02], 'string', 'most influential modes', 'edgecolor', 'none', ...
-    'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
+% a6 = annotation(fig, 'textbox', [ax4.Position(1)+ax4.Position(3), initY+2.1*lengthY*factorY, lengthX*nCol*factorX, 0.02], 'string', 'most influential modes', 'edgecolor', 'none', ...
+    % 'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
 
 % save the result figure
 if MBM.plot.saveFig == 1

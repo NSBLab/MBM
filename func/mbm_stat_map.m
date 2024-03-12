@@ -79,7 +79,7 @@ switch stat.test
             [p, tbl, stats] = anova1(squeeze(yy(:,iVertice,:)), [], 'off');
             statMap(iVertice) = tbl{2,5};
         end
-        statMap(isnan(statMap)) = 0; % mean is 0 and variance is 0, which mean the everyone in the two groups are identical.
+        statMap(isnan(statMap)) = 1; % mean is 0 and variance is 0, which mean the everyone in the two groups are identical.
 
     case 'ANCOVA'
 
@@ -97,7 +97,8 @@ switch stat.test
         G = C*B;
 
         statMap = (G.*inv(C*inv(matrixX'*matrixX) *C').*G)./(J*rvar);
-        statMap(isnan(statMap)) = max(statMap(~isnan(statMap)))+1;
+        statMap(isnan(statMap)) = 1; % mean is 0 and variance is 0, which mean the everyone in the two groups are identical.
+
     otherwise
         % uialert(fig, 'not supported test', 'err');
         % uiwait(fig)
