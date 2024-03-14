@@ -106,7 +106,7 @@ ylabel(ax3, '\beta', 'FontName', fontName, 'FontSize', fontSize);
 
 le = legend('non-significant',['significant, p\leq', num2str(MBM.stat.thres)],'NumColumns',2);
 le.Location = 'best';
-legend('boxoff')
+legend('boxoff');
 
 ax3.Title.String = '\beta spectrum';
 
@@ -129,8 +129,8 @@ eigNoMask(MBM.maps.mask==1,:) = MBM.eig.eig(:,MBM.eig.betaOrder(1:MBM.plot.nInfl
 factorX = 1.1;
 factorY = 1.4;
 initX = ax4.Position(1)+ax4.Position(3)*1.1;
-nRow = 2;    %No of rows
-nCol = ceil(MBM.plot.nInfluentialMode/2);    %No of columns
+nRow = floor(sqrt(MBM.plot.nInfluentialMode));    %No of rows
+nCol = ceil(MBM.plot.nInfluentialMode/nRow);    %No of columns
 lengthX = (0.95 - initX)/(factorX*(nCol-1)+1);
 lengthY = (0.4 - initY)/(factorY*(nRow-1)+1);
 
@@ -172,12 +172,9 @@ for iEig = 1:MBM.plot.nInfluentialMode % influent order of the modes
 
 end
 
-% a6 = annotation(fig, 'textbox', [ax4.Position(1)+ax4.Position(3), initY+2.1*lengthY*factorY, lengthX*nCol*factorX, 0.02], 'string', 'most influential modes', 'edgecolor', 'none', ...
-    % 'FontName',fontName,'FontSize',fontSize,  'horizontalalignment', 'center');
-
 % save the result figure
 if MBM.plot.saveFig == 1
-    saveas(fig, MBM.plot.figFile)
+    saveas(fig, MBM.plot.figFile);
 end
 
 end
