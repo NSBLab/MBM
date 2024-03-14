@@ -27,6 +27,7 @@ elseif strcmpi(hemis, 'right')
     view(axisPlot,[90 0]);
 end
 
+light
 camlight(axisPlot,'headlight')
 material(a,'dull');
 colormap(axisPlot,mbm_bluewhitered(axisPlot));
