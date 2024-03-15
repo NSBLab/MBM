@@ -61,8 +61,34 @@ if size(MBM.stat.designMatrix, 1) ~= size(inputMap, 1)
 
 end
 
+switch MBM.stat.test
 
+    case 'one sample'
+        if size(MBM.stat.designMatrix,2) ~= 1
 
+            error('Design matrix for one sample t-test must have one column.');
+
+        end
+
+    case 'two sample'
+        if size(MBM.stat.designMatrix,2) ~= 2
+
+            error('The design matrix for two sample t-test must have two columns.');
+
+        end
+    case 'one way ANOVA'
+
+        if size(MBM.stat.designMatrix,2)==1
+            error('The design matrix for one way ANOVA must have at least two columns (two groups).');
+        end
+        for iCol = 2:size(MBM.stat.designMatrix,2)
+            if sum(MBM.stat.designMatrix(:,iCol-1) == 1) ~= sum(MBM.stat.designMatrix(:,iCol) == 1)
+
+                error('Numbers of subjects in each group are different.');
+            end
+
+        end
+end
 if size(MBM.maps.mask, 1) ~= size(inputMap, 2) & size(MBM.maps.mask, 2) ~= size(inputMap, 2)
     error('Error. Mask size is different from map size.');
 
@@ -72,5 +98,6 @@ if size(MBM.eig.eig, 1) ~= max(size(MBM.maps.mask))
     error('Error. Eigenmodes should be in columns with length compatible with that of the mask.')
 
 end
+
 
 end

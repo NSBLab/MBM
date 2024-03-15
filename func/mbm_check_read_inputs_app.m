@@ -1,5 +1,5 @@
-function mbm_check_read_inputs_app(MBM, inputMap)
-% Read inputs for analysis from file paths given in MBM.
+function errReturn = mbm_check_read_inputs_app(MBM, inputMap)
+% Check read inputs are compatable with each other.
 %
 %% Input:
 % MBM         - structure having the fields:
@@ -54,23 +54,32 @@ function mbm_check_read_inputs_app(MBM, inputMap)
 % input UIFigure when using the app
 
 
-
+errReturn = false;
+dumvar = 1; %to use break in while
+while dumvar
 if size(MBM.stat.designMatrix, 1) ~= size(inputMap, 1)
 
-    error('Error. Numbers of subjects in the design matrix and input maps are different.');
+    msgbox('Error. Numbers of subjects in the design matrix and input maps are different.');
 
+        errReturn = true;
+        break
 end
 
 
 
 if size(MBM.maps.mask, 1) ~= size(inputMap, 2) & size(MBM.maps.mask, 2) ~= size(inputMap, 2)
-    error('Error. Mask size is different from map size.');
+    msgbox('Error. Mask size is different from map size.');
 
+        errReturn = true;
+        break
 
 end
 if size(MBM.eig.eig, 1) ~= max(size(MBM.maps.mask))
-    error('Error. Eigenmodes should be in columns with length compatible with that of the mask.')
+    msgbox('Error. Eigenmodes should be in columns with length compatible with that of the mask.')
 
+        errReturn = true;
+        break
 end
-
+dumvar = 0;
+end
 end

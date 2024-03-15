@@ -1,4 +1,4 @@
-function [inputMap, MBM] = mbm_read_inputs(MBM)
+function [inputMap, MBM, varargout] = mbm_read_inputs(MBM, varargin)
 % Read inputs for analysis from file paths given in MBM.
 %
 %% Input:
@@ -56,7 +56,8 @@ function [inputMap, MBM] = mbm_read_inputs(MBM)
 % read anatomical maps
 
 [filepath,name,ext] = fileparts(MBM.maps.anatListFile);
-
+dumvar = 1; %to use break in while
+while dumvar
 switch char(ext)
     case '.txt'
         anatList = table2cell(readtable(MBM.maps.anatListFile, 'delimiter', '\t', 'ReadVariableNames', false));   % text file comprise the list of paths to the anatomical maps
@@ -71,7 +72,13 @@ switch char(ext)
         inputMap = squeeze(load_mgh(MBM.maps.anatListFile));
         inputMap = inputMap';
     otherwise
-        error('Not supported format of input maps');
+        if isempty(varargin) % varargin indicates of app usage
+            error('Not supported format of input maps');
+        else
+            msgbox('Not supported format of input maps');
+            varargout{1} = true; % report error
+            break
+        end
 end
 
 % read design matrix
@@ -93,8 +100,16 @@ switch MBM.eig.eigFile(end-3:end)
     case '.txt'
         MBM.eig.eig = readmatrix(MBM.eig.eigFile);
     otherwise
-        error('Not supported format of eigenmode file');
-end
+        if isempty(varargin) % varargin indicates app usage
 
+            error('Not supported format of eigenmode file');
+        else
+            msgbox('Not supported format of input maps');
+            varargout{1} = true; % report error
+            break
+        end
+end
+dumvar = 0;
+end
 
 end

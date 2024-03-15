@@ -68,7 +68,7 @@ function MBM = mbm_main(MBM)
 %
 %             MBM.eig     - Structure of MBM variables. Input fields are:
 %                           MBM.eig.eigFile       - Character vector.
-%                                                 - Path to a text file containing
+%                                                 - Path to a text file or .mat file containing
 %                                                   eigenmodes in columns.
 %   
 %                           MBM.eig.nEigenmode    - Number
