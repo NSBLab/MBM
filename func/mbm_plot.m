@@ -1,4 +1,4 @@
-function fig = mbm_plot(MBM)
+function [varargout] = mbm_plot(MBM)
 % plot MBM results
 %
 %% Inputs:
@@ -44,137 +44,155 @@ function fig = mbm_plot(MBM)
 
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2024.
 
-% Define constants
-lightGray = [0.5 0.5 0.5]; % define color
-lightGreen = [0.35 0.65 0.35]; % define color
-fontName = 'Arial'; % font for labels
-fontSize = 15;
+% check input
+dumbar = 1; % to use in while in order to use break
+while dumbar
+    if isfield(MBM.plot, 'vtkFile') == 0 | strcmp(MBM.plot.vtkFile,fullfile(0,0))
 
-% read surface
-[vertices,faces] = read_vtk(MBM.plot.vtkFile);
-vertices = vertices';
-faces = faces';
+        msgbox('No Surface');
 
-% define figure model
-fig = figure('Position', [200 200 1000 600], 'color', 'w');
+        errReturn = true;
+        varargout{1} = errReturn;
+        break
 
-% define axis para
-factorX = 1.5;
-factorY = 1.5;
-initX = 0.01;
-initY = 0.02;
-nRow = 2;    %Number of rows
-nCol = 3;    %Number of columns
-lengthX = (0.85 - initX)/(factorX*(nCol-1) + 1);
-lengthY = (0.95 - initY)/(factorY*(nRow-1) + 1);
 
-%% plot statistical map
+    else
 
-% restore removed vertices
-statMapNoMask = zeros(size(MBM.maps.mask))';
-statMapNoMask(MBM.maps.mask == 1) = MBM.stat.statMap;
+    % Define constants
+    lightGray = [0.5 0.5 0.5]; % define color
+    lightGreen = [0.35 0.65 0.35]; % define color
+    fontName = 'Arial'; % font for labels
+    fontSize = 15;
 
-% define axis
-ax1 = axes('Position', [initX initY+factorY*lengthY lengthX lengthY]);
-isCbar = true;
-cbar = mbm_plot_map(ax1, vertices, faces, statMapNoMask, MBM.plot.hemis, isCbar);
-cbar.Position = [ax1.Position(1)+ax1.Position(3)*1.05 ax1.Position(2)+ax1.Position(4)*0.2 0.01 ax1.Position(4)*0.6];
-ax1.Title.String = 'statistical map';
+    % read surface
+    [vertices,faces] = read_vtk(MBM.plot.vtkFile);
+    vertices = vertices';
+    faces = faces';
 
-%% plot thresholded map
+    % define figure model
+    fig = figure('Position', [200 200 1000 600], 'color', 'w');
 
-% restore removed vertices
-thresMapNoMask = zeros(size(MBM.maps.mask))';
-thresMapNoMask(MBM.maps.mask==1) = MBM.stat.thresMap;
+    % define axis para
+    factorX = 1.5;
+    factorY = 1.5;
+    initX = 0.01;
+    initY = 0.02;
+    nRow = 2;    %Number of rows
+    nCol = 3;    %Number of columns
+    lengthX = (0.85 - initX)/(factorX*(nCol-1) + 1);
+    lengthY = (0.95 - initY)/(factorY*(nRow-1) + 1);
 
-ax2 = axes('Position', [initX+lengthX*1.25  ax1.Position(2) lengthX lengthY]);
-isCbar = false;
-mbm_plot_map(ax2, vertices, faces, thresMapNoMask, MBM.plot.hemis, isCbar);
-ax2.Title.String = ['thresholded map, p\leq',num2str(MBM.stat.thres)];
+    %% plot statistical map
 
-%% plot beta spectrum
+    % restore removed vertices
+    statMapNoMask = zeros(size(MBM.maps.mask))';
+    statMapNoMask(MBM.maps.mask == 1) = MBM.stat.statMap;
 
-ax3 = axes('Position', [ax2.Position(1)+ax2.Position(3)*1.3 ax1.Position(2) lengthX*2 lengthY*0.8],'FontName',fontName,'FontSize',fontSize);
+    % define axis
+    ax1 = axes('Position', [initX initY+factorY*lengthY lengthX lengthY]);
+    isCbar = true;
+    cbar = mbm_plot_map(ax1, vertices, faces, statMapNoMask, MBM.plot.hemis, isCbar);
+    cbar.Position = [ax1.Position(1)+ax1.Position(3)*1.05 ax1.Position(2)+ax1.Position(4)*0.2 0.01 ax1.Position(4)*0.6];
+    ax1.Title.String = 'statistical map';
 
-bar(ax3,MBM.eig.beta,'FaceColor',lightGray,'EdgeColor',lightGray);
-hold(ax3,'on');
-bar(ax3,MBM.eig.significantBeta,'FaceColor',lightGreen,'EdgeColor',lightGreen);
-hold(ax3, 'off')
+    %% plot thresholded map
 
-xlabel(ax3, '\psi', 'FontName', fontName, 'FontSize', fontSize);
-ylabel(ax3, '\beta', 'FontName', fontName, 'FontSize', fontSize);
+    % restore removed vertices
+    thresMapNoMask = zeros(size(MBM.maps.mask))';
+    thresMapNoMask(MBM.maps.mask==1) = MBM.stat.thresMap;
 
-le = legend('non-significant',['significant, p\leq', num2str(MBM.stat.thres)],'NumColumns',2);
-le.Location = 'best';
-legend('boxoff');
-
-ax3.Title.String = '\beta spectrum';
-
-%% plot significant pattern
-% restore removed vertices
-reconMapNoMask = zeros(size(MBM.maps.mask))';
-reconMapNoMask(MBM.maps.mask==1) = MBM.eig.reconMap;
-
-ax4 = axes('Position', [ax1.Position(1) initY ax1.Position(3) ax1.Position(4)]);
-isCbar = false;
-mbm_plot_map(ax4, vertices, faces, reconMapNoMask, MBM.plot.hemis, isCbar);
-ax4.Title.String = 'significant pattern';
-
-%% plot the most influent pattern
-% restore removed vertices
-eigNoMask = zeros(size(MBM.maps.mask,2),MBM.plot.nInfluentialMode);
-eigNoMask(MBM.maps.mask==1,:) = MBM.eig.eig(:,MBM.eig.betaOrder(1:MBM.plot.nInfluentialMode)).*sign(MBM.eig.beta(MBM.eig.betaOrder(1:MBM.plot.nInfluentialMode)));
-
-% define axis para
-factorX = 1.1;
-factorY = 1.4;
-initX = ax4.Position(1)+ax4.Position(3)*1.1;
-nRow = floor(sqrt(MBM.plot.nInfluentialMode));    %No of rows
-nCol = ceil(MBM.plot.nInfluentialMode/nRow);    %No of columns
-lengthX = (0.95 - initX)/(factorX*(nCol-1)+1);
-lengthY = (0.4 - initY)/(factorY*(nRow-1)+1);
-
-for iEig = 1:MBM.plot.nInfluentialMode % influent order of the modes
-
-    i = ceil(iEig/nCol); % row index
-    ii = mod(iEig+nCol-1,nCol)+1; % column index
-    ax5 = axes('Position', [initX+factorX*lengthX*(ii-1) initY+factorY*lengthY*(nRow-i) lengthX lengthY]);
+    ax2 = axes('Position', [initX+lengthX*1.25  ax1.Position(2) lengthX lengthY]);
     isCbar = false;
-    mbm_plot_map(ax5, vertices, faces, eigNoMask(:,iEig), MBM.plot.hemis, isCbar);
+    mbm_plot_map(ax2, vertices, faces, thresMapNoMask, MBM.plot.hemis, isCbar);
+    ax2.Title.String = ['thresholded map, p\leq',num2str(MBM.stat.thres)];
 
-    switch iEig
-        case 1
-            if (i==1 & ii == floor((nCol+1)/2))
-                ax5.Title.String = {'most influential modes', [num2str(iEig), 'st']};
-            else
-                ax5.Title.String = [num2str(iEig), 'st'];
-            end
+    %% plot beta spectrum
 
-        case 2
-            if (i==1 & ii == floor((nCol+1)/2))
-                ax5.Title.String = {'most influential modes', [num2str(iEig), 'nd']};
-            else
-                ax5.Title.String = [num2str(iEig), 'nd'];
-            end
-        case 3
-            if i==1 & ii == floor((nCol+1)/2)
-                ax5.Title.String = {'most influential modes', [num2str(iEig), 'rd']};
-            else
-                ax5.Title.String = [num2str(iEig), 'rd'];
-            end
-        otherwise
-            if i==1 & ii == floor((nCol+1)/2)
-                ax5.Title.String = ['most influential modes \n', num2str(iEig), 'th'];
-            else
-                ax5.Title.String = [num2str(iEig), 'th'];
-            end
+    ax3 = axes('Position', [ax2.Position(1)+ax2.Position(3)*1.3 ax1.Position(2) lengthX*2 lengthY*0.8],'FontName',fontName,'FontSize',fontSize);
+
+    bar(ax3,MBM.eig.beta,'FaceColor',lightGray,'EdgeColor',lightGray);
+    hold(ax3,'on');
+    bar(ax3,MBM.eig.significantBeta,'FaceColor',lightGreen,'EdgeColor',lightGreen);
+    hold(ax3, 'off')
+
+    xlabel(ax3, '\psi', 'FontName', fontName, 'FontSize', fontSize);
+    ylabel(ax3, '\beta', 'FontName', fontName, 'FontSize', fontSize);
+
+    le = legend('non-significant',['significant, p\leq', num2str(MBM.stat.thres)],'NumColumns',2);
+    le.Location = 'best';
+    legend('boxoff');
+
+    ax3.Title.String = '\beta spectrum';
+
+    %% plot significant pattern
+    % restore removed vertices
+    reconMapNoMask = zeros(size(MBM.maps.mask))';
+    reconMapNoMask(MBM.maps.mask==1) = MBM.eig.reconMap;
+
+    ax4 = axes('Position', [ax1.Position(1) initY ax1.Position(3) ax1.Position(4)]);
+    isCbar = false;
+    mbm_plot_map(ax4, vertices, faces, reconMapNoMask, MBM.plot.hemis, isCbar);
+    ax4.Title.String = 'significant pattern';
+
+    %% plot the most influent pattern
+    % restore removed vertices
+    eigNoMask = zeros(size(MBM.maps.mask,2),MBM.plot.nInfluentialMode);
+    eigNoMask(MBM.maps.mask==1,:) = MBM.eig.eig(:,MBM.eig.betaOrder(1:MBM.plot.nInfluentialMode)).*sign(MBM.eig.beta(MBM.eig.betaOrder(1:MBM.plot.nInfluentialMode)));
+
+    % define axis para
+    factorX = 1.1;
+    factorY = 1.4;
+    initX = ax4.Position(1)+ax4.Position(3)*1.1;
+    nRow = floor(sqrt(MBM.plot.nInfluentialMode));    %No of rows
+    nCol = ceil(MBM.plot.nInfluentialMode/nRow);    %No of columns
+    lengthX = (0.95 - initX)/(factorX*(nCol-1)+1);
+    lengthY = (0.4 - initY)/(factorY*(nRow-1)+1);
+
+    for iEig = 1:MBM.plot.nInfluentialMode % influent order of the modes
+
+        i = ceil(iEig/nCol); % row index
+        ii = mod(iEig+nCol-1,nCol)+1; % column index
+        ax5 = axes('Position', [initX+factorX*lengthX*(ii-1) initY+factorY*lengthY*(nRow-i) lengthX lengthY]);
+        isCbar = false;
+        mbm_plot_map(ax5, vertices, faces, eigNoMask(:,iEig), MBM.plot.hemis, isCbar);
+
+        switch iEig
+            case 1
+                if (i==1 & ii == floor((nCol+1)/2))
+                    ax5.Title.String = {'most influential modes', [num2str(iEig), 'st']};
+                else
+                    ax5.Title.String = [num2str(iEig), 'st'];
+                end
+
+            case 2
+                if (i==1 & ii == floor((nCol+1)/2))
+                    ax5.Title.String = {'most influential modes', [num2str(iEig), 'nd']};
+                else
+                    ax5.Title.String = [num2str(iEig), 'nd'];
+                end
+            case 3
+                if i==1 & ii == floor((nCol+1)/2)
+                    ax5.Title.String = {'most influential modes', [num2str(iEig), 'rd']};
+                else
+                    ax5.Title.String = [num2str(iEig), 'rd'];
+                end
+            otherwise
+                if i==1 & ii == floor((nCol+1)/2)
+                    ax5.Title.String = ['most influential modes \n', num2str(iEig), 'th'];
+                else
+                    ax5.Title.String = [num2str(iEig), 'th'];
+                end
+        end
+
     end
 
-end
+    % save the result figure
+    if MBM.plot.saveFig == 1
+        saveas(fig, MBM.plot.figFile);
+    end
 
-% save the result figure
-if MBM.plot.saveFig == 1
-    saveas(fig, MBM.plot.figFile);
+    varargout{1} = fig;
+    dumbar = 0;
+    end
 end
-
 end

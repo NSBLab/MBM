@@ -170,9 +170,12 @@ addpath(fullfile(currentPath,'utils','gifti-matlab'))
 addpath(fullfile(currentPath, 'utils','PALM-master'))
 addpath(fullfile(currentPath, 'utils','fdr_bh'))
 
-           
+% check input
+mbm_check_input(MBM);
+
 % read inputs from paths
 [inputMap, MBM] = mbm_read_inputs(MBM);
+mbm_check_read_inputs(MBM, inputMap);
 
 % remove the unused vertices, e.g., the medial wall
 inputMap = inputMap(:, MBM.maps.mask == 1);
@@ -213,6 +216,7 @@ MBM.eig.reconMap = MBM.eig.significantBeta * MBM.eig.eig';
 %% plotting
 if MBM.plot.visualize == 1
     mbm_plot(MBM);
+    
 end
 
 %% saving results

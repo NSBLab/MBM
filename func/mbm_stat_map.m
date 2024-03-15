@@ -100,8 +100,7 @@ switch stat.test
         statMap(isnan(statMap)) = 1; % mean is 0 and variance is 0, which mean the everyone in the two groups are identical.
 
     otherwise
-        % uialert(fig, 'not supported test', 'err');
-        % uiwait(fig)
+       
         error('not supported test');
 
 end

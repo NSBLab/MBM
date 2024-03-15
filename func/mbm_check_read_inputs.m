@@ -1,4 +1,4 @@
-function [inputMap, MBM] = mbm_read_inputs(MBM)
+function mbm_check_read_inputs(MBM, inputMap)
 % Read inputs for analysis from file paths given in MBM.
 %
 %% Input:
@@ -53,48 +53,24 @@ function [inputMap, MBM] = mbm_read_inputs(MBM)
 
 % input UIFigure when using the app
 
-% read anatomical maps
 
-[filepath,name,ext] = fileparts(MBM.maps.anatListFile);
 
-switch char(ext)
-    case '.txt'
-        anatList = table2cell(readtable(MBM.maps.anatListFile, 'delimiter', '\t', 'ReadVariableNames', false));   % text file comprise the list of paths to the anatomical maps
-        inputMap = mbm_read_map(anatList);
+if size(MBM.stat.designMatrix, 1) ~= size(inputMap, 1)
 
-    case '.mat'
-        mapFile = load(MBM.maps.anatListFile);
-        fieldF = fieldnames(mapFile);
-        inputMap = getfield(mapFile,char(fieldF));
+    error('Error. Numbers of subjects in the design matrix and input maps are different.');
 
-    case '.mgh'
-        inputMap = squeeze(load_mgh(MBM.maps.anatListFile));
-        inputMap = inputMap';
-    otherwise
-        error('Not supported format of input maps');
 end
 
-% read design matrix
-
-MBM.stat.designMatrix = readmatrix(MBM.stat.designFile);   % design matrix [m subjects x k effects]
 
 
-% read mask
-MBM.maps.mask = readmatrix(MBM.maps.maskFile);
-if size(MBM.maps.mask, 1) == size(inputMap, 2)
-    MBM.maps.mask = MBM.maps.mask';
+if size(MBM.maps.mask, 1) ~= size(inputMap, 2) & size(MBM.maps.mask, 2) ~= size(inputMap, 2)
+    error('Error. Mask size is different from map size.');
+
+
 end
+if size(MBM.eig.eig, 1) ~= max(size(MBM.maps.mask))
+    error('Error. Eigenmodes should be in columns with length compatible with that of the mask.')
 
-% read eigenmodes
-switch MBM.eig.eigFile(end-3:end)
-    case '.mat'
-        st = load(MBM.eig.eigFile);
-        MBM.eig.eig = st.eig;
-    case '.txt'
-        MBM.eig.eig = readmatrix(MBM.eig.eigFile);
-    otherwise
-        error('Not supported format of eigenmode file');
 end
-
 
 end
