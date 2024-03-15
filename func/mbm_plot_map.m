@@ -28,7 +28,9 @@ elseif strcmpi(hemis, 'right')
 end
 
 light
+lightangle(-90, 40)
 camlight(axisPlot,'headlight')
+
 material(a,'dull');
 colormap(axisPlot,mbm_bluewhitered(axisPlot));
 axis(axisPlot,'off');
