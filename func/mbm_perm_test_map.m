@@ -1,17 +1,17 @@
-function [statMapNull, MBM] = mbm_perm_test_map(inputMap, MBM)
+function [statMapNull, stat] = mbm_perm_test_map(inputMap, stat)
 % Permutation tests on the statitical map
 %
 %% Inputs:
 % inputMap - Matrix of rows of anatomical maps.
 %
-% MBM   - structure having the input fields:
-%       MBM.stat.test               - Statistical test to be used:
+% stat   - structure having the input fields:
+%       stat.test               - Statistical test to be used:
 %                                   'one sample' one-sample t-test,
 %                                   'two sample' two-sample t-test,
 %                                   'one way ANOVA' one-way ANOVA.
 %                                   'ANCOVA' ANCOVA with two groups (f-test).          
 %
-%       MBM.stat.designMatrix       - Design matrix [m subjects by k effects]. 
+%       stat.designMatrix       - Design matrix [m subjects by k effects]. 
 %                                                  - For the design matrix in the statistical test:
 %                                                           'one sample': one column, '1' or '0' indicates a subject in the group or not.
 %                                                           'two sample': two columns, '1' or '0' indicates a subject in a group or not.
@@ -19,33 +19,34 @@ function [statMapNull, MBM] = mbm_perm_test_map(inputMap, MBM)
 %                                                           'ANCOVA': first column: '1' or another number (e.g., '2'): group effect (similar to input file for mri_glmfit in freesurfer)
 %                                                                     second to k-th columns: covariates (discrete or continous numbers)
 %
-%       MBM.stat.nPer               - Number of permutations in the
+%       stat.nPer               - Number of permutations in the
 %                                   statistical test.
 %
-%       MBM.stat.pThr               - Threshold of p-values. If the
-%                                   p-values are below MBM.stat.pThr,
+%       stat.pThr               - Threshold of p-values. If the
+%                                   p-values are below stat.pThr,
 %                                   these are refined further using a
 %                                   tail approximation from the
 %                                   Generalise Pareto Distribution (GPD).
 %
-%       MBM.stat.thres              - Threshold of p-values. When the
-%                                   p-value is below MBM.stat.thres,
+%       stat.thres              - Threshold of p-values. When the
+%                                   p-value is below stat.thres,
 %                                   the statitical test is considered
 %                                   significant.
 %
-%       MBM.stat.fdr                - Option ('true' or 'false') to
+%       stat.fdr                - Option ('true' or 'false') to
 %                                   correct multiple test with FDR or not.
+%
+%       stat.statMap            - Vector of a statistical map.
 %
 %% Outputs:
 % statMapNull   - Matrix of rows of null statistical maps
 %
-% MBM   - structure having the output fields:
-%       MBM.stat.statMap            - Vector of a statistical map.
+% stat   - structure having the output fields:
 %
-%       MBM.stat.pMap               - Vector of p-values of the
+%       stat.pMap               - Vector of p-values of the
 %                                   statistical map.
 %
-%       MBM.stat.revMap             - Vector of "false" or "true"
+%       stat.revMap             - Vector of "false" or "true"
 %                                   indicating the observed value of an
 %                                   element in the statistical map on
 %                                   the right or left tail of the null
@@ -55,23 +56,23 @@ function [statMapNull, MBM] = mbm_perm_test_map(inputMap, MBM)
 
 [nSub, nVertice] = size(inputMap);  % number of subjects and number of vertices
 
-statMapNull = zeros(MBM.stat.nPer, size(inputMap,2)); % preallocation space
-for iPer = 1:MBM.stat.nPer
+statMapNull = zeros(stat.nPer, size(inputMap,2)); % preallocation space
+for iPer = 1:stat.nPer
 
-    if strcmp(MBM.stat.test, 'one sample')
+    if strcmp(stat.test, 'one sample')
 
         % null input maps
         inputMapNull = inputMap.* sign(rand(nSub,1) - 0.5);
 
         % statistical map of the null inputs
-        statMapNull(iPer,:) = mbm_stat_map(inputMapNull, MBM.stat);
+        statMapNull(iPer,:) = mbm_stat_map(inputMapNull, stat);
 
     else
 
         %suffling the labels of the groups
         iNull = randperm(nSub);
-        statNull = MBM.stat;
-        statNull.designMatrix = MBM.stat.designMatrix(iNull,:);
+        statNull = stat;
+        statNull.designMatrix = stat.designMatrix(iNull,:);
 
         % statistical map of the null inputs
         statMapNull(iPer,:) = mbm_stat_map(inputMap, statNull);
@@ -82,14 +83,14 @@ end
 % calculate p-value of the t-map and obtain the thresholded map
 for iVertice = 1:nVertice
 
-    [MBM.stat.pMap(iVertice), MBM.stat.revMap(iVertice)] = mbm_estimate_p_val_tail(statMapNull(:,iVertice),...
-        MBM.stat.statMap(iVertice), MBM.stat.pThr); % MBM.stat.revMap with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
+    [stat.pMap(iVertice), stat.revMap(iVertice)] = mbm_estimate_p_val_tail(statMapNull(:,iVertice),...
+        stat.statMap(iVertice), stat.pThr); % stat.revMap with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
 
 end
 
 % correction with fdr if wishing
-if MBM.stat.fdr == 1
-    [h, crit_p, adj_ci_cvrg, MBM.stat.pMap] = fdr_bh(MBM.stat.pMap, MBM.stat.thres, 'pdep');
+if stat.fdr == 1
+    [h, crit_p, adj_ci_cvrg, stat.pMap] = fdr_bh(stat.pMap, stat.thres, 'pdep');
 end
 
 end

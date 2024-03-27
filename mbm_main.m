@@ -187,7 +187,7 @@ MBM.eig.eig = MBM.eig.eig(MBM.maps.mask == 1, 1:MBM.eig.nEigenmode);
 MBM.stat.statMap = mbm_stat_map(inputMap, MBM.stat);
 
 % permutation tests on the statitical map
-[statMapNull, MBM] = mbm_perm_test_map(inputMap, MBM);
+[statMapNull, MBM.stat] = mbm_perm_test_map(inputMap, MBM.stat);
 
 % thresholded map
 MBM.stat.thresMap = sign(MBM.stat.statMap);
