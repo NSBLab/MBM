@@ -2,9 +2,18 @@
 %
 % This demo uses 95 emperical thickness maps from T1 maps in an open dataset.
 % All maps are combined in y.mat where each row is a map (or y.mgh from Freesurfer).
-% 
+%
+% The text file 'fsaverage_164k_cortex-lh_mask.txt' contains
+% a binary mask where values '1' or '0' indicating the vertices of the
+% applied maps to be used or removed.
+%
 % The design matrix that identifies the two groups of the maps and covariates is stored in
 % 'G_ANCOVA.txt'. 
+%
+% VTK file 'fsaverage_164k_midthickness-lh.vtk' contains the surface to plot.
+%
+% Eigenmodes in columns are in
+% 'fsaverage_164k_midthickness-lh_emode_200.txt'.
 % 
 % All input files are stored in 'data/demo_emp' folder.
 %

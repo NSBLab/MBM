@@ -29,7 +29,7 @@ Due to their file sizes exceeding the limit allowed by GitHub, you will need to 
 
 ![cover](figure/Fig1_SBM_MBM.jpg)
 
-`mbm_main.m` executes the pipelines in Fig. 1. The inputs to `mbm_main.m` combined in a Matlab structure named MBM are:
+`mbm_main.m` executes the pipelines in Fig. 1. The inputs to `mbm_main.m` combined in a Matlab structure named `MBM` are:
 
   * A path to a text file of a list of anatomical maps to be analysed and a path to a mask to exclude elements of the maps from the analysis. Anatomical maps are expected as GIFTI files and projected on an average surface. In the example given in `mbm_demo_sim.m`, the left fsaverage midthickness surface with 32492 vertices is used as an average template.
 
@@ -39,13 +39,13 @@ Due to their file sizes exceeding the limit allowed by GitHub, you will need to 
 
   * Parameters specifying the visualisation of the results.
 
-The outputs of `mbm_main.m` combined in the struture MBM are: the statistical map,  its p-values, thresholded statistical map, beta spectrum, its p-values, significant beta spectrum, the significant patterns, and the most influential modes.  Visualisation of the results are provided. 
+The outputs of `mbm_main.m` combined in the struture `MBM` are: the statistical map,  its p-values, thresholded statistical map, beta spectrum, its p-values, significant beta spectrum, the significant patterns, and the most influential modes.  Visualisation of the results are provided. 
 
 Run `help mbm_main` in Command Window or open `mbm_main.m` to see the documentation on all the input and output parameters and their types. See `mbm_demo_sim.m` and `mbm_demo_emp.m` for examples.
 
 ## Running MBM by GUI
 
-[To use standalone app, install by using `MBMInstaller.exe'. After installation, open MBM app in your system.], 
+[To use standalone app, install by using `MBMInstaller.exe'. After installation, open MBM app in your system.]: 
 
 To use the GUI in Matlab, open `mbm_app.mlapp` by double clicking.  
 
@@ -98,19 +98,19 @@ To run the analysis:
 
   * Input thickness maps are in the *thickness* folder.
 
-  * The list of input maps is `map_filename.txt`. 'mbm_demo_prerequisite.m' needs to be run before running the demos in order to generate 'map_full_path.txt' containing the paths to these maps.
+  * The list of input maps is `map_filename.txt`. `mbm_demo_prerequisite.m` needs to be run before running the demos in order to generate `map_full_path.txt` containing the paths to these maps.
 
-  * The binary map is 'mask_S1200.L.midthickness_MSMAll.32k_fs_LR.txt'.
+  * The binary map is `mask_S1200.L.midthickness_MSMAll.32k_fs_LR.txt`.
 
-  * The vtk file of the surface to plot is 'fsLR_32k_midthickness-lh.vtk'.
+  * The vtk file of the surface to plot is `fsLR_32k_midthickness-lh.vtk`.
 
-  * The design matrix G is in 'G_one_sample.txt', 'G_two_sample.txt', .
+  * The design matrix G is in `G_one_sample.txt`, `G_two_sample.txt`, or `G_ANCOVA.txt`.
 
-  * The eigenmodes are in 'evec_501_masked_S1200.L.midthickness_MSMAll.32k_fs_LR.txt'.
+  * The eigenmodes are in `evec_501_masked_S1200.L.midthickness_MSMAll.32k_fs_LR.txt`.
 
 ## Original data
 
-Original empirical data are from the [Human Connectome Project](https://db.humanconnectome.org/). Please consult the link for detailed information about access, licensing, and terms and conditions of usage.
+Original empirical data are from the [Human Connectome Project](https://db.humanconnectome.org/) and [HCP Early Psychosis (HCP-EP)](https://www.humanconnectome.org/study/human-connectome-project-for-early-psychosis). Please consult the link for detailed information about access, licensing, and terms and conditions of usage.
 
 ## Additional functions
 
@@ -129,7 +129,7 @@ The codes run on versions of MATLAB from R2022a to R2024a.
 
 If you use our code in your research, please cite us as follows:
 
-[PREPRINT]  View ORCID Profile Trang Cao,  James C. Pang,  Ashlea Segal,  Yu-Chi Chen,  Kevin M. Aquino,  Michael Breakspear,  Alex Fornito, Mode-based morphometry: A multiscale approach to mapping human neuroanatomy, bioRxiv (2023) (DOI: [10.1101/2023.02.26.529328](https://www.biorxiv.org/content/10.1101/2023.02.26.529328v1))
+Trang Cao,  James C. Pang,  Ashlea Segal,  Yu-Chi Chen,  Kevin M. Aquino,  Michael Breakspear,  Alex Fornito, Mode-based morphometry: A multiscale approach to mapping human neuroanatomy, (DOI: [10.1002/hbm.26640](https://doi.org/10.1002/hbm.26640))
 
 ## Further details
 
