@@ -8,7 +8,7 @@ See "[Mode-based morphometry: A multiscale approach to mapping human neuroanatom
 In this package, we provide the following a main functions, demo script to run it, and complement folders:
 
   1. `mbm_main.m`: main function to obtain the spatial frequency spectrum, called beta spectrum, the significant pattern, and the most influential modes of the statistical map representing the group average or group difference. 
-  2. `mbm_demo_sim.m`,  `mbm_demo_emp.m`: demo scripts to run `mbm_main.m`.
+  2. `mbm_demo_sim.m`,  `mbm_demo_emp.m`: demo scripts to run `mbm_main.m`. `mbm_demo_prerequisite.m` needs to be run before running the demo in order to generate the list of paths to maps.
   3. `mbm_app.mlapp`: app script for GUI of the main function.
   4. `utils/`: dependent packages comprising of gifti-matlab (to read GIFTI file), PALM (to estimate a distribution tail), and fdr_bh (to use fdr correction).
   5. `data/`: demo data to run the codes.
@@ -45,68 +45,68 @@ Run `help mbm_main` in Command Window or open `mbm_main.m` to see the documentat
 
 ## Running MBM by GUI
 
-[To use standalone app, install by using `MBMInstaller.exe'. After installation, open MBM app in your system.]; 
+[To use standalone app, install by using `MBMInstaller.exe'. After installation, open MBM app in your system.], 
 
-To use the GUI in Matlab, open `mbm_app.mlapp` in Matlab and hit 'Run' in App Designer window. 
+To use the GUI in Matlab, open `mbm_app.mlapp` by double clicking.  
 
-The app appears as shown below. On the top left, the input panel has three tabs: Maps, Stat, and Eigenmodes. The run panel is on the bottom left. The result panel is on the right.
+The app appears as shown below. On the top, the input panel has three tabs: **Maps**, **Stat**, and **Eigenmodes**. The run panel is on the bottom.
 
-![cover](readme_fig/start.png) 
+![cover](figure/GUI.png) 
 
-To prepare the model:
+The inputs to run the model are as follows.
 
-- In the **Maps** tab, use the input buttons to open a file selection dialog box and load: 
+  * In the **Maps** tab: 
 
-•	'Map list': a text file of a list of input anatomical maps in GIFTI format.
+    * *Map list*: load a text file of a list of input anatomical measure maps.
 
-•	'Mask': a text file containing a binary mask where values '1' or '0' indicating the vertices of the applied maps to be used or removed. 
+    * *Mask*: load a text file containing a binary mask where values '1' or '0' indicating the vertices of the applied maps to be used or removed. 
 
-•	'Surface': a vtk file containing a surface to plot the result. The surface should be the one that the eigenmodes are derived from and the anatomical maps are projected on.
+    * *Surface*: load a vtk file containing a surface to plot the result. The surface should be the one that the eigenmodes are derived from and the anatomical maps are projected on.
 
-•	choose the 'Hemisphere' to be analysed from the drop down list.
+    * *Hemisphere*: choose to be analysed from the drop down list.
 
-- In the **Stat** tab,
+  * In the **Stat** tab:
   
-•	choose the 'Statistic test' from the drop down list.
+    * *Statistic test*: choose from the drop down list.
 
-•	use the button 'design matrix G' to open a file selection dialog box and load a text file containing a design matrix [m subjects by k effects]. For the design matrix in the statistical test: 'one sample' (one column), 'two sample' (two columns), 'one way ANOVA' (k columns): in each column, '1' or '0' indicates a subject in a group or not; 'ANCOVA': first column: '1' or another number (e.g., '2') indicates the group effect (similar to input file for mri_glmfit in freesurfer) and second to k-th columns indicates covariates (discrete or continous numbers).
+    * *design matrix G*: load a text file containing a design matrix [m subjects by k effects]. For the design matrix in the statistical test of *one sample* (one column), *two sample* (two columns), *one way ANOVA* (k columns), '1' or '0' in each column indicates a subject in a group or not. For the design matrix in the statistical test of *ANCOVA*: '1' or another number (e.g., '2') in the first column indicates the group effect (similar to the input file for mri_glmfit in Freesurfer) and discrete or continuous numbers in the second to k-th columns indicates covariates.
 
-•	'Permutation': put the number of permutation in the statistical test.
+  	* *Permutation*: put the number of permutations in the statistical test.
 
-•	'Pthr: tail approx': put the threshold of p-values for tail approximation. If the p-values are below Pthr, these are refined further using a tail approximation from the Generalise Pareto Distribution (GPD).
+    * *Pthr: tail approx*: put the threshold of p-values for tail approximation. If the p-values are below Pthr, these are refined further using a tail approximation from the Generalise Pareto Distribution (GPD).
 
-•	'P threshold': put the threshold of p-values for being significant.
+    * *P threshold*: put the threshold of p-values for being significant.
 
-•	check FDR box if using FDR correction.	
+    * *FDR*: mark if using FDR correction.	
 
-- In the **Eigenmodes** tab,
-•	use the button 'Eigenmodes' to open a file selection dialog box and load a text file containing eigenmodes in columns.
+  * In the **Eigenmodes** tab,
 
-•	'Number of modes': put the number of eigenmodes used for the analysis.
+    * *Eigenmodes*: load a text file containing eigenmodes in columns.
 
-•	'Most influential modes': put the number of the most influential modes to plot.
+    * *Number of modes*: put the number of eigenmodes used for the analysis.
+
+    * *Most influential modes*: put the number of the most influential modes to plot.
 
 To run the analysis:
 
-- Press the 'Run' button. Once the analysis is finished, press 'Save' to save the structure 'MBM' containing the parameters and results in a .mat file. Press 'Plot' to show the results on the result panel. If required, press 'Stop' to interupt the analysis. For 5000 permutations, the analysis need approximately one hour to run.
+  * Press *Run*.
+  * Press *Save* when the analysis has finished to save the structure 'MBM' containing the parameters and results in a .mat file.
+  * Press *Plot* to plot the results. The result panel comprises the t-map, the thresholded t-map, the beta spectrum, the significant pattern, and most influential modes. 
+  * If required, press *Stop* to interupt the analysis. For 5000 permutations, the analysis needs approximately one hour to run.
 
-Results:
+## Example data are in the data folder. 
 
-- The result panel comprises the t-map, the thresholded t-map, the beta spectrum, the significant pattern, and most influential modes. 
+  * Input thickness maps are in the *thickness* folder.
 
-## Example data are in the the data folder. 
+  * The list of input maps is `map_filename.txt`. 'mbm_demo_prerequisite.m' needs to be run before running the demos in order to generate 'map_full_path.txt' containing the paths to these maps.
 
-•	Input maps are in the 'thickness' folder.
+  * The binary map is 'mask_S1200.L.midthickness_MSMAll.32k_fs_LR.txt'.
 
-•	The list of input maps is 'map_list.txt'.
+  * The vtk file of the surface to plot is 'fsLR_32k_midthickness-lh.vtk'.
 
-•	The binary map is 'mask_S1200.L.midthickness_MSMAll.32k_fs_LR.txt'.
+  * The design matrix G is in 'G_one_sample.txt', 'G_two_sample.txt', .
 
-•	The surface vtk file is 'fsLR_32k_midthickness-lh.vtk'
-
-•	The design matrix G is in 'G_one_sample.txt' or 'G_two_sample.txt'.
-
-•	The eigenmodes are in 'evec_501_masked_S1200.L.midthickness_MSMAll.32k_fs_LR.txt'.
+  * The eigenmodes are in 'evec_501_masked_S1200.L.midthickness_MSMAll.32k_fs_LR.txt'.
 
 ## Original data
 
