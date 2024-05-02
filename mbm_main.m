@@ -13,11 +13,9 @@ function MBM = mbm_main(MBM)
 %                                                   containing a matrix
 %                                                   whose each row is a map.
 %                                                   + a .mgh file
-%                                                   containing a matrix
-%                                                   whose each row is a
-%                                                   map. (can be obtained
-%                                                   from freesurfer
-%                                                   mri_glmgit output)
+%                                                   containing a 4-D matrix
+%                                                   obtained mri_glmgit
+%                                                   output.
 %
 %                           MBM.maps.maskFile     - Character vector.
 %                                                 - Path to a text file containing

@@ -27,4 +27,8 @@ for iEig = 1:nEig
     end
 end
 
+if ~isempty(varargin) % varargin indicates app usage
+    varargout{1} = false; % report error
+end
+
 end

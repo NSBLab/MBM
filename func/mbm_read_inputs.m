@@ -58,58 +58,62 @@ function [inputMap, MBM, varargout] = mbm_read_inputs(MBM, varargin)
 [filepath,name,ext] = fileparts(MBM.maps.anatListFile);
 dumvar = 1; %to use break in while
 while dumvar
-switch char(ext)
-    case '.txt'
-        anatList = table2cell(readtable(MBM.maps.anatListFile, 'delimiter', '\t', 'ReadVariableNames', false));   % text file comprise the list of paths to the anatomical maps
-        inputMap = mbm_read_map(anatList);
+    switch char(ext)
+        case '.txt'
+            anatList = table2cell(readtable(MBM.maps.anatListFile, 'delimiter', '\t', 'ReadVariableNames', false));   % text file comprise the list of paths to the anatomical maps
+            inputMap = mbm_read_map(anatList);
 
-    case '.mat'
-        mapFile = load(MBM.maps.anatListFile);
-        fieldF = fieldnames(mapFile);
-        inputMap = getfield(mapFile,char(fieldF));
+        case '.mat'
+            mapFile = load(MBM.maps.anatListFile);
+            fieldF = fieldnames(mapFile);
+            inputMap = getfield(mapFile,char(fieldF));
 
-    case '.mgh'
-        inputMap = squeeze(load_mgh(MBM.maps.anatListFile));
-        inputMap = inputMap';
-    otherwise
-        if isempty(varargin) % varargin indicates of app usage
-            error('Not supported format of input maps');
-        else
-            msgbox('Not supported format of input maps');
-            varargout{1} = true; % report error
-            break
-        end
+        case '.mgh'
+            inputMap = squeeze(load_mgh(MBM.maps.anatListFile));
+            inputMap = inputMap';
+        otherwise
+            if isempty(varargin) % varargin indicates of app usage
+                error('Not supported format of input maps');
+            else
+                msgbox('Not supported format of input maps');
+                varargout{1} = true; % report error
+                break
+            end
+    end
+
+    % read design matrix
+
+    MBM.stat.designMatrix = readmatrix(MBM.stat.designFile);   % design matrix [m subjects x k effects]
+
+
+    % read mask
+    MBM.maps.mask = readmatrix(MBM.maps.maskFile);
+    if size(MBM.maps.mask, 1) == size(inputMap, 2)
+        MBM.maps.mask = MBM.maps.mask';
+    end
+
+    % read eigenmodes
+    switch MBM.eig.eigFile(end-3:end)
+        case '.mat'
+            st = load(MBM.eig.eigFile);
+            MBM.eig.eig = st.eig;
+        case '.txt'
+            MBM.eig.eig = readmatrix(MBM.eig.eigFile);
+        otherwise
+            if isempty(varargin) % varargin indicates app usage
+
+                error('Not supported format of eigenmode file');
+            else
+                msgbox('Not supported format of input maps');
+                varargout{1} = true; % report error
+                break
+            end
+    end
+    dumvar = 0;
 end
 
-% read design matrix
-
-MBM.stat.designMatrix = readmatrix(MBM.stat.designFile);   % design matrix [m subjects x k effects]
-
-
-% read mask
-MBM.maps.mask = readmatrix(MBM.maps.maskFile);
-if size(MBM.maps.mask, 1) == size(inputMap, 2)
-    MBM.maps.mask = MBM.maps.mask';
-end
-
-% read eigenmodes
-switch MBM.eig.eigFile(end-3:end)
-    case '.mat'
-        st = load(MBM.eig.eigFile);
-        MBM.eig.eig = st.eig;
-    case '.txt'
-        MBM.eig.eig = readmatrix(MBM.eig.eigFile);
-    otherwise
-        if isempty(varargin) % varargin indicates app usage
-
-            error('Not supported format of eigenmode file');
-        else
-            msgbox('Not supported format of input maps');
-            varargout{1} = true; % report error
-            break
-        end
-end
-dumvar = 0;
+if ~isempty(varargin) % varargin indicates app usage
+    varargout{1} = false; % report error
 end
 
 end
