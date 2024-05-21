@@ -86,9 +86,9 @@ while dumvar
 
 
     % read mask
-    switch MBM.maps.maskFile(end-3:end)
+    switch MBM.eig.maskFile(end-3:end)
         case '.mat'
-            st = load(MBM.maps.maskFile);
+            st = load(MBM.eig.maskFile);
             MBM.maps.mask = st.mask;
         case '.txt'
             MBM.maps.mask = readmatrix(MBM.maps.maskFile);

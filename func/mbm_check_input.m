@@ -27,11 +27,11 @@ function mbm_check_input(MBM)
         
     end
 
-    if isfield(MBM.eig, 'eigFile') == 0 | strcmp(MBM.eig.eigFile,fullfile(0,0))
-
-        error('No Eigenmodes');
-       
-    end
+    % if isfield(MBM.eig, 'eigFile') == 0 | strcmp(MBM.eig.eigFile,fullfile(0,0))
+    % 
+    %     error('No Eigenmodes');
+    % 
+    % end
 
     if isfield(MBM.plot, "visualize") == 1 & MBM.plot.visualize == 1 & strcmp(MBM.plot.vtkFile,fullfile(0,0))
        error('No Surface');

@@ -46,7 +46,7 @@ v1mv3 = v1 - v3;
 
 cr = cross(v3mv2, v1mv3);
 vol = 2 * vecnorm(cr, 2, 2); % vol = 2*sqrt(sum(cr .* cr, 2));
-% vol(vol < eps) = mean(vol)/10000;
+vol(vol < eps) = mean(vol)/10000;
 
 ii = [t1; t2; t2; t3; t3; t1; t1; t2; t3];
 jj = [t2; t1; t3; t2; t1; t3; t1; t2; t3];
