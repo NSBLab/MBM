@@ -98,7 +98,7 @@ while dumvar
     end
 
     % read eigenmodes
-    if isfield(MBM.eig, 'eigFile') & strcmp(MBM.eig.eigFile,fullfile(0,0))==0
+    if isfield(MBM.eig, 'eigFile') & strcmp(MBM.eig.eigFile,fullfile(0,0))==0 & isfield(MBM.eig, 'massFile') & strcmp(MBM.eig.massFile,fullfile(0,0))==0
         switch MBM.eig.eigFile(end-3:end)
             case '.mat'
                 st = load(MBM.eig.eigFile);

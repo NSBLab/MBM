@@ -21,7 +21,7 @@ function MBM = mbm_main(MBM)
 %                                                 - Path to a text file containing
 %                                                   a binary mask where values '1' or
 %                                                   '0' indicating the vertices of the
-%                                                   applied maps to be used or removed.file:///home/trangc/kg98/trangc/MBM/mbm_app.mlapp
+%                                                   applied maps to be used or removed.
 %
 %
 %             MBM.stat    - Structure of parameters to produce a statistical map from
