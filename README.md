@@ -5,14 +5,14 @@ See "[Mode-based morphometry: A multiscale approach to mapping human neuroanatom
 
 ## File descriptions
 
-In this package, we provide the following a main functions, demo script to run it, and complement folders:
+In this package, we provide the following a main function, demo script to run it, and complement folders:
 
   1. `mbm_main.m`: main function to obtain the spatial frequency spectrum, called beta spectrum, the significant pattern, and the most influential modes of the statistical map representing the group average or group difference. 
   2. `mbm_demo_sim.m`,  `mbm_demo_emp.m`: demo scripts to run `mbm_main.m`. `mbm_demo_prerequisite.m` needs to be run before running the demo in order to generate the list of paths to maps.
   3. `mbm_app.mlapp`: app script for GUI of the main function.
-  4. `utils/`: dependent packages comprising of gifti-matlab (to read GIFTI file), PALM (to estimate a distribution tail), and fdr_bh (to use fdr correction).
-  5. `data/`: demo data to run the codes.
-  6. `func/`: functions used in the  main code for analysis and visualization.
+  4. `utils/`: dependent packages comprising of gifti-matlab (to read GIFTI file), PALM (to estimate a distribution tail), and fdr_bh (to use FDR correction).
+  5. `data/`: demo data to run the demo codes.
+  6. `func/`: functions used in the main code for analysis and visualization.
   7. `figure/`: figures
 
 ## Installation
@@ -23,7 +23,7 @@ Read the comments and documentation within each code for usage guidance.
 
 ## Downloading data
 
-Due to their file sizes exceeding the limit allowed by GitHub, you will need to fill the `data/` directories with data that you can download from this [OSF repository](https://osf.io/huz4e/). The total file size is 500 MB. 
+Due to the file size exceeding the limit allowed by GitHub, you will need to fill the `data/` directories with data that you can download from this [OSF repository](https://osf.io/huz4e/). The total file size is 500 MB. 
 
 ## Running MBM by command lines
 
@@ -31,11 +31,11 @@ Due to their file sizes exceeding the limit allowed by GitHub, you will need to 
 
 `mbm_main.m` executes the pipelines in Fig. 1. The inputs to `mbm_main.m` combined in a Matlab structure named `MBM` are:
 
-  * A path to a text file of a list of anatomical maps to be analysed and a path to a mask to exclude elements of the maps from the analysis. Anatomical maps are expected as GIFTI files and projected on an average surface. In the example given in `mbm_demo_sim.m`, the left fsaverage midthickness surface with 32492 vertices is used as an average template.
+  *  A path to anatomical maps to be analysed and a path to a mask to exclude elements of the maps from the analysis. Anatomical maps are expected as GIFTI, NIFTI, or .mgh files and projected on an average surface. In the example given in `mbm_demo_sim.m`, the left fsaverage midthickness surface with 32492 vertices is used as an average template.
 
-  * Parameters specifying the statistical test and an design matrix representing effects on subjects. One-sample t-test, two-sample t-test,  one-way ANOVA, and ANCOVA (two groups) are supported.
+  * Parameters specifying the statistical test and a design matrix representing effects on subjects. One-sample t-test, two-sample t-test,  one-way ANOVA, and ANCOVA (two groups) are supported.
 
-  * The eigenmodes (ψj  in Fig. 1) calculated from a surface mesh (a .vtk file) by [surface_eigenmodes.py](https://github.com/NSBLab/BrainEigenmodes/tree/main) and saved as a text file. Eigenmodes should be derived from the same average surface that the maps are projected on.
+  * The eigenmodes (ψj  in Fig. 1) or a surface mesh (a .vtk file) to calculate the eigenmodes. Eigenmodes should be derived from the same average surface that the maps are projected on.
 
   * Parameters specifying the visualisation of the results.
 
