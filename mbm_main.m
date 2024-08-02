@@ -14,7 +14,7 @@ function MBM = mbm_main(MBM)
 %                                                   whose each row is a map.
 %                                                   + a .mgh file
 %                                                   containing a 4-D matrix
-%                                                   obtained mri_glmgit
+%                                                   obtained as mri_glmgit
 %                                                   output.
 %
 %                           MBM.maps.maskFile     - Character vector.

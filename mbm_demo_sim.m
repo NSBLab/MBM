@@ -48,10 +48,10 @@ MBM.maps.maskFile = fullfile(dataDir, 'mask_S1200.L.midthickness_MSMAll.32k_fs_L
 % MBM.stat.designFile = fullfile(dataDir, 'G_one_sample.txt'); % path to design matrix
 
 MBM.stat.test = 'two sample'; % statistical test
-MBM.stat.designFile = fullfile(dataDir, 'G_two_sample.txt'); % path to design matrix, can try other format 'G_two_sample.csv'
+MBM.stat.designFile = fullfile(dataDir, 'G_onewayANOVA_twosample.txt'); % path to design matrix, can try other format 'G_onewayANOVA_twosample.csv'
 
 % MBM.stat.test = 'one way ANOVA'; % statistical test
-% MBM.stat.designFile = fullfile(dataDir, 'G_two_sample.txt'); % path to design matrix, can try other format 'G_two_sample.csv'
+% MBM.stat.designFile = fullfile(dataDir, 'G_onewayANOVA_twosample.txt'); % path to design matrix, can try other format 'G_onewayANOVA_twosample.csv'
 
 MBM.stat.nPer = 10; % number of permutations
 MBM.stat.pThr = 0.1; % threshold for tail estimation

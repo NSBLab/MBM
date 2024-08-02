@@ -1,7 +1,7 @@
 % Demo code for mapping cortical thickness difference taking into account covariate of sex and age, i.e., ANCOVA, using MBM.
 %
 % This demo uses 95 emperical thickness maps from T1 maps in an open dataset.
-% All maps are combined in inputMaps.mat where each row is a map (or inputMaps.mgh generated from Freesurfer).
+% All maps are combined in inputMaps_ANCOVA_twosample.mat where each row is a map (or inputMaps_ANCOVA_twosample.mgh generated from Freesurfer).
 %
 % The text file 'fsaverage_164k_cortex-lh_mask.txt' contains
 % a binary mask where values '1' or '0' indicating the vertices of the
@@ -32,13 +32,13 @@ dataDir = fullfile(wdir, 'data', 'demo_emp');
 
 %% change to use .mgh or .mat file or read maps from a list
 % % use .mgh
-% MBM.maps.anatListFile = fullfile(dataDir, 'inputMaps.mgh'); % comprising all map where each row is a map
+% MBM.maps.anatListFile = fullfile(dataDir, 'inputMaps_ANCOVA_twosample.mgh'); % comprising all map where each row is a map
 
 % use .map
-MBM.maps.anatListFile = fullfile(dataDir, 'inputMaps.mat'); % comprising all map where each row is a map
+MBM.maps.anatListFile = fullfile(dataDir, 'inputMaps_ANCOVA_twosample.mat'); % comprising all map where each row is a map
 
 % % use a map list
-% MBM.maps.anatListFile = fullfile(dataDir, 'inputMaps_full_path_ANCOVA.txt'); % text file comprise the list of paths to the anatomical maps
+% MBM.maps.anatListFile = fullfile(dataDir, 'inputMaps_full_path_ANCOVA_twosample.txt'); % text file comprise the list of paths to the anatomical maps
 % MBM.maps.anatListFile = fullfile(dataDir, 'inputMaps_full_path_onewayANOVA.txt'); % text file comprise the list of paths to the anatomical maps
 
 %%
