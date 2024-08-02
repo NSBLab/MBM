@@ -45,8 +45,6 @@ Run `help mbm_main` in the Command Window or open `mbm_main.m` to see the docume
 
 ## Running MBM by GUI
 
-[To use standalone app, install by using `MBMInstaller.exe'. After installation, open MBM app in your system.]: 
-
 To use the GUI in Matlab, open `MBM_toolbox.mlapp` by double clicking.  
 
 The app appears as shown below. On the upper part, the input panel has three tabs: **Maps**, **Stat**, and **Eigenmodes**. The run panel is on the lower part.
