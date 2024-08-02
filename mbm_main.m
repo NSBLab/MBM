@@ -20,7 +20,7 @@ function MBM = mbm_main(MBM)
 %                           MBM.maps.maskFile     - Character vector.
 %                                                 - Path to a text file containing
 %                                                   a binary mask where values '1' or
-%                                                   '0' indicating the vertices of the
+%                                                   '0' indicate the vertices of the
 %                                                   applied maps to be used or removed.
 %
 %
