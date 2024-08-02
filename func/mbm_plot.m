@@ -166,28 +166,28 @@ while dumbar
             switch iEig
                 case 1
                     if (i==1 & ii == floor((nCol+1)/2))
-                        ax5.Title.String = {'most influential modes', [num2str(iEig), 'st']};
+                        ax5.Title.String = {'most influential modes', [num2str(iEig), 'st-mode ', num2str(MBM.eig.betaOrder(iEig))]};
                     else
-                        ax5.Title.String = [num2str(iEig), 'st'];
+                        ax5.Title.String = [num2str(iEig), 'st-mode ', num2str(MBM.eig.betaOrder(iEig))];
                     end
 
                 case 2
                     if (i==1 & ii == floor((nCol+1)/2))
-                        ax5.Title.String = {'most influential modes', [num2str(iEig), 'nd']};
+                        ax5.Title.String = {'most influential modes', [num2str(iEig), 'nd-mode ', num2str(MBM.eig.betaOrder(iEig))]};
                     else
-                        ax5.Title.String = [num2str(iEig), 'nd'];
+                        ax5.Title.String = [num2str(iEig), 'nd-mode ', num2str(MBM.eig.betaOrder(iEig))];
                     end
                 case 3
                     if i==1 & ii == floor((nCol+1)/2)
-                        ax5.Title.String = {'most influential modes', [num2str(iEig), 'rd']};
+                        ax5.Title.String = {'most influential modes', [num2str(iEig), 'rd-mode ', num2str(MBM.eig.betaOrder(iEig))]};
                     else
-                        ax5.Title.String = [num2str(iEig), 'rd'];
+                        ax5.Title.String = [num2str(iEig), 'rd-mode ', num2str(MBM.eig.betaOrder(iEig))];
                     end
                 otherwise
                     if i==1 & ii == floor((nCol+1)/2)
-                        ax5.Title.String = ['most influential modes \n', num2str(iEig), 'th'];
+                        ax5.Title.String = ['most influential modes \n', num2str(iEig), 'th-mode ', num2str(MBM.eig.betaOrder(iEig))];
                     else
-                        ax5.Title.String = [num2str(iEig), 'th'];
+                        ax5.Title.String = [num2str(iEig), 'th-mode ', num2str(MBM.eig.betaOrder(iEig))];
                     end
             end
 
