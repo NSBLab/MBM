@@ -38,13 +38,13 @@ while dumvar
 
     end
 
-    if isfield(MBM.eig, 'eigFile') == 0 | strcmp(MBM.eig.eigFile,fullfile(0,0))
-
-        msgbox('No Eigenmodes');
-
-        errReturn = true;
-        break
-    end
+    % if isfield(MBM.eig, 'eigFile') == 0 | strcmp(MBM.eig.eigFile,fullfile(0,0))
+    % 
+    %     msgbox('No Eigenmodes');
+    % 
+    %     errReturn = true;
+    %     break
+    % end
 
     if isfield(MBM.plot, "visualize") == 1 & MBM.plot.visualize == 1 & strcmp(MBM.plot.vtkFile,fullfile(0,0))
          msgbox('No Surface');

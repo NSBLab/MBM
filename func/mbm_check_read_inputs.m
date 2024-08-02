@@ -7,7 +7,7 @@ function mbm_check_read_inputs(MBM, inputMap)
 %                                       - Path to either:
 %                                         + a text file comprising the list
 %                                         of paths to the anatomical maps
-%                                         in GIFTI or .mgh format.
+%                                         in GIFTI, NIFTI, or .mgh format.
 %                                         + a .mat file
 %                                         containing a matrix
 %                                         whose each row is a map.

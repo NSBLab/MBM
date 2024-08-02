@@ -7,7 +7,7 @@ function errReturn = mbm_check_read_inputs_app(MBM, inputMap)
 %                                       - Path to either:
 %                                         + a text file comprising the list
 %                                         of paths to the anatomical maps
-%                                         in GIFTI or .mgh format.
+%                                         in GIFTI, NIFTI, or .mgh format.
 %                                         + a .mat file
 %                                         containing a matrix
 %                                         whose each row is a map.
@@ -57,29 +57,62 @@ function errReturn = mbm_check_read_inputs_app(MBM, inputMap)
 errReturn = false;
 dumvar = 1; %to use break in while
 while dumvar
-if size(MBM.stat.designMatrix, 1) ~= size(inputMap, 1)
+    if size(MBM.stat.designMatrix, 1) ~= size(inputMap, 1)
 
-    msgbox('Error. Numbers of subjects in the design matrix and input maps are different.');
-
-        errReturn = true;
-        break
-end
-
-
-
-if size(MBM.maps.mask, 1) ~= size(inputMap, 2) & size(MBM.maps.mask, 2) ~= size(inputMap, 2)
-    msgbox('Error. Mask size is different from map size.');
+        msgbox('Error. Numbers of subjects in the design matrix and input maps are different.');
 
         errReturn = true;
         break
+    end
 
-end
-if size(MBM.eig.eig, 1) ~= max(size(MBM.maps.mask))
-    msgbox('Error. Eigenmodes should be in columns with length compatible with that of the mask.')
+    switch MBM.stat.test
+
+        case 'one sample'
+            if size(MBM.stat.designMatrix,2) ~= 1
+
+                msgbox('Design matrix for one sample t-test must have one column.');
+                errReturn = true;
+                break
+            end
+
+        case 'two sample'
+            if size(MBM.stat.designMatrix,2) ~= 2
+
+                msgbox('The design matrix for two sample t-test must have two columns.');
+                errReturn = true;
+                break
+            end
+        case 'one way ANOVA'
+
+            if size(MBM.stat.designMatrix,2)==1
+                msgbox('The design matrix for one way ANOVA must have at least two columns (two groups).');
+                errReturn = true;
+                break
+            end
+            for iCol = 2:size(MBM.stat.designMatrix,2)
+                if sum(MBM.stat.designMatrix(:,iCol-1) == 1) ~= sum(MBM.stat.designMatrix(:,iCol) == 1)
+
+                    msgbox('Numbers of subjects in each group are different.');
+                    errReturn = true;
+                    break
+                end
+
+            end
+    end
+
+    if size(MBM.maps.mask, 1) ~= size(inputMap, 2) & size(MBM.maps.mask, 2) ~= size(inputMap, 2)
+        msgbox('Error. Mask size is different from map size.');
 
         errReturn = true;
         break
-end
-dumvar = 0;
+
+    end
+    if size(MBM.eig.eig, 1) ~= max(size(MBM.maps.mask))
+        msgbox('Error. Eigenmodes should be in columns with length compatible with that of the mask.')
+
+        errReturn = true;
+        break
+    end
+    dumvar = 0;
 end
 end

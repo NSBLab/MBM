@@ -7,7 +7,7 @@ function [inputMap, MBM, varargout] = mbm_read_inputs(MBM, varargin)
 %                                       - Path to either:
 %                                         + a text file comprising the list
 %                                         of paths to the anatomical maps
-%                                         in GIFTI or .mgh format.
+%                                         in GIFTI, NIFTI, or .mgh format.
 %                                         + a .mat file
 %                                         containing a matrix
 %                                         whose each row is a map.
@@ -98,7 +98,7 @@ while dumvar
     end
 
     % read eigenmodes
-    if isfield(MBM.eig, 'eigFile')
+    if isfield(MBM.eig, 'eigFile') & strcmp(MBM.eig.eigFile,fullfile(0,0))==0
         switch MBM.eig.eigFile(end-3:end)
             case '.mat'
                 st = load(MBM.eig.eigFile);
