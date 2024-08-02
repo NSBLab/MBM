@@ -30,6 +30,20 @@ switch char(ext)
 
 
         end
+    case '.nii'
+        for iMap = 1:length(mapList)
+
+            inputMap(iMap,:) = niftiread(mapList{iMap});
+
+
+        end
+    case '.nii.gz'
+        for iMap = 1:length(mapList)
+
+            inputMap(iMap,:) = niftiread(mapList{iMap});
+
+
+        end
     otherwise
         % uialert(fig, 'Not supported format', 'err');
         % uiwait(fig)

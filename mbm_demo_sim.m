@@ -53,7 +53,15 @@ MBM.stat.pThr = 0.1; % threshold for tail estimation
 MBM.stat.thres = 0.05; % statistical threshold to be considered significant
 MBM.stat.fdr = true; % FDR correction
 
-MBM.eig.eigFile = fullfile(dataDir, 'evec_501_masked_S1200.L.midthickness_MSMAll.32k_fs_LR.txt'); % path to eigenmode file
+% comment the two following lines to calculate the eigenmodes from the vtk
+% file or do not comment to use the pre-calculated eigenmodes and mass
+% matrix.
+% MBM.eig.eigFile = fullfile(dataDir,
+% 'fsLR_32k_midthickness-lh_emode_150.txt'); % path to eigenmode file,
+% available in .txt or .mat
+% MBM.eig.massFile = fullfile(dataDir,
+% 'fsLR_32k_midthickness-lh_mass_150.txt'); % path to mass matrix file,
+% available in .txt or .mat
 MBM.eig.nEigenmode = 150; % number of eigenmodes for analysis
 MBM.eig.saveResult = true; % save the results, i.e., MBM structure
 MBM.eig.resultFile = fullfile(dataDir,'mbm_demo_sim.mat'); % where to save the results

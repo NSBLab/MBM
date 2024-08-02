@@ -56,7 +56,7 @@ MBM.stat.fdr = false; % FDR correction
 
 % MBM.eig.eigFile = fullfile(dataDir, 'fsaverage_164k_midthickness-lh_emode_200.txt'); % path to eigenmode file
 % MBM.eig.massFile = fullfile(dataDir, 'fsaverage_164k_midthickness-lh_mass_200.txt'); % path to eigenmode file
-MBM.eig.nEigenmode = 10; % number of eigenmodes for analysis
+MBM.eig.nEigenmode = 200; % number of eigenmodes for analysis
 MBM.eig.saveResult = true; % save the results, i.e., MBM structure
 MBM.eig.resultFile = fullfile(dataDir,['mbm_demo_emp.mat']); % folder where to save the results
 

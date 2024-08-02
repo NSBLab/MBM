@@ -8,7 +8,7 @@ function MBM = mbm_main(MBM)
 %                                                 - Path to either:
 %                                                   + a text file comprising the list
 %                                                 of paths to the anatomical maps
-%                                                 in GIFTI or .mgh format.
+%                                                 in GIFTI, NIFTI, or .mgh format.
 %                                                   + a .mat file
 %                                                   containing a matrix
 %                                                   whose each row is a map.
@@ -68,10 +68,38 @@ function MBM = mbm_main(MBM)
 %                           MBM.eig.eigFile       - Character vector.
 %                                                 - Path to a text file or .mat file containing
 %                                                   eigenmodes in columns.
+%                                                   If you do not have
+%                                                   precalculated
+%                                                   eigenmodes, this input
+%                                                   can be omitted but
+%                                                   MBM.plot.vtkFile is
+%                                                   required. The code will
+%                                                   calculate the
+%                                                   eigenmodes from the
+%                                                   surface given in
+%                                                   MBM.plot.vtkFile.
 %
 %                           MBM.eig.massFile      - Character vector.
 %                                                 - Path to a text file or .mat file containing
-%                                                   the mass matrix when calculating the eigenmodes.
+%                                                   the mass matrix when
+%                                                   calculating the
+%                                                   eigenmodes. See
+%                                                   https://github.com/Deep-MI/LaPy
+%                                                   and the reference
+%                                                   papers to understand
+%                                                   what is a mass matrix
+%                                                   and how eigenmodes are
+%                                                   calculated. If you do not have
+%                                                   precalculated
+%                                                   eigenmodes, this input
+%                                                   can be omitted but
+%                                                   MBM.plot.vtkFile is
+%                                                   required. The code will
+%                                                   calculate the mass
+%                                                   matrix and
+%                                                   eigenmodes from the
+%                                                   surface given in
+%                                                   MBM.plot.vtkFile.
 %
 %                           MBM.eig.nEigenmode    - Number
 %                                                 - Number of eigenmodes to be used.
@@ -86,6 +114,11 @@ function MBM = mbm_main(MBM)
 %                                                   results.
 %
 %             MBM.plot    - Structure of parameters for plotting. Input fields are:
+%
+%                           MBM.plot.vtkFile      - Character vector.
+%                                                 - Path to a vtk file containing a
+%                                                   surface used to calculate the eigemodes and/or plot the results.
+%
 %                           MBM.plot.visualize    - Option ('true' or 'false') to
 %                                                   visualize the results.
 %
@@ -99,10 +132,6 @@ function MBM = mbm_main(MBM)
 %                                                 by 'saveas' in Matlab
 %                                                 such as .fig .png .jpg
 %                                                 .eps...
-%
-%                           MBM.plot.vtkFile      - Character vector.
-%                                                 - Path to a vtk file containing a
-%                                                   surface to plot.
 %
 %                           MBM.plot.hemis        - 'left' or 'right' to visialise left or
 %                                                   right hemisphere.
@@ -157,6 +186,8 @@ function MBM = mbm_main(MBM)
 %
 %                           MBM.eig.eig           - Matrix of columns of eigenmodes.
 %
+%                           MBM.eig.mass          - Mass matrix.
+%
 %                           MBM.eig.reconMap      - Vector of significant pattern.
 %
 %                           MBM.eig.betaOrder     - Vector of influential order.
@@ -166,11 +197,13 @@ function MBM = mbm_main(MBM)
 %% initialisation
 % addpath to the included packages or modify the path to the packages in your system
 currentPath = fileparts(mfilename('fullpath'));
-addpath(genpath(currentPath))
-% addpath(fullfile(currentPath,'utils'))
-% addpath(fullfile(currentPath,'utils','gifti-matlab'))
-% addpath(fullfile(currentPath, 'utils','PALM-master'))
-% addpath(fullfile(currentPath, 'utils','fdr_bh'))
+addpath(genpath(fullfile(currentPath,'func')))
+addpath(fullfile(currentPath,'utils'))
+addpath(fullfile(currentPath,'utils','modes'))
+addpath(fullfile(currentPath,'utils','fdr_bh'))
+addpath(fullfile(currentPath,'utils','PALM-master'))
+addpath(fullfile(currentPath,'utils','gifti-matlab'))
+
 
 % check input
 mbm_check_input(MBM);
