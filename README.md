@@ -33,7 +33,7 @@ Due to the file size exceeding the limit allowed by GitHub, you will need to fil
 
   *  A path to anatomical maps to be analysed and a path to a mask to exclude elements of the maps from the analysis. Anatomical maps are expected as GIFTI, NIFTI, or .mgh files and projected on an average surface. In the example given in `mbm_demo_sim.m`, the left fsaverage midthickness surface with 32492 vertices is used as an average template.
 
-  * Parameters specifying the statistical test and a design matrix representing effects on subjects. One-sample t-test, two-sample t-test,  one-way ANOVA, and ANCOVA (two groups) are supported.
+  * Parameters specifying the statistical test and a design matrix representing effects on subjects. One-sample t-test, two-sample t-test,  one-way ANOVA, and ANCOVA (two groups, F-test and Z-test) are supported.
 
   * The eigenmodes (ψj  in Fig. 1) or a surface mesh (a .vtk file) to calculate the eigenmodes. Eigenmodes should be derived from the same average surface that the maps are projected on.
 
@@ -69,7 +69,7 @@ Load the following inputs to run the model:
   
     * *Statistic test*: chosen from the drop down list.
 
-    * *design matrix G*: a text file containing a design matrix [m subjects by k effects]. For the design matrix in the statistical test of *one sample* (one column), *two sample* (two columns), *one way ANOVA* (k columns, number of subjects in each group must be equal), '1' or '0' in each column indicates a subject in a group or not. For the design matrix in the statistical test of *ANCOVA*: '1' or another number (e.g., '2') in the first column indicates the group effect (similar to the input file for mri_glmfit in Freesurfer) and discrete or continuous numbers in the second to k-th columns indicates covariates.
+    * *design matrix G*: a text file containing a design matrix [m subjects by k effects]. For the design matrix in the statistical test of *one sample* (one column), *two sample* (two columns), *one way ANOVA* (k columns, number of subjects in each group must be equal), '1' or '0' in each column indicates a subject in a group or not. For the design matrix in the statistical test of *ANCOVA_F* and *ANCOVA_Z*: '1' or another number (e.g., '2') in the first column indicates the group effect (similar to the input file for mri_glmfit in Freesurfer) and discrete or continuous numbers in the second to k-th columns indicates covariates.
 
   	* *Permutation*: the number of permutations in the statistical test.
 
