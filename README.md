@@ -23,7 +23,7 @@ Read the comments and documentation within each code for usage guidance.
 
 ## Downloading data
 
-Due to the file size exceeding the limit allowed by GitHub, you will need to fill the `data/` directories with data that you can download from this [OSF repository](https://osf.io/huz4e/). The total file size is 500 MB. 
+Due to the file size exceeding the limit allowed by GitHub, you will need to fill the `data/` directories with data that you can download from this [OSF repository](https://osf.io/huz4e/). The total file size is 2 GB. 
 
 ## Running MBM by command lines
 
@@ -44,8 +44,6 @@ The outputs of `mbm_main.m` combined in the structure `MBM` are: the statistical
 Run `help mbm_main` in the Command Window or open `mbm_main.m` to see the documentation on all the input and output parameters and their types. See `mbm_demo_sim.m` and `mbm_demo_emp.m` for examples.
 
 ## Running MBM by GUI
-
-[To use standalone app, install by using `MBMInstaller.exe'. After installation, open MBM app in your system.]: 
 
 To use the GUI in Matlab, open `MBM_toolbox.mlapp` by double clicking.  
 
