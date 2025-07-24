@@ -9,15 +9,19 @@ function [statMapNull, stat] = mbm_perm_test_map(inputMap, stat)
 %                                   'one sample' one-sample t-test,
 %                                   'two sample' two-sample t-test,
 %                                   'one way ANOVA' one-way ANOVA.
-%                                   'ANCOVA' ANCOVA with two groups (f-test).          
+%                                   'ANCOVA_F' ANCOVA with two groups (f-test).
+%                                   'ANCOVA_Z' ANCOVA with two groups (z-test, producing z-map from FreeSurfer).
 %
 %       stat.designMatrix       - Design matrix [m subjects by k effects]. 
 %                                                  - For the design matrix in the statistical test:
 %                                                           'one sample': one column, '1' or '0' indicates a subject in the group or not.
 %                                                           'two sample': two columns, '1' or '0' indicates a subject in a group or not.
 %                                                           'one way ANOVA': k columns, '1' or '0' indicates a subject in a group or not, number of subjects in each group must be equal.
-%                                                           'ANCOVA': first column: '1' or another number (e.g., '2'): group effect (similar to input file for mri_glmfit in freesurfer)
+%                                                           'ANCOVA_F': first column: '1' or another number (e.g., '2'): group effect (similar to input file for mri_glmfit in freesurfer)
 %                                                                     second to k-th columns: covariates (discrete or continous numbers)
+%                                                           'ANCOVA_Z': first column: '1' or another number (e.g., '2'): group effect (similar to input file for mri_glmfit in freesurfer)
+%                                                                     second to k-th columns: covariates (discrete or continous numbers)
+%
 %
 %       stat.nPer               - Number of permutations in the
 %                                   statistical test.

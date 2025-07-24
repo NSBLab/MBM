@@ -44,7 +44,9 @@ function errReturn = mbm_check_read_inputs_app(MBM, inputMap)
 %                                                           'one sample': one column, '1' or '0' indicates a subject in the group or not.
 %                                                           'two sample': two columns, '1' or '0' indicates a subject in a group or not.
 %                                                           'one way ANOVA': k columns, '1' or '0' indicates a subject in a group or not, number of subjects in each group must be equal.
-%                                                           'ANCOVA': first column: '1' or another number (e.g., '2'): group effect (similar to input file for mri_glmfit in freesurfer)
+%                                                           'ANCOVA_F': first column: '1' or another number (e.g., '2'): group effect (similar to input file for mri_glmfit in freesurfer)
+%                                                                     second to k-th columns: covariates (discrete or continous numbers)
+%                                                           'ANCOVA_Z': first column: '1' or another number (e.g., '2'): group effect (similar to input file for mri_glmfit in freesurfer)
 %                                                                     second to k-th columns: covariates (discrete or continous numbers)
 %
 %             MBM.eig.eig               - Matrix of columns of eigenmodes.

@@ -30,7 +30,8 @@ function MBM = mbm_main(MBM)
 %                                                 'one sample' one-sample t-test,
 %                                                 'two sample' two-sample t-test,
 %                                                 'one way ANOVA' one-way ANOVA,
-%                                                 'ANCOVA' ANCOVA with two groups (f-test).
+%                                                 'ANCOVA_F' ANCOVA with two groups (f-test).
+%                                                 'ANCOVA_Z' ANCOVA with two groups (z-test, producing z-map from FreeSurfer).
 %
 %                           MBM.stat.designFile    - Character vector.
 %                                                  - Path to a text file containing a
@@ -39,7 +40,9 @@ function MBM = mbm_main(MBM)
 %                                                           'one sample': one column, '1' or '0' indicates a subject in the group or not.
 %                                                           'two sample': two columns, '1' or '0' indicates a subject in a group or not.
 %                                                           'one way ANOVA': k columns, '1' or '0' indicates a subject in a group or not, number of subjects in each group must be equal.
-%                                                           'ANCOVA': first column: '1' or another number (e.g., '2'): group effect (similar to input file for mri_glmfit in freesurfer)
+%                                                           'ANCOVA_F': first column: '1' or another number (e.g., '2'): group effect (similar to input file for mri_glmfit in freesurfer)
+%                                                                     second to k-th columns: covariates (discrete or continous numbers)
+%                                                           'ANCOVA_Z': first column: '1' or another number (e.g., '2'): group effect (similar to input file for mri_glmfit in freesurfer)
 %                                                                     second to k-th columns: covariates (discrete or continous numbers)
 %
 %                           MBM.stat.nPer         - Number
@@ -153,7 +156,9 @@ function MBM = mbm_main(MBM)
 %                                                           'one sample': one column, '1' or '0' indicates a subject in the group or not.
 %                                                           'two sample': two columns, '1' or '0' indicates a subject in a group or not.
 %                                                           'one way ANOVA': k columns, '1' or '0' indicates a subject in a group or not, number of subjects in each group must be equal.
-%                                                           'ANCOVA': first column: '1' or another number (e.g., '2'): group effect (similar to input file for mri_glmfit in freesurfer)
+%                                                           'ANCOVA_F': first column: '1' or another number (e.g., '2'): group effect (similar to input file for mri_glmfit in freesurfer)
+%                                                                     second to k-th columns: covariates (discrete or continous numbers)
+%                                                           'ANCOVA_Z': first column: '1' or another number (e.g., '2'): group effect (similar to input file for mri_glmfit in freesurfer)
 %                                                                     second to k-th columns: covariates (discrete or continous numbers)
 %
 %
@@ -234,9 +239,8 @@ MBM.stat.thresMap(MBM.stat.pMap > MBM.stat.thres) = 0;
 MBM.eig.eig = mbm_normalize_eig(MBM.eig.eig, MBM.eig.nEigenmode);
 
 % eigenmode decomposision
-% MBM.eig.beta = mbm_eigen_decompose(MBM.stat.statMap, MBM.eig.eig);
 MBM.eig.beta = calc_eigendecomposition(MBM.stat.statMap', MBM.eig.eig, 'orthogonal', MBM.eig.mass);
-MBM.eig.beta =  MBM.eig.beta';
+MBM.eig.beta = MBM.eig.beta';
 
 % permutation tests on the beta spectrum
 MBM = mbm_perm_test_beta(statMapNull, MBM);
@@ -247,7 +251,7 @@ MBM.eig.significantBeta(MBM.eig.pBeta > MBM.stat.thres) = 0;
 
 % sort significant beta
 [betaSorted, MBM.eig.betaOrder] = sort(abs(MBM.eig.significantBeta), 'descend');
-
+MBM.eig.betaOrder(sum(MBM.eig.significantBeta~=0)+1:end) = 0;
 % sigificant pattern
 MBM.eig.reconMap = MBM.eig.significantBeta * MBM.eig.eig';
 

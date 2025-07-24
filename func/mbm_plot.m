@@ -142,9 +142,10 @@ while dumbar
         ax4.Title.String = 'significant pattern';
 
         %% plot the most influent pattern
+        nModeToPlot = min(MBM.plot.nInfluentialMode,sum(MBM.eig.betaOrder>0));
         % restore removed vertices
-        eigNoMask = zeros(size(MBM.maps.mask,2),MBM.plot.nInfluentialMode);
-        eigNoMask(MBM.maps.mask==1,:) = MBM.eig.eig(:,MBM.eig.betaOrder(1:MBM.plot.nInfluentialMode)).*sign(MBM.eig.beta(MBM.eig.betaOrder(1:MBM.plot.nInfluentialMode)));
+        eigNoMask = zeros(size(MBM.maps.mask,2),nModeToPlot);
+        eigNoMask(MBM.maps.mask==1,:) = MBM.eig.eig(:,MBM.eig.betaOrder(1:nModeToPlot)).*sign(MBM.eig.beta(MBM.eig.betaOrder(1:nModeToPlot)));
 
         % define axis para
         factorX = 1.1;
@@ -155,7 +156,7 @@ while dumbar
         lengthX = (0.95 - initX)/(factorX*(nCol-1)+1);
         lengthY = (0.4 - initY)/(factorY*(nRow-1)+1);
 
-        for iEig = 1:MBM.plot.nInfluentialMode % influent order of the modes
+        for iEig = 1:nModeToPlot % influent order of the modes
 
             i = ceil(iEig/nCol); % row index
             ii = mod(iEig+nCol-1,nCol)+1; % column index
