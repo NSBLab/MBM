@@ -97,11 +97,12 @@ if any(Pidx),
     nQ = numel(Q);
     q  = 1;
     Ptail = NaN;
-    while any(isnan(Ptail)) && q < nQ-1,
+    while any(isnan(Ptail)) && q < nQ-1 && length(unique(Gdist(Gcdf >= Q(q))))>1,
 
         % Get the tail
         qidx  = Gcdf >= Q(q);
         Gtail = Gdist(qidx);
+     
         qi    = find(qidx,1);
         if qi == 1,
             upar = Gdist(qi) - mean(Gdist(qi:qi+1));
