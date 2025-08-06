@@ -1,4 +1,4 @@
-function MBM = mbm_main(MBM)
+function MBM = mbm_indi_main(MBM)
 % mbm_main is the main function of MBM toolbox which performs MBM analysis
 %
 %% Input:
@@ -239,11 +239,14 @@ MBM.stat.thresMap(MBM.stat.pMap > MBM.stat.thres) = 0;
 MBM.eig.eig = mbm_normalize_eig(MBM.eig.eig, MBM.eig.nEigenmode);
 
 % eigenmode decomposision
-MBM.eig.beta = calc_eigendecomposition(MBM.stat.statMap', MBM.eig.eig, 'orthogonal', MBM.eig.mass);
-MBM.eig.beta = MBM.eig.beta';
+MBM.eig.indiBeta = calc_eigendecomposition(inputMap', MBM.eig.eig, 'orthogonal', MBM.eig.mass);
+MBM.eig.indiBeta = MBM.eig.indiBeta';
+
+% eigenmode statistical test
+MBM.eig.beta = mbm_stat_map(MBM.eig.indiBeta, MBM.stat);
 
 % permutation tests on the beta spectrum
-MBM = mbm_perm_test_beta(statMapNull, MBM);
+[statBetaNull, MBM.eig.pBeta, MBM.eig.revBeta] = mbm_perm_test_map(MBM.eig.indiBeta, MBM.stat, MBM.eig.beta);
 
 % significant betas
 MBM.eig.significantBeta = MBM.eig.beta;

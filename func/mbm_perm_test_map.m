@@ -1,4 +1,4 @@
-function [statMapNull, stat] = mbm_perm_test_map(inputMap, stat)
+function [statMapNull, output1, output2] = mbm_perm_test_map(inputMap, stat, observedMap)
 % Permutation tests on the statitical map
 %
 %% Inputs:
@@ -40,7 +40,7 @@ function [statMapNull, stat] = mbm_perm_test_map(inputMap, stat)
 %       stat.fdr                - Option ('true' or 'false') to
 %                                   correct multiple test with FDR or not.
 %
-%       stat.statMap            - Vector of a statistical map.
+%       observedMap            - Vector of a statistical map.
 %
 %% Outputs:
 % statMapNull   - Matrix of rows of null statistical maps
@@ -87,14 +87,16 @@ end
 % calculate p-value of the t-map and obtain the thresholded map
 for iVertice = 1:nVertice
 
-    [stat.pMap(iVertice), stat.revMap(iVertice)] = mbm_estimate_p_val_tail(statMapNull(:,iVertice),...
-        stat.statMap(iVertice), stat.pThr); % stat.revMap with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
+    [pMap(iVertice), revMap(iVertice)] = mbm_estimate_p_val_tail(statMapNull(:,iVertice),...
+        observedMap(iVertice), stat.pThr); % stat.revMap with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
 
 end
 
 % correction with fdr if wishing
 if stat.fdr == 1
-    [h, crit_p, adj_ci_cvrg, stat.pMap] = fdr_bh(stat.pMap, stat.thres, 'pdep');
+    [h, crit_p, adj_ci_cvrg, pMap] = fdr_bh(pMap, stat.thres, 'pdep');
 end
 
+output1 = pMap;
+output2 = revMap;
 end

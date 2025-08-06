@@ -23,7 +23,7 @@
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2024.
 
 clear all
-close all
+%close all
 
 rng(2); % set the default seed for random generation to ensure the results are reproducible.
 
@@ -54,7 +54,7 @@ MBM.stat.designFile = fullfile(dataDir, 'G_ANCOVA.txt'); % path to design matrix
 % MBM.stat.test = 'one way ANOVA'; % statistical test
 % MBM.stat.designFile = fullfile(dataDir, 'G_one_way_ANOVA.txt'); % path to design matrix, can try other format 'G_two_sample.csv'
 
-MBM.stat.nPer = 10; % number0 of permutations
+MBM.stat.nPer = 100; % number0 of permutations
 MBM.stat.pThr = 0.1; % threshold for tail estimation
 MBM.stat.thres = 0.05; % statistical threshold to be considered significant
 MBM.stat.fdr = false; % FDR correction

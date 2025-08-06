@@ -105,6 +105,7 @@ switch stat.test
         FMap(isnan(FMap)) = 1; % mean is 0 and variance is 0, which mean the everyone in the two groups are identical.
         
         p = (1 - tcdf(sqrt(FMap), DOF))*2;
+        p(p==0) = 10^-15;
         z = norminv(1 - p/2);
         statMap = z.*sign(G);
 
