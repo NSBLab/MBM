@@ -1,6 +1,6 @@
 % Demo code for mapping cortical thickness difference taking into account covariate of sex and age, i.e., ANCOVA, using MBM.
 %
-% This demo uses 95 emperical thickness maps from T1 maps in an open dataset.
+% This demo uses 95 empirical thickness maps from T1 maps in an open dataset.
 % All maps are combined in inputMaps_ANCOVA_twosample.mat where each row is a map (or inputMaps_ANCOVA_twosample.mgh generated from Freesurfer).
 %
 % The text file 'fsaverage_164k_cortex-lh_mask.txt' contains

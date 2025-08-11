@@ -91,8 +91,9 @@ On the lower part:
 
   * *Run*: to run the analysis.
   * *Save*: to save the structure 'MBM' containing the parameters and results in a .mat file when the analysis has finished.
-  * *Plot* to plot the results. The result panel comprises the t-map, the thresholded t-map, the beta spectrum, the significant pattern, and most influential modes. 
-  * If required, press *Stop* to interupt the analysis. For 5000 permutations, the analysis needs approximately one hour to run.
+  * *Plot* to plot the results. The result panel comprises the statistical map, the thresholded statistical map, the beta spectrum, the significant pattern, and most influential modes. 
+  * *Stop* to interupt the analysis, if required. For 5000 permutations, the analysis needs approximately one hour to run.
+  * *Load* to read all the configuration from MBM structure in a .mat file.
 
 ## Running demo
 

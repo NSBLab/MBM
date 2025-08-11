@@ -31,7 +31,7 @@ function MBM = mbm_main(MBM)
 %                                                 'two sample' two-sample t-test,
 %                                                 'one way ANOVA' one-way ANOVA,
 %                                                 'ANCOVA_F' ANCOVA with two groups (f-test).
-%                                                 'ANCOVA_Z' ANCOVA with two groups (z-test, producing z-map from FreeSurfer).
+%                                                 'ANCOVA_Z' ANCOVA with two groups (z-test, producing z-map from FreeSurfer. p-values are obtained from f-test and then used to produce the z-map).
 %
 %                           MBM.stat.designFile    - Character vector.
 %                                                  - Path to a text file containing a

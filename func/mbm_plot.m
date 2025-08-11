@@ -195,7 +195,7 @@ while dumbar
         end
 
         % save the result figure
-        if MBM.plot.saveFig == 1
+        if isfield(MBM.plot,'saveFig') & MBM.plot.saveFig == 1
             saveas(fig, MBM.plot.figFile);
         end
 
