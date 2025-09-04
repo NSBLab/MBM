@@ -1,4 +1,4 @@
-function [statMapNull, output1, output2] = mbm_perm_test_map(inputMap, stat, observedMap)
+function [statMapNull] = mbm_perm_test_map_to_decompose(inputMap, stat)
 % Permutation tests on the statitical map
 %
 %% Inputs:
@@ -58,6 +58,10 @@ function [statMapNull, output1, output2] = mbm_perm_test_map(inputMap, stat, obs
 
 % Trang Cao, Neural Systems and Behaviour Lab, Monash University, 2024.
 
+% only take the controls
+inputMap = inputMap(stat.designMatrix(:,1)==1,:);
+designMatrix = stat.designMatrix(stat.designMatrix(:,1)==1,:);
+
 [nSub, nVertice] = size(inputMap);  % number of subjects and number of vertices
 
 statMapNull = zeros(stat.nPer, size(inputMap,2)); % preallocation space
@@ -67,7 +71,8 @@ for iPer = 1:stat.nPer
 
         % null input maps
         inputMapNull = inputMap.* sign(rand(nSub,1) - 0.5);
-
+        statNull = stat;
+        statNull.designMatrix = designMatrix;
         % statistical map of the null inputs
         statMapNull(iPer,:) = mbm_stat_map(inputMapNull, stat);
 
@@ -76,35 +81,13 @@ for iPer = 1:stat.nPer
         %suffling the labels of the groups
         iNull = randperm(nSub);
         statNull = stat;
-        statNull.designMatrix(:,1) = stat.designMatrix(iNull,1);
-
+        statNull.designMatrix = designMatrix;
+        statNull.designMatrix(iNull(1:floor(nSub/2)),1) = 1;
+        statNull.designMatrix(iNull(floor(nSub/2)+1:end),1) = 2;
         % statistical map of the null inputs
         statMapNull(iPer,:) = mbm_stat_map(inputMap, statNull);
-
-        % %suffling the labels of the groups
-        % iNull = randsample(nSub, nSub, true);   % 'true' = sample with replacement
-        % statNull = stat;
-        % statNull.designMatrix(:,2:end) = stat.designMatrix(iNull,2:end);
-        % 
-        % % statistical map of the null inputs
-        % statMapNull(iPer,:) = mbm_stat_map(inputMap(iNull,:), statNull);
     end
 
 end
 
-% calculate p-value of the t-map and obtain the thresholded map
-for iVertice = 1:nVertice
-
-    [pMap(iVertice), revMap(iVertice)] = mbm_estimate_p_val_tail(statMapNull(:,iVertice),...
-        observedMap(iVertice), stat.pThr); % stat.revMap with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
-
-end
-
-% correction with fdr if wishing
-if stat.fdr == 1
-    [h, crit_p, adj_ci_cvrg, pMap] = fdr_bh(pMap, stat.thres, 'pdep');
-end
-
-output1 = pMap;
-output2 = revMap;
 end

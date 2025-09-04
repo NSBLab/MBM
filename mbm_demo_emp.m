@@ -32,13 +32,13 @@ dataDir = fullfile(wdir, 'data', 'demo_emp');
 
 %% change to use .mgh or .mat file or read maps from a list
 % % use .mgh
-% MBM.maps.anatListFile = fullfile(dataDir, 'inputMaps_ANCOVA_twosample.mgh'); % comprising all map where each row is a map
+MBM.maps.anatListFile = fullfile(dataDir, 'inputMaps_ANCOVA_twosample.mgh'); % comprising all map where each row is a map
 
 % use .map
 % MBM.maps.anatListFile = fullfile(dataDir, 'inputMaps_ANCOVA_twosample.mat'); % comprising all map where each row is a map
 
 % % use a map list
-MBM.maps.anatListFile = fullfile(dataDir, 'inputMaps_full_path_ANCOVA_twosample.txt'); % text file comprise the list of paths to the anatomical maps
+% MBM.maps.anatListFile = fullfile(dataDir, 'inputMaps_full_path_ANCOVA_twosample.txt'); % text file comprise the list of paths to the anatomical maps
 % MBM.maps.anatListFile = fullfile(dataDir, 'inputMaps_full_path_onewayANOVA.txt'); % text file comprise the list of paths to the anatomical maps
 
 %%
@@ -54,7 +54,7 @@ MBM.stat.designFile = fullfile(dataDir, 'G_ANCOVA.txt'); % path to design matrix
 % MBM.stat.test = 'one way ANOVA'; % statistical test
 % MBM.stat.designFile = fullfile(dataDir, 'G_one_way_ANOVA.txt'); % path to design matrix, can try other format 'G_two_sample.csv'
 
-MBM.stat.nPer = 100; % number0 of permutations
+MBM.stat.nPer = 1000; % number0 of permutations
 MBM.stat.pThr = 0.1; % threshold for tail estimation
 MBM.stat.thres = 0.05; % statistical threshold to be considered significant
 MBM.stat.fdr = false; % FDR correction
@@ -73,6 +73,6 @@ MBM.plot.saveFig = false; % save the visualisation of the results
 MBM.plot.figFile = fullfile(dataDir, 'demo_emp.fig'); % where to save the visualisation of the results.
 MBM.plot.vtkFile = fullfile(dataDir, 'fsaverage_164k_midthickness-lh.vtk'); % path to vtk file
 MBM.plot.hemis = 'left'; % hemisphere to be analysed
-MBM.plot.nInfluentialMode = 5; % number of most influential modes to be plotted
+MBM.plot.nInfluentialMode = 6; % number of most influential modes to be plotted
 
 MBM = mbm_main(MBM);

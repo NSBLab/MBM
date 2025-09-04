@@ -55,17 +55,17 @@ betaNull = betaNull';
         pause(0.0001)
     end
 
-% normalise beta spectrum
-    betaNormalized = MBM.eig.beta./ norm(MBM.eig.beta);
-    for iBetaNull = 1:height(betaNull)
-        betaNullNormalized(iBetaNull,:) = betaNull(iBetaNull,:)./norm(betaNull(iBetaNull,:));
-    end
+% % normalise beta spectrum
+%     betaNormalized = MBM.eig.beta./ norm(MBM.eig.beta);
+%     for iBetaNull = 1:height(betaNull)
+%         betaNullNormalized(iBetaNull,:) = betaNull(iBetaNull,:)./norm(betaNull(iBetaNull,:));
+%     end
 % calculate p-value of the beta spectrum and identify the significant betas
 for iEig = 1:MBM.eig.nEigenmode
     
     
-    [MBM.eig.pBeta(iEig), MBM.eig.revBeta(iEig)] = mbm_estimate_p_val_tail(betaNullNormalized(:,iEig), betaNormalized(iEig), MBM.stat.pThr); % MBM.eig.revBeta with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
-     % [MBM.eig.pBeta(iEig), MBM.eig.revBeta(iEig)] = mbm_estimate_p_val_tail(betaNull(:,iEig), MBM.eig.beta(iEig), MBM.stat.pThr); % MBM.eig.revBeta with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
+    % [MBM.eig.pBeta(iEig), MBM.eig.revBeta(iEig)] = mbm_estimate_p_val_tail(betaNullNormalized(:,iEig), betaNormalized(iEig), MBM.stat.pThr); % MBM.eig.revBeta with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
+     [MBM.eig.pBeta(iEig), MBM.eig.revBeta(iEig)] = mbm_estimate_p_val_tail(betaNull(:,iEig), MBM.eig.beta(iEig), MBM.stat.pThr); % MBM.eig.revBeta with value "false" or "true" indicates the observed value is on the right or left tail of the null distribution.
      
     % update progress bar if using app
     if isfield(MBM, 'processRunButtonHandle')==1

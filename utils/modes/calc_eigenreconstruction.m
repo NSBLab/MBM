@@ -14,7 +14,7 @@ function [corrCoeffs,recon,betaCoeffs,fcCorr,fcRecon] = ...
 %         modesq       : modes to query to get reconstruction [1xQ]
 %                        Q = number of sample points (1:N by default)
 %         params       : further data required for decomposition
-%                        for the 'orthogonal' method, this should be the mass matrix (M) 
+%                        for the 'orthogonal' method, this should be the mass matrix (M) or a struct with a field 'mass'  
 % Output: corrCoeffs   : correlation coefficient values [QxP]
 %         recon        : reconstructions using 1..N modes [MxQxP]
 %         betaCoeffs   : coefficient values {Qx1}
@@ -48,18 +48,17 @@ end
 
 %% Calculations
 if strcmp(method, 'orthogonal') % can get coeffs together if using ortho method
-    betaCoeffs = calc_eigendecomposition(data, eigenvectors(:,1:max(modesq)), method, params);
+    tmp = calc_eigendecomposition(data, eigenvectors(:,1:max(modesq(:))), method, params);
+    betaCoeffs = arrayfun(@(mq) tmp(1:mq,:), modesq(:), 'Uni', 0); 
 end
 
 for n = 1:nq
 
     % get recons
-    if strcmp(method, 'orthogonal')
-        recon(:,n,:) = eigenvectors(:,1:modesq(n))*betaCoeffs(1:modesq(n),:);
-    else
-        betaCoeffs{n} = calc_eigendecomposition(data, eigenvectors(:,1:modesq(n)), method, params);
-        recon(:,n,:) = eigenvectors(:,1:modesq(n))*betaCoeffs{n};
+    if ~strcmp(method, 'orthogonal')
+        betaCoeffs{n} = calc_eigendecomposition(data, eigenvectors(:,1:modesq(n)), method, params);       
     end
+    recon(:,n,:) = eigenvectors(:,1:modesq(n))*betaCoeffs{n};
 
     % get correlations
     corrCoeffs(n,:) = arrayfun(@(ii) corr( data(:,ii), recon(:,n,ii)) ,1:size(data,2));

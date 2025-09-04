@@ -1,4 +1,4 @@
-function MBM = mbm_main(MBM)
+function MBM = mbm_indi_main(MBM)
 % mbm_main is the main function of MBM toolbox which performs MBM analysis
 %
 %% Input:
@@ -31,7 +31,7 @@ function MBM = mbm_main(MBM)
 %                                                 'two sample' two-sample t-test,
 %                                                 'one way ANOVA' one-way ANOVA,
 %                                                 'ANCOVA_F' ANCOVA with two groups (f-test).
-%                                                 'ANCOVA_Z' ANCOVA with two groups (z-test, producing z-map from FreeSurfer. p-values are obtained from f-test and then used to produce the z-map).
+%                                                 'ANCOVA_Z' ANCOVA with two groups (z-test, producing z-map from FreeSurfer).
 %
 %                           MBM.stat.designFile    - Character vector.
 %                                                  - Path to a text file containing a
@@ -222,44 +222,36 @@ inputMap = inputMap(:, MBM.maps.mask == 1);
 MBM.eig.eig = MBM.eig.eig(MBM.maps.mask == 1, 1:MBM.eig.nEigenmode);
 MBM.eig.mass = MBM.eig.mass(MBM.maps.mask == 1, MBM.maps.mask == 1);
 
-%% SBM
-
-% calculate statistical map
-MBM.stat.statMap = mbm_stat_map(inputMap, MBM.stat);
-
-% permutation tests on the statitical map
-[statMapNull, MBM.stat.pMap, MBM.stat.revMap] = mbm_perm_test_map(inputMap, MBM.stat, MBM.stat.statMap);
- 
-% thresholded map
-MBM.stat.thresMap = sign(MBM.stat.statMap);
-MBM.stat.thresMap(MBM.stat.pMap > MBM.stat.thres) = 0;
-
 %% MBM
 % normalize the eigenmodes
 MBM.eig.eig = mbm_normalize_eig(MBM.eig.eig, MBM.eig.nEigenmode);
 
 % eigenmode decomposision
-MBM.eig.beta = calc_eigendecomposition(MBM.stat.statMap', MBM.eig.eig, 'orthogonal', MBM.eig.mass);
-MBM.eig.beta = MBM.eig.beta';
+MBM.eig.indiBeta = calc_eigendecomposition(inputMap', MBM.eig.eig, 'orthogonal', MBM.eig.mass);
+MBM.eig.indiBeta = MBM.eig.indiBeta';
 
-% permutation tests on the beta spectrum
-% [statMapNull] = mbm_perm_test_map_to_decompose(inputMap, MBM.stat);
-MBM = mbm_perm_test_beta(statMapNull, MBM);
+% reconstructe individual maps
+reconMap = MBM.eig.indiBeta * MBM.eig.eig';
 
-% significant betas
-MBM.eig.significantBeta = MBM.eig.beta;
-MBM.eig.significantBeta(MBM.eig.pBeta > MBM.stat.thres) = 0;
+% calculate statistical map
+MBM.stat.statMap = mbm_stat_map(reconMap, MBM.stat);
 
-% sort significant beta
-[betaSorted, MBM.eig.betaOrder] = sort(abs(MBM.eig.significantBeta), 'descend');
-MBM.eig.betaOrder(sum(MBM.eig.significantBeta~=0)+1:end) = 0;
-% sigificant pattern
-MBM.eig.reconMap = MBM.eig.significantBeta * MBM.eig.eig';
+% permutation tests on the statitical map
+[statMapNull, MBM.stat.pMap, MBM.stat.revMap] = mbm_perm_test_map(reconMap, MBM.stat, MBM.stat.statMap);
+
+% thresholded map
+MBM.stat.thresMap = sign(MBM.stat.statMap);
+MBM.stat.thresMap(MBM.stat.pMap > MBM.stat.thres) = 0;
+
 
 %% plotting
 if MBM.plot.visualize == 1
-    mbm_plot(MBM);
 
+   plot_brain_map_mask( MBM.stat.thresMap)
+        % save the result figure
+        if isfield(MBM.plot,'saveFig') & MBM.plot.saveFig == 1
+            saveas(gcf, MBM.plot.figFile);
+        end
 end
 
 %% saving results
