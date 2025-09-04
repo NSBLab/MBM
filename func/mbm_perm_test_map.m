@@ -81,13 +81,6 @@ for iPer = 1:stat.nPer
         % statistical map of the null inputs
         statMapNull(iPer,:) = mbm_stat_map(inputMap, statNull);
 
-        % %suffling the labels of the groups
-        % iNull = randsample(nSub, nSub, true);   % 'true' = sample with replacement
-        % statNull = stat;
-        % statNull.designMatrix(:,2:end) = stat.designMatrix(iNull,2:end);
-        % 
-        % % statistical map of the null inputs
-        % statMapNull(iPer,:) = mbm_stat_map(inputMap(iNull,:), statNull);
     end
 
 end

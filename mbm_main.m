@@ -243,7 +243,6 @@ MBM.eig.beta = calc_eigendecomposition(MBM.stat.statMap', MBM.eig.eig, 'orthogon
 MBM.eig.beta = MBM.eig.beta';
 
 % permutation tests on the beta spectrum
-% [statMapNull] = mbm_perm_test_map_to_decompose(inputMap, MBM.stat);
 MBM = mbm_perm_test_beta(statMapNull, MBM);
 
 % significant betas
