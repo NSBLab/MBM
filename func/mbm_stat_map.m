@@ -70,10 +70,14 @@ switch stat.test
 
     case 'ANCOVA_F'
 
-        matrixX = zeros(size(stat.designMatrix,1), size(stat.designMatrix,2)+1) ;
+        % Check if any column has only one unique value
+        nCols = size(stat.designMatrix, 2);
+        mask = arrayfun(@(c) numel(unique(stat.designMatrix(:,c))) ~= 1, 1:nCols); % use the non-unique covariates
+        mask(1) = 0; % not using the diagnosis as covariate
+        matrixX = zeros(size(stat.designMatrix,1), sum(mask)+2) ;
         matrixX(:,1) = double(stat.designMatrix(:,1)==1);
         matrixX(:,2) = double(stat.designMatrix(:,1)~=1);
-        matrixX(:,3:end) = stat.designMatrix(:,2:end);
+        matrixX(:,3:end) = stat.designMatrix(:,mask);
 
         B = (matrixX'*matrixX)\(matrixX'*y);
         eres = y - matrixX*B;
@@ -88,10 +92,14 @@ switch stat.test
 
     case 'ANCOVA_Z'
 
-        matrixX = zeros(size(stat.designMatrix,1), size(stat.designMatrix,2)+1) ;
+        % Check if any column has only one unique value
+        nCols = size(stat.designMatrix, 2);
+        mask = arrayfun(@(c) numel(unique(stat.designMatrix(:,c))) ~= 1, 1:nCols); % use the non-unique covariates
+        mask(1) = 0; % not using the diagnosis as covariate
+        matrixX = zeros(size(stat.designMatrix,1), sum(mask)+2) ;
         matrixX(:,1) = double(stat.designMatrix(:,1)==1);
         matrixX(:,2) = double(stat.designMatrix(:,1)~=1);
-        matrixX(:,3:end) = stat.designMatrix(:,2:end);
+        matrixX(:,3:end) = stat.designMatrix(:,mask);
 
         B = (matrixX'*matrixX)\(matrixX'*y);
         eres = y - matrixX*B;
@@ -103,7 +111,7 @@ switch stat.test
 
         FMap = (G.*inv(C*inv(matrixX'*matrixX) *C').*G)./(J*rvar);
         FMap(isnan(FMap)) = 1; % mean is 0 and variance is 0, which mean the everyone in the two groups are identical.
-        
+
         p = (1 - tcdf(sqrt(FMap), DOF))*2;
         p(p==0) = 10^-15;
         z = norminv(1 - p/2);
