@@ -63,13 +63,15 @@ function [statMapNull, output1, output2] = mbm_perm_test_map(inputMap, stat, obs
 statMapNull = zeros(stat.nPer, size(inputMap,2)); % preallocation space
 for iPer = 1:stat.nPer
 
-    if strcmp(stat.test, 'one sample')
+    if ismember(stat.test, {'one sample','two sample', 'one way ANOVA'})
 
-        % null input maps
-        inputMapNull = inputMap.* sign(rand(nSub,1) - 0.5);
-
+        %suffling the labels of the groups
+        iNull = randperm(nSub);
+        statNull = stat;
+        statNull.designMatrix = stat.designMatrix(iNull,:);
+        
         % statistical map of the null inputs
-        statMapNull(iPer,:) = mbm_stat_map(inputMapNull, stat);
+        statMapNull(iPer,:) = mbm_stat_map(inputMap, statNull);
 
     else
 
