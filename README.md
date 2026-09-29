@@ -1,7 +1,7 @@
 # MBM
 Mode-based morphometry (MBM) is a toolbox for analysing anatomical variations at multiple spatial scales by using the fundamental, resonant modes—eigenmodes—of brain anatomy. The goal is to characterize a group average or group difference at multiple spatial scales by obtaining the spatial frequency spectrum, called beta spectrum, and patterns of its statistical map.
 
-See "[Mode-based morphometry: A multiscale approach to mapping human neuroanatomy](https://www.biorxiv.org/content/10.1101/2023.02.26.529328v1)" for more details.
+See "[Mode-based morphometry: A multiscale approach to mapping human neuroanatomy](https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.26640)" for more details.
 
 ## File descriptions
 
