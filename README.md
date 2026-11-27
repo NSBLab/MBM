@@ -10,7 +10,7 @@ In this package, we provide the following a main function, demo script to run it
   1. `mbm_main.m`: main function to obtain the spatial frequency spectrum, called beta spectrum, the significant pattern, and the most influential modes of the statistical map representing the group average or group difference. 
   2. `mbm_demo_sim.m`,  `mbm_demo_emp.m`: demo scripts to run `mbm_main.m`. `mbm_demo_prerequisite.m` needs to be run before running the demos in order to identify the location of input data on your computer.
   3. `MBM_toolbox.mlapp`: app script for GUI of the main function.
-  4. `utils/`: dependent packages comprising of gifti-matlab (to read GIFTI file), PALM (to estimate a distribution tail), and fdr_bh (to use FDR correction).
+  4. `utils/`: dependent packages comprising of [gifti-matlab](https://github.com/gllmflndn/gifti) (to read GIFTI file), [PALM](https://github.com/andersonwinkler/PALM) (to estimate a distribution tail), [fdr_bh](https://au.mathworks.com/matlabcentral/fileexchange/27418-fdr_bh) (to use FDR correction), and [modes](https://github.com/magnesium2400/nihelp) (to calculate eigenmodes).
   5. `data/`: demo data to run the demo codes.
   6. `func/`: functions used in the main code for analysis and visualization.
   7. `figure/`: figures
